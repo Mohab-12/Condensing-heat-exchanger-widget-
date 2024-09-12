@@ -43,7 +43,8 @@ The input conditions are:
 - The mass flow rates of both fluids
 - The mass fraction of vapour in humid air
 At the first iteration, I used experimental data for the average values of both hot and cold fluids. Afterwards,
-the average values are the mean values calculated for all iterations""")
+the average values are the mean values calculated for all iterations. Additionally, for the wall temperature, at the first iteration is assumed
+using a multiplier that can be controlled via a slider then, it is calculated""")
 
 
 # In[2]:
