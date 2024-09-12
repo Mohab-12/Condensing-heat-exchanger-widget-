@@ -20,10 +20,10 @@ from scipy.optimize import newton
 import warnings
 warnings.simplefilter("ignore")
 
-df1=pd.read_excel(r"Horizontalus ruozas-Eksperimetu suvestine (version 2).xlsb.xlsx", sheet_name='Sheet3', engine='pyxlsb')
-df2=pd.read_excel(r"Horizontalus ruozas-Eksperimetu suvestine (version 2).xlsb.xlsx", sheet_name='New', engine='pyxlsb')
-df3=pd.read_excel(r"Horizontalus ruozas-Eksperimetu suvestine (version 2).xlsb.xlsx", sheet_name='Cooling water', engine='pyxlsb')
-df4=pd.read_excel(r"Horizontalus ruozas-Eksperimetu suvestine (version 2).xlsb.xlsx", sheet_name='Trial and Error method', engine='pyxlsb')
+df1=pd.read_excel(r"Horizontalus ruozas-Eksperimetu suvestine (version 2).xlsx", sheet_name='Sheet3', engine='pyxlsb')
+df2=pd.read_excel(r"Horizontalus ruozas-Eksperimetu suvestine (version 2).xlsx", sheet_name='New', engine='pyxlsb')
+df3=pd.read_excel(r"Horizontalus ruozas-Eksperimetu suvestine (version 2).xlsx", sheet_name='Cooling water', engine='pyxlsb')
+df4=pd.read_excel(r"Horizontalus ruozas-Eksperimetu suvestine (version 2).xlsx", sheet_name='Trial and Error method', engine='pyxlsb')
 
 df1['Date'] = df1['Date'].astype(str)
 
