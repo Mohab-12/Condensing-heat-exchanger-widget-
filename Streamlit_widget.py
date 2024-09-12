@@ -34,7 +34,7 @@ steam_flowrate = st.sidebar.slider('Vapour flow rate : ', value=29, min_value=0,
 Air_flowrate =  st.sidebar.slider('Air flow rate : ', value=106, min_value=0, max_value=500, step=1)
 a = st.sidebar.slider('Wall temperature coefficient : ', value=0.62, min_value=0.0, max_value=1.02, step=0.01)
 CW_flowrate =  st.sidebar.slider('Coling water flow rate : ', value=125, min_value=0, max_value=1000, step=1)
-n =  st.sidebar.slider('Number of segments of the experiments : ', value=8, min_value=0, max_value=1000, step=1)
+n =  st.sidebar.slider('Number of segments of the experiments : ', value=8, min_value=0, max_value=500, step=1)
 st.title("Condensing heat exchanger (Experiment VS Calculation)")
 st.write(f"""This program applies forward differencing on counter flow serpentine condensing heat exchanger
 The input conditions are: 
