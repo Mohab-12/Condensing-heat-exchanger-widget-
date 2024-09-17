@@ -42,10 +42,8 @@ The input conditions are:
 - The inlet temperature of the cooling water
 - The mass flow rates of both fluids
 - The mass fraction of vapor in the humid air
-In the first iteration, experimental data is used for the average values of both the hot and cold fluids.
-Subsequently, the average values are the mean values calculated over all iterations.
-Additionally, the wall temperature in the first iteration is assumed using a multiplier, which can be adjusted via a slider.
-In subsequent iterations, the wall temperature is calculated.""")
+In the first iteration, experimental data is used for the average values of both the hot and cold fluids. Subsequently, the average values are the mean values calculated over all iterations.
+Additionally, the wall temperature in the first iteration is assumed using a multiplier, which can be adjusted via a slider. In subsequent iterations, the wall temperature is calculated.""")
 
 
 # In[2]:
