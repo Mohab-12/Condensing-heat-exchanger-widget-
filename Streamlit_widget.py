@@ -464,7 +464,7 @@ for _ in range(n):
     if T_w<T_sat:
         #print("There will be condensation")
         # Initial guess for T_i
-        T_i_guess = 70
+        T_i_guess = 60
         T_i_solution = newton(equation, T_i_guess)
         T_i_guess = T_i_solution
         Temperature_interface.append(T_i_solution)
