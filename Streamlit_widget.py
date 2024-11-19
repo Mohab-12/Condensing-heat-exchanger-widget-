@@ -636,11 +636,11 @@ fig1.update_layout(title='Experimental VS Calculated',
 
 # Create a line plot for temperature profiles
 fig2 = go.Figure()
-fig2.add_trace(go.Scatter(x=np.linspace(1, n, 8), y=Flue_gas[:-1], mode='lines+markers', name='Experimental outlet air temperature', line=dict(color='red', dash='dash')))
-fig2.add_trace(go.Scatter(x=np.linspace(1, n, n), y=Outlet_temp_air, mode='lines+markers', name='Calculated outlet air temperature', line=dict(color='red')))
+fig2.add_trace(go.Scatter(x=np.linspace(1, n, 8), y=Flue_gas[:-1], mode='markers', name='Experimental outlet air temperature'))
+fig2.add_trace(go.Scatter(x=np.linspace(1, n, n), y=Outlet_temp_air, mode='lines', name='Calculated outlet air temperature', line=dict(color='red, dash='dash')))
 
-fig2.add_trace(go.Scatter(x=np.linspace(1, n, 8), y=Cooling_water[:-1], mode='lines+markers', name='Experimental outlet water temperature', line=dict(color='cornflowerblue', dash='dash')))
-fig2.add_trace(go.Scatter(x=np.linspace(1, n, n), y=Inlet_temp_water, mode='lines+markers', name='Calculated outlet water temperature', line=dict(color='cornflowerblue')))
+fig2.add_trace(go.Scatter(x=np.linspace(1, n, 8), y=Cooling_water[:-1], mode='markers', name='Experimental outlet water temperature'))
+fig2.add_trace(go.Scatter(x=np.linspace(1, n, n), y=Inlet_temp_water, mode='lines', name='Calculated outlet water temperature', line=dict(color='cornflowerblue', dash='dash')))
 
 fig2.update_layout(title='Temperature profiles',
                    xaxis_title='Local point', yaxis_title='Temperature (°C)',
