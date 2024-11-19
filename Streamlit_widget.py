@@ -640,7 +640,7 @@ fig2.add_trace(go.Scatter(x=np.linspace(1, n, 8), y=Flue_gas[:-1], mode='markers
 fig2.add_trace(go.Scatter(x=np.linspace(1, n, n), y=Outlet_temp_air, mode='lines', name='Calculated outlet air temperature', line=dict(color='red', dash='dash')))
 
 fig2.add_trace(go.Scatter(x=np.linspace(1, n, 8), y=Cooling_water[:-1], mode='markers', name='Experimental outlet water temperature'))
-fig2.add_trace(go.Scatter(x=np.linspace(1, n, n), y=Inlet_temp_water, mode='lines', name='Calculated outlet water temperature', line=dict(color='cornflowerblue', dash='dash')))
+fig2.add_trace(go.Scatter(x=np.linspace(1, n, n), y=Inlet_temp_water, mode='lines', name='Calculated outlet water temperature', line=dict(color='red', dash='dash')))
 
 fig2.update_layout(title='Temperature profiles',
                    xaxis_title='Local point', yaxis_title='Temperature (°C)',
