@@ -643,7 +643,7 @@ fig2.add_trace(go.Scatter(x=np.linspace(1, n, 8), y=Cooling_water[:-1], mode='ma
 fig2.add_trace(go.Scatter(x=np.linspace(1, n, n), y=Inlet_temp_water, mode='lines', name='Calculated outlet water temperature', line=dict(color='red', dash='dash')))
 
 fig2.update_layout(title='Temperature profiles',
-                   xaxis_title='Local point', yaxis_title='Temperature (°C)',
+                   xaxis_title='Row no.', yaxis_title='Temperature (°C)',
                    legend=dict(x=1.05, y=1), font=dict(size=20))
 
 # Display plots side by side in Streamlit
