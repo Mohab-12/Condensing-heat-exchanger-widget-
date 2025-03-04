@@ -430,7 +430,7 @@ for _ in range(n):
         Wall_temperature2.append(T_w)
  #########################################################################################################################
  # Calculating the wall temperature
-    if _==1:
+    elif _==1:
         delta_Ai = 0.364*math.pi*D_i
         #print("After first iteration, Tcout:{}, Tcin:{}".format(Inlet_temp_water[_-1],Inlet_temp_water[_]))
         numerator = m_c*c_pc*(Inlet_temp_water[_] - Cooling_water[_+1])*3
