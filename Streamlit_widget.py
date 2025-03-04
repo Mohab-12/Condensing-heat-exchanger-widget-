@@ -170,8 +170,8 @@ for _ in range(n):
         #print("First iteration oulet temperature of the cooling water: ", T_cout)
         #print("First iteration inlet temperature of the cooling water (Before calculation): ", T_cin)
     else:
-        # T_c = np.mean(Inlet_temp_water)
-        T_c = (Cooling_water[_] + Cooling_water[_+1])/2
+        T_c = np.mean(Inlet_temp_water)
+        # T_c = (Cooling_water[_] + Cooling_water[_+1])/2
         T_cout = T_cin
     # T_cout = Cooling_water[_]
     # T_cout = float(T_cout)
