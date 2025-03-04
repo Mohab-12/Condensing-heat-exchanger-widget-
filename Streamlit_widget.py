@@ -170,8 +170,8 @@ for _ in range(n):
         #print("First iteration oulet temperature of the cooling water: ", T_cout)
         #print("First iteration inlet temperature of the cooling water (Before calculation): ", T_cin)
     else:
-        T_c = np.mean(Inlet_temp_water)
-        # T_c = (Cooling_water[_] + C/ooling_water[_+1])/2
+        # T_c = np.mean(Inlet_temp_water)
+        T_c = (Cooling_water[_] + C/ooling_water[_+1])/2
         T_cout = T_cin
     # T_cout = Cooling_water[_]
     # T_cout = float(T_cout)
@@ -432,6 +432,22 @@ for _ in range(n):
             #print("There will be condensation")
         #else:
             #print("There is no condensation")
+ #########################################################################################################################
+ # Calculating the wall temperature
+    else:
+        delta_Ai = 0.364*math.pi*D_i
+        #print("After first iteration, Tcout:{}, Tcin:{}".format(Inlet_temp_water[_-1],Inlet_temp_water[_]))
+        numerator = m_c*c_pc*(Inlet_temp_water[_-1] - Inlet_temp_water[_])*3
+        Denominator = h_c*delta_Ai*3
+        # T_w = Wall_temperature1[_]
+        T_w = T_c + (numerator/Denominator)
+        Wall_temperature2.append(T_w)
+        #print("The wall temperature:", np.round(T_w,4),'°C')
+        #if T_w<T_sat:
+            #print("There will be condensation")
+        #else:
+            #print("There is no condensation")
+#Inlet_temp_water[-1],Cooling_water[-1]
 ##########################################################################################################################
 # Calculation of internfactial parameters    
     y_nb = 1 - y_h2o 
@@ -560,21 +576,6 @@ for _ in range(n):
         M_frac = m_frac
         #print("The mass fraction is :",m_frac)
         
-# Calculating the wall temperature
-    if _!=0:
-        delta_Ai = 0.364*math.pi*D_i
-        #print("After first iteration, Tcout:{}, Tcin:{}".format(Inlet_temp_water[_-1],Inlet_temp_water[_]))
-        numerator = m_c*c_pc*(Inlet_temp_water[_-1] - Inlet_temp_water[_])*3
-        Denominator = h_c*delta_Ai*3
-        # T_w = Wall_temperature1[_]
-        T_w = T_c + (numerator/Denominator)
-        Wall_temperature2.append(T_w)
-        #print("The wall temperature:", np.round(T_w,4),'°C')
-        #if T_w<T_sat:
-            #print("There will be condensation")
-        #else:
-            #print("There is no condensation")
-#Inlet_temp_water[-1],Cooling_water[-1]
 def average_list(values, num_averages):
 # Determine the number of values per average
     values_per_avg = len(values) // num_averages
