@@ -421,19 +421,23 @@ for _ in range(n):
     Q_total = (np.mean(Flue_gas)-np.mean(Cooling_water))/R_total
     #print("Total heat transfer via resistance equation is : ",Q_total)
     if _==0:
-        # print("Flue gas temperature : ",Flue_gas)
-        #print("Experimental wall temperature : ",Wall_temperature1)
-        #print("Average temperature between cooling and hot fluids : ",(T_gin + T_cout)/2)
-        #a = float(input("Enter the value coefficient for the wall temperature : "))
-        T_w = a*((T_gin + T_cout)/2)
+        delta_Ai = 0.364*math.pi*D_i
+        #print("After first iteration, Tcout:{}, Tcin:{}".format(Inlet_temp_water[_-1],Inlet_temp_water[_]))
+        numerator = m_c*c_pc*(Cooling_water[_] + Cooling_water[_+1])*3
+        Denominator = h_c*delta_Ai*3
+        # T_w = Wall_temperature1[_]
+        T_w = T_c + (numerator/Denominator)
         Wall_temperature2.append(T_w)
-        #print("The wall temperature:", np.round(T_w,4),'°C')
-        #if T_w<T_sat:
-            #print("There will be condensation")
-        #else:
-            #print("There is no condensation")
  #########################################################################################################################
  # Calculating the wall temperature
+    if _==1:
+        delta_Ai = 0.364*math.pi*D_i
+        #print("After first iteration, Tcout:{}, Tcin:{}".format(Inlet_temp_water[_-1],Inlet_temp_water[_]))
+        numerator = m_c*c_pc*(Inlet_temp_water[_] - Cooling_water[_+1])*3
+        Denominator = h_c*delta_Ai*3
+        # T_w = Wall_temperature1[_]
+        T_w = T_c + (numerator/Denominator)
+        Wall_temperature2.append(T_w)
     else:
         delta_Ai = 0.364*math.pi*D_i
         #print("After first iteration, Tcout:{}, Tcin:{}".format(Inlet_temp_water[_-1],Inlet_temp_water[_]))
