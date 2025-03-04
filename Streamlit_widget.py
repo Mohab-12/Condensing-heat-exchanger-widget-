@@ -32,7 +32,7 @@ T_gin = st.sidebar.slider('Humid air inlet temperature', value=145, min_value=0,
 T_cout = st.sidebar.slider('Cooling water outlet temperature : ', value=50, min_value=0, max_value=100, step=1)
 steam_flowrate = st.sidebar.slider('Vapour flow rate : ', value=29, min_value=0, max_value=200, step=1)
 Air_flowrate =  st.sidebar.slider('Air flow rate : ', value=106, min_value=0, max_value=500, step=1)
-a = st.sidebar.slider('Wall temperature coefficient : ', value=0.62, min_value=0.0, max_value=1.02, step=0.01)
+# a = st.sidebar.slider('Wall temperature coefficient : ', value=0.62, min_value=0.0, max_value=1.02, step=0.01)
 CW_flowrate =  st.sidebar.slider('Coling water flow rate : ', value=125, min_value=0, max_value=2000, step=1)
 n =  st.sidebar.slider('Number of segments of the experiments : ', value=8, min_value=8, max_value=100, step=1)
 st.title("Condensing heat exchanger (Experiment VS Calculation)")
