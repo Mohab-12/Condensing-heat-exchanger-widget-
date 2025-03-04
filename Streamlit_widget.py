@@ -441,7 +441,7 @@ for _ in range(n):
     else:
         delta_Ai = 0.364*math.pi*D_i
         #print("After first iteration, Tcout:{}, Tcin:{}".format(Inlet_temp_water[_-1],Inlet_temp_water[_]))
-        numerator = m_c*c_pc*(Inlet_temp_water[_-1] - Inlet_temp_water[_])*3
+        numerator = m_c*c_pc*(Inlet_temp_water[_-2] - Inlet_temp_water[_-1])*3
         Denominator = h_c*delta_Ai*3
         # T_w = Wall_temperature1[_]
         T_w = T_c + (numerator/Denominator)
