@@ -500,12 +500,14 @@ for _ in range(n):
              #print("There will be  condensation")
              T_gout =((m_g*c_pg*1000 - (h_g/2)*delta_Ai)*T_gin + h_g*delta_Ai*T_i_solution)/ (m_g*c_pg*1000 + (h_g/2)*delta_Ai)
              Outlet_temp_air.append(T_gout)
+             st.write("T_gout",T_gout)
              #print("The outlet temperature for humid air is :",T_gout)
         else:
             delta_Ai = (0.0206*8)/n
             #print("There is no condensation")
             T_gout = ((m_g*c_pg*1000 - (h_g/2)*delta_Ai)*T_gin) + h_g*delta_Ai*T_w / (m_g*c_pg*1000 + (h_g/2)*delta_Ai)
             Outlet_temp_air.append(T_gout)
+            st.write("T_gout",T_gout)
             #print("The outlet temperature for humid air is :",T_gout)
     else:
         if T_w<T_sat:
