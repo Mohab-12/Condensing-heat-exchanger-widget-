@@ -474,7 +474,6 @@ for _ in range(n):
         T_i_guess = T_i_solution
         Temperature_interface.append(T_i_solution)
         #print("Newton-Raphson solution for temperature interface:", np.round(T_i_solution,4))
-
         y_i = np.exp(a - (b / (T_i_solution + c))) / p_tot
         #print("Interfacial mole fraction of water vapour {}".format(np.round(y_i,4)))
         y_nb = 1 - y_h2o 
@@ -492,7 +491,7 @@ for _ in range(n):
         #print("Sum of number of moles at the interface",np.round(y_lm + y_i ),4)
     #else:
         #print("There is no condensation, therefore no interfacial parameters")
-
+   st.write("T_i_solution",T_i_solution)
 # Outlet temperature for the humid air
     if _==0:
         if T_w<T_sat:
