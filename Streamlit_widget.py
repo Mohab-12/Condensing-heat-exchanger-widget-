@@ -640,6 +640,8 @@ fig2.add_trace(go.Scatter(x=np.linspace(1, n, n), y=Inlet_temp_water, mode='line
 fig2.update_layout(title='Temperature profiles',
                    xaxis_title='Row no.', yaxis_title='Temperature (°C)',
                    legend=dict(x=1.05, y=1), font=dict(size=20))
+fig2.update_xaxes(tickmode='array', tickvals=np.arange(1, 9))
+
 
 # Display plots side by side in Streamlit
 col1, col2 = st.columns([1, 2])  # Set the ratio between the columns
