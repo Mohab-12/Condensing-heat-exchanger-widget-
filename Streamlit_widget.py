@@ -637,6 +637,10 @@ fig2.add_trace(go.Scatter(x=np.linspace(1, n, n), y=Outlet_temp_air, mode='lines
 fig2.add_trace(go.Scatter(x=np.linspace(1, n, 8), y=Cooling_water[:-1], mode='markers', name='Experimental outlet water temperature',marker=dict(color='blue')))
 fig2.add_trace(go.Scatter(x=np.linspace(1, n, n), y=Inlet_temp_water, mode='lines', name='Calculated outlet water temperature', line=dict(color='red', dash='dash')))
 
+fig2.add_trace(go.Scatter(x=np.linspace(1, n, 8), y=Wall_temperature1, mode='markers', name='Experimental wall temperature'))
+fig2.add_trace(go.Scatter(x=np.linspace(1, n, n), y=Wall_temperature2, mode='lines', name='Calculated outlet air temperature', line=dict(color='red', dash='dash')))
+
+
 fig2.update_layout(title='Temperature profiles',
                    xaxis_title='Row no.', yaxis_title='Temperature (°C)',
                    legend=dict(x=1.05, y=1), font=dict(size=20))
