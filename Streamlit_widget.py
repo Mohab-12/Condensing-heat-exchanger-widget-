@@ -460,7 +460,7 @@ for _ in range(n):
         #print("There will be condensation")
         # Initial guess for T_i
         T_i_guess = 60
-        st.text("y_h2o",y_h2o)
+        st.write("y_nb = 1 - y_h2o",1 - y_h2o)
         T_i_solution = newton(equation, T_i_guess)
         T_i_guess = T_i_solution
         Temperature_interface.append(T_i_solution)
