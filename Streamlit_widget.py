@@ -455,22 +455,21 @@ for _ in range(n):
         Le_h20air = alpha_g / D_h2oair
         k_m = (h_g * M_h2o) / (c_pg*1000 * M_g * y_lm *Le_h20air ** (2/3))
         return ((h_g * T_g + h_fg*1000 * k_m * (y_h2o - y_i) + h_c * T_c) / (h_g + h_c)) - T_i
-        
+   st.write("_",_)
+   st.write("y_nb = 1 - y_h2o",1 - y_h2o)
+   st.write("alpha_g",alpha_g)
+   st.write("D_h2oair",D_h2oair)
+   st.write("h_g",h_g)
+   st.write("c_pg",c_pg)
+   st.write("T_gin",T_gin)
+   st.write("T_g",T_g)
+   st.write("h_fg",h_fg)
+   st.write("h_c",h_c)
+   st.write("T_c",T_c)     
     if T_w<T_sat:
         #print("There will be condensation")
         # Initial guess for T_i
         T_i_guess = 60
-        st.write("_",_)
-        st.write("y_nb = 1 - y_h2o",1 - y_h2o)
-        st.write("alpha_g",alpha_g)
-        st.write("D_h2oair",D_h2oair)
-        st.write("h_g",h_g)
-        st.write("c_pg",c_pg)
-        st.write("T_gin",T_gin)
-        st.write("T_g",T_g)
-        st.write("h_fg",h_fg)
-        st.write("h_c",h_c)
-        st.write("T_c",T_c)
         T_i_solution = newton(equation, T_i_guess)
         T_i_guess = T_i_solution
         Temperature_interface.append(T_i_solution)
