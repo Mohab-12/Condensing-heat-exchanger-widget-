@@ -32,7 +32,7 @@ T_gin = st.sidebar.slider('Humid air inlet temperature', value=145, min_value=0,
 T_cout = st.sidebar.slider('Cooling water outlet temperature : ', value=50, min_value=0, max_value=100, step=1)
 steam_flowrate = st.sidebar.slider('Vapour flow rate : ', value=29, min_value=0, max_value=200, step=1)
 Air_flowrate =  st.sidebar.slider('Air flow rate : ', value=106, min_value=0, max_value=500, step=1)
-# a = st.sidebar.slider('Wall temperature coefficient : ', value=0.62, min_value=0.0, max_value=1.02, step=0.01)
+a = st.sidebar.slider('Wall temperature coefficient : ', value=0.62, min_value=0.0, max_value=2.02, step=0.01)
 CW_flowrate =  st.sidebar.slider('Coling water flow rate : ', value=125, min_value=0, max_value=2000, step=1)
 n =  st.sidebar.slider('Number of segments of the experiments : ', value=8, min_value=8, max_value=100, step=1)
 st.title("Condensing heat exchanger (Experiment VS Calculation)")
@@ -421,37 +421,12 @@ for _ in range(n):
     Q_total = (np.mean(Flue_gas)-np.mean(Cooling_water))/R_total
     #print("Total heat transfer via resistance equation is : ",Q_total)
     if _==0:
-        delta_Ai = 0.364*math.pi*D_i
-        #print("After first iteration, Tcout:{}, Tcin:{}".format(Inlet_temp_water[_-1],Inlet_temp_water[_]))
-        numerator = m_c*c_pc*(Cooling_water[_] + Cooling_water[_+1])*3
-        Denominator = h_c*delta_Ai*3
-        # T_w = Wall_temperature1[_]
-        T_w = T_c + (numerator/Denominator)
-        Wall_temperature2.append(T_w)
- #########################################################################################################################
- # Calculating the wall temperature
-    elif _==1:
-        delta_Ai = 0.364*math.pi*D_i
-        #print("After first iteration, Tcout:{}, Tcin:{}".format(Inlet_temp_water[_-1],Inlet_temp_water[_]))
-        numerator = m_c*c_pc*(Inlet_temp_water[_-1] - Cooling_water[_+1])*3
-        Denominator = h_c*delta_Ai*3
-        # T_w = Wall_temperature1[_]
-        T_w = T_c + (numerator/Denominator)
-        Wall_temperature2.append(T_w)
-    else:
-        delta_Ai = 0.364*math.pi*D_i
-        #print("After first iteration, Tcout:{}, Tcin:{}".format(Inlet_temp_water[_-1],Inlet_temp_water[_]))
-        numerator = m_c*c_pc*(Inlet_temp_water[_-2] - Inlet_temp_water[_-1])*3
-        Denominator = h_c*delta_Ai*3
-        # T_w = Wall_temperature1[_]
-        T_w = T_c + (numerator/Denominator)
-        Wall_temperature2.append(T_w)
-        #print("The wall temperature:", np.round(T_w,4),'°C')
-        #if T_w<T_sat:
-            #print("There will be condensation")
-        #else:
-            #print("There is no condensation")
-#Inlet_temp_water[-1],Cooling_water[-1]
+     # print("Flue gas temperature : ",Flue_gas)
+     #print("Experimental wall temperature : ",Wall_temperature1)
+     #print("Average temperature between cooling and hot fluids : ",(T_gin + T_cout)/2)
+     #a = float(input("Enter the value coefficient for the wall temperature : "))
+     T_w = a*(T_gin - T_cout)
+     Wall_temperature2.append(T_w)
 ##########################################################################################################################
 # Calculation of internfactial parameters    
     y_nb = 1 - y_h2o 
@@ -579,6 +554,21 @@ for _ in range(n):
         #print("There is no condensation")
         M_frac = m_frac
         #print("The mass fraction is :",m_frac)
+ # Calculating the wall temperature
+    if _!=0:
+        delta_Ai = 0.364*math.pi*D_i
+        #print("After first iteration, Tcout:{}, Tcin:{}".format(Inlet_temp_water[_-1],Inlet_temp_water[_]))
+        numerator = m_c*c_pc*(Inlet_temp_water[_-1] - Inlet_temp_water[_])*3
+        Denominator = h_c*delta_Ai*3
+        # T_w = Wall_temperature1[_]
+        T_w = T_c + (numerator/Denominator)
+        Wall_temperature2.append(T_w)
+        #print("The wall temperature:", np.round(T_w,4),'°C')
+        #if T_w<T_sat:
+            #print("There will be condensation")
+        #else:
+            #print("There is no condensation")
+#Inlet_temp_water[-1],Cooling_water[-1]
         
 def average_list(values, num_averages):
 # Determine the number of values per average
