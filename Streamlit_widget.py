@@ -491,7 +491,7 @@ for _ in range(n):
         #print("Sum of number of moles at the interface",np.round(y_lm + y_i ),4)
     #else:
         #print("There is no condensation, therefore no interfacial parameters")
-   st.write("T_i_solution",T_i_solution)
+    st.write("T_i_solution",T_i_solution)
 # Outlet temperature for the humid air
     if _==0:
         if T_w<T_sat:
