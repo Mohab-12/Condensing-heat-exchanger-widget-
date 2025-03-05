@@ -460,6 +460,8 @@ for _ in range(n):
         #print("There will be condensation")
         # Initial guess for T_i
         T_i_guess = 60
+     
+        st.write("_",_)
         st.write("y_nb = 1 - y_h2o",1 - y_h2o)
         st.write("alpha_g",alpha_g)
         st.write("D_h2oair",D_h2oair)
