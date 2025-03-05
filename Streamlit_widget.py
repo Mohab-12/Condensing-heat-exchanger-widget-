@@ -662,7 +662,7 @@ with col2:
 
 # Display experiment parameters below the plots
 st.text(experiment_parameters)
-
+st.text(Wall_temperature2)
 
 # In[ ]:
 
