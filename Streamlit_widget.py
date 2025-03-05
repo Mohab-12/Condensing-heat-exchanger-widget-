@@ -467,6 +467,7 @@ for _ in range(n):
         st.write("D_h2oair",D_h2oair)
         st.write("h_g",h_g)
         st.write("c_pg",c_pg)
+        st.write("T_gin",T_gin)
         st.write("T_g",T_g)
         st.write("h_fg",h_fg)
         st.write("h_c",h_c)
