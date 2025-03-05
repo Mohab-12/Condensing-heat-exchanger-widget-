@@ -461,6 +461,14 @@ for _ in range(n):
         # Initial guess for T_i
         T_i_guess = 60
         st.write("y_nb = 1 - y_h2o",1 - y_h2o)
+        st.write("alpha_g",alpha_g)
+        st.write("D_h2oair",D_h2oair)
+        st.write("h_g",h_g)
+        st.write("c_pg",c_pg)
+        st.write("T_g",T_g)
+        st.write("h_fg",h_fg)
+        st.write("h_c",h_c)
+        st.write("T_c",T_c)
         T_i_solution = newton(equation, T_i_guess)
         T_i_guess = T_i_solution
         Temperature_interface.append(T_i_solution)
