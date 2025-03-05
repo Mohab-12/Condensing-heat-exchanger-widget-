@@ -455,17 +455,17 @@ for _ in range(n):
         Le_h20air = alpha_g / D_h2oair
         k_m = (h_g * M_h2o) / (c_pg*1000 * M_g * y_lm *Le_h20air ** (2/3))
         return ((h_g * T_g + h_fg*1000 * k_m * (y_h2o - y_i) + h_c * T_c) / (h_g + h_c)) - T_i
-    st.write("_",_)
-    st.write("y_nb = 1 - y_h2o",1 - y_h2o)
-    st.write("alpha_g",alpha_g)
-    st.write("D_h2oair",D_h2oair)
-    st.write("h_g",h_g)
-    st.write("c_pg",c_pg)
-    st.write("T_gin",T_gin)
-    st.write("T_g",T_g)
-    st.write("h_fg",h_fg)
-    st.write("h_c",h_c)
-    st.write("T_c",T_c)     
+    # st.write("_",_)
+    # st.write("y_nb = 1 - y_h2o",1 - y_h2o)
+    # st.write("alpha_g",alpha_g)
+    # st.write("D_h2oair",D_h2oair)
+    # st.write("h_g",h_g)
+    # st.write("c_pg",c_pg)
+    # st.write("T_gin",T_gin)
+    # st.write("T_g",T_g)
+    # st.write("h_fg",h_fg)
+    # st.write("h_c",h_c)
+    # st.write("T_c",T_c)     
     if T_w<T_sat:
         #print("There will be condensation")
         # Initial guess for T_i
@@ -484,7 +484,7 @@ for _ in range(n):
         k_m = (h_g * M_h2o) / (c_pg*1000 * M_g * y_lm *Le_h20air ** (2/3))
         Mass_transfer_coefficient_air.append(k_m)
         numbering.append(_+1)
-        st.write("T_i_solution",T_i_solution)
+        # st.write("T_i_solution",T_i_solution)
         #print("Mass transfer coefficient {}".format(np.round(k_m,4)))
         #print("Lewis Number", Le_h20air)
         Logarithmic_mole_average.append(y_lm)
@@ -500,14 +500,14 @@ for _ in range(n):
              #print("There will be  condensation")
              T_gout =((m_g*c_pg*1000 - (h_g/2)*delta_Ai)*T_gin + h_g*delta_Ai*T_i_solution)/ (m_g*c_pg*1000 + (h_g/2)*delta_Ai)
              Outlet_temp_air.append(T_gout)
-             st.write("T_gout",T_gout)
+             # st.write("T_gout",T_gout)
              #print("The outlet temperature for humid air is :",T_gout)
         else:
             delta_Ai = (0.0206*8)/n
             #print("There is no condensation")
             T_gout = ((m_g*c_pg*1000 - (h_g/2)*delta_Ai)*T_gin) + h_g*delta_Ai*T_w / (m_g*c_pg*1000 + (h_g/2)*delta_Ai)
             Outlet_temp_air.append(T_gout)
-            st.write("T_gout",T_gout)
+            # st.write("T_gout",T_gout)
             #print("The outlet temperature for humid air is :",T_gout)
     else:
         if T_w<T_sat:
@@ -517,14 +517,14 @@ for _ in range(n):
                    #.format(len(Outlet_temp_air),len(Temperature_interface),_))
              T_gout = ((m_g*c_pg*1000 - (h_g/2)*delta_Ai)*T_gin + h_g*delta_Ai*T_i_solution) / (m_g*c_pg*1000 + (h_g/2)*delta_Ai)
              Outlet_temp_air.append(T_gout)
-             st.write("T_gout",T_gout)
+             # st.write("T_gout",T_gout)
              #print("The outlet temperature for humid air is :",T_gout)
         else:
             delta_Ai = (0.0206*8)/n
             #print("There is no condensation")
             T_gout = ((m_g*c_pg*1000 - (h_g/2)*delta_Ai)*T_gin) + h_g*delta_Ai*T_w / (m_g*c_pg*1000 + (h_g/2)*delta_Ai)
             Outlet_temp_air.append(T_gout)
-            st.write("T_gout",T_gout)
+            # st.write("T_gout",T_gout)
             #print("The outlet temperature for humid air is :",T_gout)
         
 
