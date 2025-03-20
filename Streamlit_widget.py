@@ -531,26 +531,26 @@ for _ in range(n):
 # Intlet of the cooling water temperature
     if _ ==0:
         if T_w<T_sat:
-            delta_Ai = (0.0206*8)/n
+            # delta_Ai = (0.0206*8)/n
             #print("There is condensation")
             T_cin = T_cout - ((h_g*(T_gin-T_i_solution)*delta_Ai + h_fg*k_m*(y_h2o - y_i)*delta_Ai) / (m_c*c_pc))
             Inlet_temp_water.append(T_cin)
             #print("Outlet temperature of the cooling water is: ", T_cin)
         else:
-            delta_Ai = (0.0206*8)/n
+            # delta_Ai = (0.0206*8)/n
             #print("There is no condensation")
             T_cin = T_cout - ((h_g*(T_gin-T_w)**delta_Ai)/ (m_c*c_pc))
             Inlet_temp_water.append(T_cin)
             #print("Inlet temperature of the cooling water is: ", T_cin)
     else:
          if T_w<T_sat:
-            delta_Ai = (0.0206*8)/n
+            # delta_Ai = (0.0206*8)/n
             #print("There is condensation")
             T_cin = T_cout - ((h_g*(T_gin-T_i_solution)*delta_Ai + h_fg*k_m*(y_h2o - y_i)*delta_Ai) / (m_c*c_pc))
             Inlet_temp_water.append(T_cin)
             #print("Outlet temperature of the cooling water is: ", T_cin)
          else:
-             delta_Ai = (0.0206*8)/n
+             # delta_Ai = (0.0206*8)/n
              #print("There is no condensation")
              T_cin = T_cout - ((h_g*(T_gin-T_w)**delta_Ai)/ (m_c*c_pc))
              Inlet_temp_water.append(T_cin)
@@ -558,7 +558,7 @@ for _ in range(n):
 
 # Calculating the condensation rate
     if T_w<T_sat:
-        delta_Ai = (0.0206*8)/n
+        # delta_Ai = (0.0206*8)/n
         #print("There will be condensation")
         m_cd = k_m * (y_h2o - y_i)*delta_Ai # Kg/s
         Condensation_rate.append(m_cd)
@@ -570,7 +570,7 @@ for _ in range(n):
         #print("The mass fraction is :",m_frac)
  # Calculating the wall temperature
     if _!=0:
-        delta_Ai = 0.364*math.pi*D_i/n
+        # delta_Ai = 0.364*math.pi*D_i/n
         #print("After first iteration, Tcout:{}, Tcin:{}".format(Inlet_temp_water[_-1],Inlet_temp_water[_]))
         numerator = m_c*c_pc*(Inlet_temp_water[_-1] - Inlet_temp_water[_])*3
         Denominator = h_c*delta_Ai*3
