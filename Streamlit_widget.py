@@ -570,7 +570,7 @@ for _ in range(n):
         #print("The mass fraction is :",m_frac)
  # Calculating the wall temperature
     if _!=0:
-        delta_Ai = 0.364*math.pi*D_i
+        delta_Ai = 0.364*math.pi*D_i/n
         #print("After first iteration, Tcout:{}, Tcin:{}".format(Inlet_temp_water[_-1],Inlet_temp_water[_]))
         numerator = m_c*c_pc*(Inlet_temp_water[_-1] - Inlet_temp_water[_])*3
         Denominator = h_c*delta_Ai*3
