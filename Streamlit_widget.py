@@ -24,7 +24,7 @@ warnings.simplefilter("ignore")
 import streamlit as st
 
 # Define a hardcoded password (for example)
-PASSWORD = "my_secret_password"
+PASSWORD = "5555"
 
 # Use session state to keep track of authentication status
 if "authenticated" not in st.session_state:
