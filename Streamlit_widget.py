@@ -20,6 +20,34 @@ from scipy.optimize import newton
 import warnings
 warnings.simplefilter("ignore")
 
+
+import streamlit as st
+
+# Define a hardcoded password (for example)
+PASSWORD = "my_secret_password"
+
+# Use session state to keep track of authentication status
+if "authenticated" not in st.session_state:
+    st.session_state["authenticated"] = False
+
+if not st.session_state["authenticated"]:
+    # Ask user for password
+    password_input = st.text_input("Enter password:", type="password")
+    if password_input == PASSWORD:
+        st.session_state["authenticated"] = True
+        st.success("Password accepted! Welcome to the app.")
+        st.experimental_rerun()
+    else:
+        st.error("Please enter the correct password.")
+        st.stop()
+
+
+
+
+
+
+
+
 df1=pd.read_excel(r"Horizontalus ruozas-Eksperimetu suvestine (version 2).xlsx", sheet_name='Sheet3')
 df2=pd.read_excel(r"Horizontalus ruozas-Eksperimetu suvestine (version 2).xlsx", sheet_name='New')
 df3=pd.read_excel(r"Horizontalus ruozas-Eksperimetu suvestine (version 2).xlsx", sheet_name='Cooling water')
@@ -675,25 +703,7 @@ with col2:
 st.text(experiment_parameters)
 # st.text(Wall_temperature2)
 
-import streamlit as st
 
-# Define your password
-PASSWORD = "Mohab"
-
-# Check password
-def check_password():
-    if "password_correct" not in st.session_state:
-        st.session_state["password_correct"] = False
-
-    if not st.session_state["password_correct"]:
-        password = st.text_input("Enter password:", type="password")
-        if password == PASSWORD:
-            st.session_state["password_correct"] = True
-        else:
-            st.error("Incorrect password.")
-            st.stop()
-
-check_password()
 
 
 # In[ ]:
