@@ -20,9 +20,6 @@ from scipy.optimize import newton
 import warnings
 warnings.simplefilter("ignore")
 
-
-import streamlit as st
-
 # Define a hardcoded password (for example)
 PASSWORD = "5555"
 
@@ -36,17 +33,12 @@ if not st.session_state["authenticated"]:
     if password_input == PASSWORD:
         st.session_state["authenticated"] = True
         st.success("Password accepted! Welcome to the app.")
-        st.experimental_rerun()
     else:
         st.error("Please enter the correct password.")
         st.stop()
 
-
-
-
-
-
-
+# Proceed with the main app content after login
+st.write("Welcome to the rest of your app!")
 
 df1=pd.read_excel(r"Horizontalus ruozas-Eksperimetu suvestine (version 2).xlsx", sheet_name='Sheet3')
 df2=pd.read_excel(r"Horizontalus ruozas-Eksperimetu suvestine (version 2).xlsx", sheet_name='New')
