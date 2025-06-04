@@ -675,6 +675,27 @@ with col2:
 st.text(experiment_parameters)
 # st.text(Wall_temperature2)
 
+import streamlit as st
+
+# Define your password
+PASSWORD = "Mohab"
+
+# Check password
+def check_password():
+    if "password_correct" not in st.session_state:
+        st.session_state["password_correct"] = False
+
+    if not st.session_state["password_correct"]:
+        password = st.text_input("Enter password:", type="password")
+        if password == PASSWORD:
+            st.session_state["password_correct"] = True
+        else:
+            st.error("Incorrect password.")
+            st.stop()
+
+check_password()
+
+
 # In[ ]:
 
 
