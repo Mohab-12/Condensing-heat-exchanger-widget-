@@ -292,8 +292,8 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
         
         # 3. Handle temperatures
         if i == 0:
-            T_c = (Cooling_water[i] + Cooling_water[i+1]) / 2
-            T_g = (Flue_gas[i] + Flue_gas[i+1]) / 2
+            T_c = T_cout
+            T_g = T_gin
         else:
             T_c = Inlet_temp_water[-1]
             T_g = Outlet_temp_air[-1]
