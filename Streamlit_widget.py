@@ -9,11 +9,9 @@ import plotly.graph_objects as go
 import streamlit as st
 import math
 from PIL import Image
-# import cv2
 import ipywidgets as widgets
 from IPython.display import display
 import matplotlib.pyplot as plt
-# %matplotlib inline
 import seaborn as sns
 from scipy.optimize import newton
 import warnings
@@ -549,7 +547,7 @@ def average_list(values, num_averages):
     
     return averaged_values
 
-results = main_loop(n,steam_flowrate/(steam_flowrate+Air_flowrate), T_cout, T_gin, CW_flowrate,steam_flowrate,steam_flowrate+Air_flowrate,a)
+results = main_loop(n,steam_flowrate/m_g, T_cout, T_gin, CW_flowrate,steam_flowrate,m_g,a)
 
 # # Example lists to process
 #Wall_temperature2 = average_list(Wall_temperature2, 8)
