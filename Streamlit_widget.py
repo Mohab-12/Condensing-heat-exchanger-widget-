@@ -486,8 +486,8 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
             Wall_temperature2.append(T_w)
         
         # Update for next iteration
-        T_gin = T_gout
-        T_cout = T_cin
+        # T_gin = T_gout
+        # T_cout = T_cin
     
     # Return all the calculated lists
     results =  {
