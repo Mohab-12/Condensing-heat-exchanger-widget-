@@ -547,7 +547,7 @@ def average_list(values, num_averages):
     
     return averaged_values
 
-results = main_loop(n,steam_flowrate/m_g, T_cout, T_gin, CW_flowrate,steam_flowrate,m_g,a)
+results = main_loop(n, steam_flowrate/(steam_flowrate + Air_flowrate), T_cout, T_gin, CW_flowrate,steam_flowrate, (steam_flowrate + Air_flowrate),a)
 
 # # Example lists to process
 #Wall_temperature2 = average_list(Wall_temperature2, 8)
@@ -585,6 +585,9 @@ Reynolds number = {df1.loc[e,'Re']} and
 Mass fraction of water vapour = {df1.loc[e,'Mass Fraction']} %
 """
 st.write(results['Inlet_temp_water'])
+st.write(results['Outlet_temp_air'])
+st.write(results['Water_velocity'])
+
 
 # Create a bar plot for condensation data
 fig, ax = plt.subplots(figsize=(10, 6))
