@@ -150,16 +150,6 @@ b_antoine = 3799.89
 c_antoine = 226.35
 p_tot = p / 1000
 
-steam_flowrate = df1.loc[e,'Vapour flow rate, kg/h']/3600 
-CW_flowrate = df1.loc[e,'Cooling water flow rate, l/h']
-flowrate_ratio = df1.loc[e,'Ratio of water/mixture flow rates']
-Air_flowrate = df1.loc[e,'Mixture  (air+vapour) flow rate, kg/h']/3600 - df1.loc[e,'Vapour flow rate, kg/h']/3600 
-Mixture_flowrate = df1.loc[e,'Mixture  (air+vapour) flow rate, kg/h']/3600 
-m_frac = steam_flowrate/Mixture_flowrate
-T_gin = Humid_air[0]
-T_gout = Humid_air[7]
-M_frac = m_frac
-
 
 # Predefined interpolation data (could be moved to config files)
 # Water density data
@@ -571,7 +561,7 @@ def average_list(values, num_averages):
     
     return averaged_values
 
-results = main_loop(n,steam_flowrate/Mixture_flowrate,T_cout ,T_gin,CW_flowrate,steam_flowrate ,Mixture_flowrate,a)
+results = main_loop(n,steam_flowrate/Mixture_flowrate,Cooling_water,Flue_gas,CW_flowrate,steam_flowrate,Mixture_flowrate,a)
 
 # # Example lists to process
 #Wall_temperature2 = average_list(Wall_temperature2, 8)
