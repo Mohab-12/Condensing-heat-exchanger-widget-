@@ -297,8 +297,8 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
             T_c = (Cooling_water[i] + Cooling_water[i+1]) / 2
             T_g = (Flue_gas[i] + Flue_gas[i+1]) / 2
         else:
-            T_c = np.mean(Inlet_temp_water)
-            T_g = np.mean(Outlet_temp_air)
+            T_c = Inlet_temp_water[-1]
+            T_g = Outlet_temp_air[-1]
         
         # 4. Calculate water properties
         rho_c, k_c, c_pc = calculate_water_properties(T_c)
