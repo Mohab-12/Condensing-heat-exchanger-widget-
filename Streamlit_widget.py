@@ -361,7 +361,7 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
         rho_g = rho_water + rho_air
         Density_air.append(rho_g)
         
-        m_g = (m_g)- np.sum(Condensation_rate)
+        m_g = (steam_flowrate + Air_flowrate)- np.sum(Condensation_rate)
         FlowRate_air.append(m_g)
         
         A_gap = (0.011 * 8) / n
@@ -486,8 +486,8 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
             Wall_temperature2.append(T_w)
         
         # Update for next iteration
-        # T_gin = T_gout
-        # T_cout = T_cin
+        T_gin = T_gout
+        T_cout = T_cin
     
     # Return all the calculated lists
     results =  {
