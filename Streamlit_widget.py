@@ -628,7 +628,7 @@ ax.set_ylabel("Temperature (°C)")
 ax.legend(bbox_to_anchor=(1.05, 0.65), loc='center left')
 ax.grid(True)
 plt.tight_layout()
-Display the figure in Streamlit
+#Display the figure in Streamlit
 st.pyplot(fig)
 
 # Display experiment parameters below the plots
