@@ -44,7 +44,7 @@ df4=pd.read_excel(r"Horizontalus ruozas-Eksperimetu suvestine (version 2).xlsx",
 
 df1['Date'] = df1['Date'].astype(str)
 
-e = st.sidebar.slider("Experiment number : ", max_value = 100, min_value = 0, value = 53, step = 1)
+e = st.sidebar.slider("Experiment number : ", max_value = 100, min_value = 0, value = 53, step = 1) 
 T_gin = st.sidebar.slider('Humid air inlet temperature', value=145, min_value=0, max_value=250, step=1)
 T_cout = st.sidebar.slider('Cooling water outlet temperature : ', value=50, min_value=0, max_value=100, step=1)
 steam_flowrate = st.sidebar.slider('Vapour flow rate : ', value=29, min_value=0, max_value=200, step=1)
