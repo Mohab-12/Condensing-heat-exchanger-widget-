@@ -241,7 +241,6 @@ def calculate_interface_equation(T_i, T_g, h_g, h_fg, y_h2o, h_c, T_c, alpha_g, 
     return ((h_g * T_g + h_fg * 1000 * k_m * (y_h2o - y_i) + h_c * T_c) / (h_g + h_c)) - T_i
 
 def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a): 
-
     # Initialize lists to store results
     y_H2o = []
     Sat_temp = []
@@ -279,7 +278,9 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
     Inlet_temp_water = []
     Condensation_rate = []    
     M_frac = steam_flowrate/(steam_flowrate+Air_flowrate)
-    
+    T_gin = T_gin  # Preserve original input
+    T_cout = T_cout
+
     for i in range(n):
         # 1. Calculate water mole fraction
         y_h2o = (float(M_frac) / M_h2o) / ((float(M_frac) / M_h2o) + ((1 - float(M_frac)) / M_g))
