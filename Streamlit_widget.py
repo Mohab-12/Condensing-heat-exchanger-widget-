@@ -279,8 +279,6 @@ def main_loop(n, m_frac, Cooling_water, Flue_gas, CW_flowrate, steam_flowrate, m
     Outlet_temp_air = []
     Inlet_temp_water = []
     Condensation_rate = []    
-    # T_gin = T_gin
-    # T_cout = T_cout
     M_frac = steam_flowrate/(steam_flowrate+Air_flowrate)
     
     for i in range(n):
@@ -550,7 +548,7 @@ def average_list(values, num_averages):
     
     return averaged_values
 
-results = main_loop(n,steam_flowrate/(steam_flowrate+Air_flowrate),T_gin, T_cout,CW_flowrate,steam_flowrate,steam_flowrate+Air_flowrate,a)
+results = main_loop(n,steam_flowrate/(steam_flowrate+Air_flowrate), T_gin, T_cout, CW_flowrate,steam_flowrate,steam_flowrate+Air_flowrate,a)
 
 # # Example lists to process
 #Wall_temperature2 = average_list(Wall_temperature2, 8)
