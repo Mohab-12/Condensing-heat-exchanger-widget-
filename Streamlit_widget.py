@@ -278,8 +278,8 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
     Inlet_temp_water = []
     Condensation_rate = []    
     M_frac = steam_flowrate/(steam_flowrate+Air_flowrate)
-    T_gin = T_gin  # Preserve original input
-    T_cout = T_cout
+    current_T_g = T_gin  # Preserve original input
+    current_T_c = T_cout
 
     for i in range(n):
         # 1. Calculate water mole fraction
@@ -293,8 +293,8 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
         
         # 3. Handle temperatures
         if i == 0:
-            T_c = T_cout
-            T_g = T_gin
+            T_c = current_T_c
+            T_g = current_T_g
         else:
             T_c = Inlet_temp_water[-1]
             T_g = Outlet_temp_air[-1]
@@ -487,8 +487,8 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
             Wall_temperature2.append(T_w)
         
         # Update for next iteration
-        T_gin = T_gout
-        T_cout = T_cin
+        current_T_g = T_gout
+        current_T_c = T_cin
     
     # Return all the calculated lists
     results =  {
