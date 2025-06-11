@@ -600,6 +600,8 @@ Inlet temperature of humid air = {df1.loc[e,'Mixture tin, oC']}°C,
 
 Mixture flow rate = {df1.loc[e,'Mixture  (air+vapour) flow rate, kg/h']} kg/h,
 
+Air flow rate = {df1.loc[e,'Mixture  (air+vapour) flow rate, kg/h'] - df1.loc[e,'Vapour flow rate, kg/h']} kg/h
+
 Cooling water flow rate = {df1.loc[e,'Cooling water flow rate, l/h']} l/h,
 
 Reynolds number = {df1.loc[e,'Re']} and
