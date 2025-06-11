@@ -278,10 +278,7 @@ def main_loop(n, m_frac, Cooling_water, Flue_gas, CW_flowrate, steam_flowrate, m
     Logarithmic_mole_average = []
     Outlet_temp_air = []
     Inlet_temp_water = []
-    Condensation_rate = []
-    
-    T_gin = Flue_gas[0]
-    T_cout = Cooling_water[0]
+    Condensation_rate = []    
     M_frac = steam_flowrate/(steam_flowrate+Air_flowrate)
     
     for i in range(n):
