@@ -75,17 +75,6 @@ st.image(img, caption = 'Illustration of the finite difference analysis', width 
 
 # In[3]:
 
-
-e = int(input("Enter the number of the experiment desired from 0 to 100:"))
-Humid_air = df1.loc[e ,['Temperature decrease of the mixture_1',
- 'Temperature decrease of the mixture_2',
- 'Temperature decrease of the mixture_3',
- 'Temperature decrease of the mixture_4',
- 'Temperature decrease of the mixture_5',
- 'Temperature decrease of the mixture_6',
- 'Temperature decrease of the mixture_7',
- 'Temperature decrease of the mixture_8']]
-
 Cooling_water = df1.loc[e ,['Temperature increase of the cooling water_1',
  'Temperature increase of the cooling water_2',
  'Temperature increase of the cooling water_3',
