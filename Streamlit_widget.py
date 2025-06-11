@@ -242,7 +242,7 @@ def calculate_interface_equation(T_i, T_g, h_g, h_fg, y_h2o, h_c, T_c, alpha_g, 
     k_m = (h_g * M_h2o) / (c_pg * 1000 * M_g * y_lm * Le_h20air ** (2/3))
     return ((h_g * T_g + h_fg * 1000 * k_m * (y_h2o - y_i) + h_c * T_c) / (h_g + h_c)) - T_i
 
-def main_loop(n, m_frac, Cooling_water, Flue_gas, CW_flowrate, steam_flowrate, Mixture_flowrate, a):
+def main_loop(n, m_frac, Cooling_water, Flue_gas, CW_flowrate, steam_flowrate, steam_flowrate+Air_flowrate, a):
     # Initialize lists to store results
     y_H2o = []
     Sat_temp = []
@@ -282,7 +282,7 @@ def main_loop(n, m_frac, Cooling_water, Flue_gas, CW_flowrate, steam_flowrate, M
     
     T_gin = Flue_gas[0]
     T_cout = Cooling_water[0]
-    M_frac = steam_flowrate/Mixture_flowrate
+    M_frac = steam_flowrate/(steam_flowrate+Air_flowrate)
     
     for i in range(n):
         # 1. Calculate water mole fraction
@@ -365,7 +365,7 @@ def main_loop(n, m_frac, Cooling_water, Flue_gas, CW_flowrate, steam_flowrate, M
         rho_g = rho_water + rho_air
         Density_air.append(rho_g)
         
-        m_g = Mixture_flowrate- np.sum(Condensation_rate)
+        m_g = (steam_flowrate+Air_flowrate)- np.sum(Condensation_rate)
         FlowRate_air.append(m_g)
         
         A_gap = (0.011 * 8) / n
@@ -477,7 +477,7 @@ def main_loop(n, m_frac, Cooling_water, Flue_gas, CW_flowrate, steam_flowrate, M
         if T_w < T_sat:
             m_cd = Mass_transfer_coefficient_air[i] * (y_h2o - Vapour_mole_interface[i]) * delta_Ai
             Condensation_rate.append(m_cd)
-            M_frac = (steam_flowrate - np.sum(Condensation_rate)) / (Mixture_flowrate - np.sum(Condensation_rate))
+            M_frac = (steam_flowrate - np.sum(Condensation_rate)) / (m_g - np.sum(Condensation_rate))
         else:
             Condensation_rate.append(0)
         
