@@ -608,38 +608,28 @@ Mass fraction of water vapour = {df1.loc[e,'Mass Fraction']} %
 """
 
 # Create a bar plot for condensation data
-fig1 = go.Figure(data=[go.Bar(x=condensation['Type'], y=condensation['Values'], marker_color=['blue', 'darkorange'])])
-fig1.update_layout(title='Experimental VS Calculated',
-                   xaxis_title='Type', yaxis_title='Condensation rate (g/s)',
-                   font=dict(size=20))
+fig, ax = plt.subplots(figsize=(10, 6))
 
-# Create a line plot for temperature profiles
-fig2 = go.Figure()
-fig2.add_trace(go.Scatter(x=np.linspace(1, n, 8), y=Flue_gas[:-1], mode='markers', name='Experimental outlet air temperature'))
-fig2.add_trace(go.Scatter(x=np.linspace(1, n, n), y=results['Outlet_temp_air'], mode='lines', name='Calculated outlet air temperature', line=dict(color='red', dash='dash')))
+# Plot Experimental vs Calculated
+ax.scatter(np.linspace(1,n,9), Flue_gas, marker='o', label='Humid air Exp')
+ax.plot(np.linspace(1,n,n), results['Outlet_temp_air'][:experiment_number], 
+        ls='--', label='Humid air Calc', color='orange')
 
-fig2.add_trace(go.Scatter(x=np.linspace(1, n, 8), y=Cooling_water[:-1], mode='markers', name='Experimental outlet water temperature',marker=dict(color='blue')))
-fig2.add_trace(go.Scatter(x=np.linspace(1, n, n), y=results['Inlet_temp_water'], mode='lines', name='Calculated outlet water temperature', line=dict(color='red', dash='dash')))
+ax.scatter(np.linspace(1,n,9), Cooling_water, marker='o', label='Cooling water Exp')
+ax.plot(np.linspace(1,n,n), results['Inlet_temp_water'][:experiment_number], 
+        ls='--', label='Cooling water Calc', color='g')
 
-# fig2.add_trace(go.Scatter(x=np.linspace(1, n, 8), y=Wall_temperature1, mode='markers', name='Experimental wall temperature'))
-# fig2.add_trace(go.Scatter(x=np.linspace(1, n, n), y=Wall_temperature2, mode='lines', name='Calculated outlet air temperature', line=dict(color='red', dash='dash')))
+ax.scatter(np.linspace(1,n,9), Wall_temperature1, marker='o', label='Wall temp Exp', color='r')
+ax.plot(np.linspace(1,n,n), results['Wall_temperature2'][:experiment_number], 
+        ls='--', label='Wall temp Calc', color='black')
 
-
-fig2.update_layout(title='Temperature profiles',
-                   xaxis_title='Row no.', yaxis_title='Temperature (°C)',
-                   legend=dict(x=1.05, y=1), font=dict(size=20))
-
-fig2.update_xaxes(tickmode='array', tickvals=np.linspace(1, n, 8), ticktext=np.arange(1, 9))
-
-
-# Display plots side by side in Streamlit
-col1, col2 = st.columns([1, 2])  # Set the ratio between the columns
-
-with col1:
-    st.plotly_chart(fig1, use_container_width=True)
-
-with col2:
-    st.plotly_chart(fig2, use_container_width=True)
+ax.set_xlabel("Experiment Number")
+ax.set_ylabel("Temperature (°C)")
+ax.legend(bbox_to_anchor=(1.05, 0.65), loc='center left')
+ax.grid(True)
+plt.tight_layout()
+Display the figure in Streamlit
+st.pyplot(fig)
 
 # Display experiment parameters below the plots
 st.text(experiment_parameters)
