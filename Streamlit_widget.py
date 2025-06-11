@@ -571,6 +571,8 @@ def average_list(values, num_averages):
     
     return averaged_values
 
+results = main_loop(e,m_frac,Cooling_water,Flue_gas,CW_flowrate,steam_flowrate,Mixture_flowrate,a)
+
 # # Example lists to process
 #Wall_temperature2 = average_list(Wall_temperature2, 8)
 #Outlet_temp_air = average_list(Outlet_temp_air, 8)
