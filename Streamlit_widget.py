@@ -588,6 +588,7 @@ Reynolds number = {df1.loc[e,'Re']} and
 
 Mass fraction of water vapour = {df1.loc[e,'Mass Fraction']} %
 """
+st.write(results['Inlet_temp_water'])
 
 # Create a bar plot for condensation data
 fig, ax = plt.subplots(figsize=(10, 6))
@@ -601,11 +602,11 @@ ax.scatter(np.linspace(1,n,8), Cooling_water[:-1], marker='o', label='Cooling wa
 ax.plot(np.linspace(1,n,n), results['Inlet_temp_water'], 
         ls='--', label='Cooling water Calc', color='g')
 
-ax.scatter(np.linspace(1,n,8), Wall_temperature1, marker='o', label='Wall temp Exp', color='r')
-ax.plot(np.linspace(1,n,n), results['Wall_temperature2'], 
-        ls='--', label='Wall temp Calc', color='black')
+# ax.scatter(np.linspace(1,n,8), Wall_temperature1, marker='o', label='Wall temp Exp', color='r')
+# ax.plot(np.linspace(1,n,n), results['Wall_temperature2'], 
+#         ls='--', label='Wall temp Calc', color='black')
 
-ax.set_xlabel("Experiment Number")
+ax.set_xlabel("Local point (row no.)")
 ax.set_ylabel("Temperature (°C)")
 ax.legend(bbox_to_anchor=(1.05, 0.65), loc='center left')
 ax.grid(True)
