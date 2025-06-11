@@ -253,7 +253,7 @@ def calculate_interface_equation(T_i, T_g, h_g, h_fg, y_h2o, h_c, T_c, alpha_g, 
     k_m = (h_g * M_h2o) / (c_pg * 1000 * M_g * y_lm * Le_h20air ** (2/3))
     return ((h_g * T_g + h_fg * 1000 * k_m * (y_h2o - y_i) + h_c * T_c) / (h_g + h_c)) - T_i
 
-def main_loop(n, M_frac, Cooling_water, Flue_gas, CW_flowrate, steam_flowrate, Mixture_flowrate, a):
+def main_loop(n, steam_flowrate/Mixture_flowrate, Cooling_water, Flue_gas, CW_flowrate, steam_flowrate, Mixture_flowrate, a):
     # Initialize lists to store results
     y_H2o = []
     Sat_temp = []
