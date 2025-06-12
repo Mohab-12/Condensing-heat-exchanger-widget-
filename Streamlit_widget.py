@@ -425,34 +425,34 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
         Lewis_air.append(Le_h20air)
         
         st.write(f"Segments temps {i}")
-        # Interface temperature calculation
-        if T_w < T_sat:
-            try:
-                T_i_solution = newton(
-                    calculate_interface_equation, 
-                    60,  # Initial guess
-                    args=(T_g, h_g, h_fg, y_h2o, h_c, T_c, alpha_g, D_h2oair, c_pg)
-                )
-                Temperature_interface.append(T_i_solution)
-                
-                y_i = np.exp(a_antoine - (b_antoine / (T_i_solution + c_antoine))) / p_tot
-                Vapour_mole_interface.append(y_i)
-                
-                y_ni = 1 - y_i
-                y_nb = 1 - y_h2o
-                y_lm = (y_ni - y_nb) / math.log(y_ni / y_nb)
-                Logarithmic_mole_average.append(y_lm)
-                
-                k_m = (h_g * M_h2o) / (c_pg * 1000 * M_g * y_lm * Le_h20air ** (2/3))
-                Mass_transfer_coefficient_air.append(k_m)
-                numbering.append(i + 1)
-            except:
-                # Handle convergence error
-                Temperature_interface.append(np.nan)
-                Vapour_mole_interface.append(np.nan)
-                Logarithmic_mole_average.append(np.nan)
-                Mass_transfer_coefficient_air.append(np.nan)
-                numbering.append(i + 1)
+    # Interface temperature calculation
+    if T_w < T_sat:
+        try:
+            T_i_solution = newton(
+                calculate_interface_equation, 
+                60,  # Initial guess
+                args=(T_g, h_g, h_fg, y_h2o, h_c, T_c, alpha_g, D_h2oair, c_pg)
+            )
+            Temperature_interface.append(T_i_solution)
+            
+            y_i = np.exp(a_antoine - (b_antoine / (T_i_solution + c_antoine))) / p_tot
+            Vapour_mole_interface.append(y_i)
+            
+            y_ni = 1 - y_i
+            y_nb = 1 - y_h2o
+            y_lm = (y_ni - y_nb) / math.log(y_ni / y_nb)
+            Logarithmic_mole_average.append(y_lm)
+            
+            k_m = (h_g * M_h2o) / (c_pg * 1000 * M_g * y_lm * Le_h20air ** (2/3))
+            Mass_transfer_coefficient_air.append(k_m)
+            numbering.append(i + 1)
+        except:
+            # Handle convergence error
+            Temperature_interface.append(np.nan)
+            Vapour_mole_interface.append(np.nan)
+            Logarithmic_mole_average.append(np.nan)
+            Mass_transfer_coefficient_air.append(np.nan)
+            numbering.append(i + 1)
         
         # Outlet temperature calculations
         delta_Ai = (0.0206 * 8) / n
