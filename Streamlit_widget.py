@@ -587,16 +587,15 @@ st.write(f"results['Outlet_temp_air'] : {results['Outlet_temp_air']}\n")
 st.write(f"results['Inlet_temp_water'] : {results['Inlet_temp_water']}")
 
 # Create a bar plot for condensation data
+
+import streamlit as st
 import matplotlib.pyplot as plt
-import numpy as np
 
 def plot_results(results):
-    x = results['numbering']  # Assuming this is your x-axis, same length as others
+    x = results['numbering']
     
-    # Create a figure with subplots
     fig, axs = plt.subplots(4, 1, figsize=(10, 20), constrained_layout=True)
     
-    # 1. Temperatures
     axs[0].plot(x, results['Wall_temperature2'], label='Wall Temperature')
     axs[0].plot(x, results['Op_temp_air'], label='Operational Air Temp')
     axs[0].plot(x, results['Inlet_temp_air'], label='Inlet Air Temp')
@@ -609,7 +608,6 @@ def plot_results(results):
     axs[0].legend()
     axs[0].grid(True)
     
-    # 2. Flow & velocity properties
     axs[1].plot(x, results['Mass_flowrate'], label='Mass Flowrate')
     axs[1].plot(x, results['Water_velocity'], label='Water Velocity')
     axs[1].plot(x, results['Velocity_air'], label='Air Velocity')
@@ -620,7 +618,6 @@ def plot_results(results):
     axs[1].legend()
     axs[1].grid(True)
     
-    # 3. Heat transfer and physical properties
     axs[2].plot(x, results['Water_heat_Transfer_coefficient'], label='Water Heat Transfer Coeff.')
     axs[2].plot(x, results['Heat_transfer_air'], label='Air Heat Transfer')
     axs[2].plot(x, results['Latent_heat_air'], label='Latent Heat Air')
@@ -632,20 +629,22 @@ def plot_results(results):
     axs[2].legend()
     axs[2].grid(True)
     
-    # 4. Misc (e.g., diffusivity, Reynolds, condensation)
     axs[3].plot(x, results['Water_Reynolds'], label='Water Reynolds')
     axs[3].plot(x, results['Reynolds_air'], label='Air Reynolds')
-    axs[3].plot(x, results['Mass_of_diffusivity'], label='Mass of Diffusivity')
+    axs[3].plot(x, results['Mass_of_diffusivity'], label='Mass Diffusivity')
     axs[3].plot(x, results['Condensation_rate'], label='Condensation Rate')
     axs[3].set_title('Miscellaneous Parameters')
     axs[3].set_xlabel('Measurement Point')
     axs[3].set_ylabel('Values')
     axs[3].legend()
     axs[3].grid(True)
-    st.pyplot(fig)
     
-# Then call:
+    st.pyplot(fig)
+
+# Example usage in Streamlit app:
+results = your_function_to_get_results()  # your data dictionary
 plot_results(results)
+
 
 
 # Display experiment parameters below the plots
