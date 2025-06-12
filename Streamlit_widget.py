@@ -455,7 +455,8 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
         
         # Outlet temperature calculations
         delta_Ai = (0.0206 * 8) / n
-        
+
+        st.write(f"Before temps {i}")
         if T_w < T_sat :
             T_gout = ((m_g * c_pg * 1000 - (h_g/2) * delta_Ai) * T_gin + h_g * delta_Ai * T_i_solution) / \
                     (m_g * c_pg * 1000 + (h_g/2) * delta_Ai)
