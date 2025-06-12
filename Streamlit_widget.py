@@ -400,7 +400,7 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
         Nusselt_air.append(Nu_g)
         print("Nusselt number for the air side:", np.round(Nu_g,4))
 
-    h_g = (Nu_g * k_g)/D_o
+        h_g = (Nu_g * k_g)/D_o
         Heat_transfer_air.append(h_g)
         
         # Latent heat
