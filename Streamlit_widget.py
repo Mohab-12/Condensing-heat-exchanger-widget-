@@ -303,7 +303,6 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
             T_c = Inlet_temp_water[-1]
             T_g = Outlet_temp_air[-1]
 
-        st.write(f"Before temps {i}")
         # 4. Calculate water properties
         rho_c, k_c, c_pc = calculate_water_properties(T_c)
         Water_density.append(rho_c)
@@ -399,7 +398,8 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
         
         pr_g = (u_g / rho_g) / alpha_g
         Prandtl.append(pr_g)
-        
+        st.write(f"Before temps {i}")
+
         # Calculate Nusselt number for air
     if (Re_g <= 2*10**6) and (Re_g >= 1000) and (0.7 <= np.round(pr_g,1)) and (np.round(pr_g,1) <= 500):
         c = 0.27 # 
