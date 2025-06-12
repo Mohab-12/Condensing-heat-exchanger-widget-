@@ -241,6 +241,11 @@ def calculate_interface_equation(T_i, T_g, h_g, h_fg, y_h2o, h_c, T_c, alpha_g, 
     return ((h_g * T_g + h_fg * 1000 * k_m * (y_h2o - y_i) + h_c * T_c) / (h_g + h_c)) - T_i
 
 def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a): 
+    T_g_current = T_gin
+    T_c_current = T_cout
+    current_steam = steam_flowrate  # kg/h
+    current_air = Air_flowrate      # kg/h
+
     # Initialize lists to store results
     y_H2o = []
     Sat_temp = []
@@ -282,6 +287,9 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
     current_T_c = T_cout
 
     for i in range(n):
+        T_g_in = T_g_current
+        T_c_out = T_c_current
+
         # 1. Calculate water mole fraction
         y_h2o = (float(M_frac) / M_h2o) / ((float(M_frac) / M_h2o) + ((1 - float(M_frac)) / M_g))
         y_H2o.append(y_h2o)
@@ -486,9 +494,13 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
             # T_w = Wall_temperature1[i]
             Wall_temperature2.append(T_w)
         
-        # Update for next iteration
-        current_T_g = T_gout
-        current_T_c = T_cin
+        # Update for next segment
+        T_g_current = T_g_out
+        T_c_current = T_c_in
+        
+        # Debug print
+        st.write(f"Segment {i+1}: Gas {T_g_in:.1f}→{T_g_out:.1f}°C, Water {T_c_out:.1f}→{T_c_in:.1f}°C, Wall {T_w:.1f}°C")
+
     
     # Return all the calculated lists
     results =  {
