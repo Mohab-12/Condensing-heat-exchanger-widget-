@@ -486,7 +486,7 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
             Wall_temperature2.append(T_w)
         
         # Debug print
-        st.write(f"Segment {i+1}: Gas {T_gin:.1f}→{T_gout:.1f}°C, Water {T_cout:.1f}→{T_c_in:.1f}°C, Wall {T_w:.1f}°C")
+        # st.write(f"Segment {i+1}: Gas {T_gin:.1f}→{T_gout:.1f}°C, Water {T_cout:.1f}→{T_c_in:.1f}°C, Wall {T_w:.1f}°C")
         st.write(f"Segment {i+1}: Cpg {c_pg:.1f}→MF.air{m_g:.1f}°C, MF.Water {m_c:.1f}→Cpc{c_pc:.1f}°C, Water HTC {h_c:.1f}°C")
 
     
