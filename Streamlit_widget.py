@@ -424,7 +424,7 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
         Le_h20air = alpha_g / D_h2oair
         Lewis_air.append(Le_h20air)
         
-        st.write(f"Before temps {i}")
+        st.write(f"Segments temps {i}")
         # Interface temperature calculation
         if T_w < T_sat:
             try:
