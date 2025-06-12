@@ -292,9 +292,7 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
         # 3. Handle temperatures
         if i == 0:
             st.write(f"i:{i}")
-            st.write(f"i:{i}")
-            st.wtite(f"T_cin {T_cin}")
-
+            st.wtite(f"T_cout {T_cout}")
             T_c = T_cout
             T_g = T_gin
         else:
