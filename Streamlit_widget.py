@@ -398,7 +398,6 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
         
         pr_g = (u_g / rho_g) / alpha_g
         Prandtl.append(pr_g)
-        st.write(f"Before temps {i}")
 
         # Calculate Nusselt number for air
     if (Re_g <= 2*10**6) and (Re_g >= 1000) and (0.7 <= np.round(pr_g,1)) and (np.round(pr_g,1) <= 500):
@@ -425,6 +424,7 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
         Le_h20air = alpha_g / D_h2oair
         Lewis_air.append(Le_h20air)
         
+        st.write(f"Before temps {i}")
         # Interface temperature calculation
         if T_w < T_sat:
             try:
