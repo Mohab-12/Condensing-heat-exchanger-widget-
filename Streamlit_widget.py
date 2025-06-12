@@ -481,6 +481,7 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
             M_frac = (steam_flowrate/3600 - np.sum(Condensation_rate)) / (m_g - np.sum(Condensation_rate))
             st.write(f"m_cd {m_cd}")
             st.write(f"M_frac {M_frac}")
+            st.write("*****************************************************************************************************")
         else:
             Condensation_rate.append(0)
         
