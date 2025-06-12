@@ -590,10 +590,10 @@ st.write(f"len Outlet_temp_air: {len(Outlet_temp_air)}, len Inlet_temp_water: {l
 fig, ax = plt.subplots(figsize=(10, 6))
 
 # Plot Experimental vs Calculated
-ax.scatter(np.linspace(1,n,9), Flue_gas, marker='o', label='Humid air Exp')
+ax.scatter(np.linspace(1,n+1,9), Flue_gas, marker='o', label='Humid air Exp')
 ax.plot(np.linspace(1,n+1,n), results['Outlet_temp_air'], ls='--', label='Humid air Calc', color='orange')
 
-ax.scatter(np.linspace(1,n,9), Cooling_water, marker='o', label='Cooling water Exp')
+ax.scatter(np.linspace(1,n+1,9), Cooling_water, marker='o', label='Cooling water Exp')
 ax.plot(np.linspace(1,n+1,n), results['Inlet_temp_water'], ls='--', label='Cooling water Calc', color='g')
 
 # ax.scatter(np.linspace(1,n,9), Wall_temperature1, marker='o', label='Wall temp Exp', color='r')
