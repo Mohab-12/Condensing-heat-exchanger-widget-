@@ -584,28 +584,29 @@ Mass fraction of water vapour = {df1.loc[e,'Mass Fraction']} %
 """
 
 st.write(f"len x: {len(np.linspace(1, n, n))}, len Outlet_temp_air: {len(results['Outlet_temp_air'])}")
+st.write(f"len Outlet_temp_air: {len(Outlet_temp_air)}, len Inlet_temp_water: {len(Inlet_temp_water)}")
 
 # Create a bar plot for condensation data
-# fig, ax = plt.subplots(figsize=(10, 6))
+fig, ax = plt.subplots(figsize=(10, 6))
 
-# # Plot Experimental vs Calculated
-# ax.scatter(np.linspace(1,n,9), Flue_gas, marker='o', label='Humid air Exp')
-# ax.plot(np.linspace(1,n,n), results['Outlet_temp_air'], ls='--', label='Humid air Calc', color='orange')
+# Plot Experimental vs Calculated
+ax.scatter(np.linspace(1,n,9), Flue_gas, marker='o', label='Humid air Exp')
+ax.plot(np.linspace(1,n+1,n), results['Outlet_temp_air'], ls='--', label='Humid air Calc', color='orange')
 
-# ax.scatter(np.linspace(1,n,9), Cooling_water, marker='o', label='Cooling water Exp')
-# ax.plot(np.linspace(1,n,n), results['Inlet_temp_water'], ls='--', label='Cooling water Calc', color='g')
+ax.scatter(np.linspace(1,n,9), Cooling_water, marker='o', label='Cooling water Exp')
+ax.plot(np.linspace(1,n+1,n), results['Inlet_temp_water'], ls='--', label='Cooling water Calc', color='g')
 
-# # ax.scatter(np.linspace(1,n,9), Wall_temperature1, marker='o', label='Wall temp Exp', color='r')
-# # ax.plot(np.linspace(1,n,n), results['Wall_temperature2'], 
-# #         ls='--', label='Wall temp Calc', color='black')
+# ax.scatter(np.linspace(1,n,9), Wall_temperature1, marker='o', label='Wall temp Exp', color='r')
+# ax.plot(np.linspace(1,n,n), results['Wall_temperature2'], 
+#         ls='--', label='Wall temp Calc', color='black')
 
-# ax.set_xlabel("Local point (row no.)")
-# ax.set_ylabel("Temperature (°C)")
-# ax.legend(bbox_to_anchor=(1.05, 0.65), loc='center left')
-# ax.grid(True)
-# plt.tight_layout()
-# #Display the figure in Streamlit
-# st.pyplot(fig)
+ax.set_xlabel("Local point (row no.)")
+ax.set_ylabel("Temperature (°C)")
+ax.legend(bbox_to_anchor=(1.05, 0.65), loc='center left')
+ax.grid(True)
+plt.tight_layout()
+#Display the figure in Streamlit
+st.pyplot(fig)
 
 # Display experiment parameters below the plots
 st.text(experiment_parameters)
