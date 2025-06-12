@@ -280,7 +280,6 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
     m_g = steam_flowrate+Air_flowrate
     
     for i in range(n):
-        st.write(f"Before temps {i}")
         # 1. Calculate water mole fraction
         y_h2o = (float(M_frac) / M_h2o) / ((float(M_frac) / M_h2o) + ((1 - float(M_frac)) / M_g))
         y_H2o.append(y_h2o)
@@ -303,7 +302,8 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
             # st.write(f"T_cout {T_cin}")
             T_c = Inlet_temp_water[-1]
             T_g = Outlet_temp_air[-1]
-        
+
+        st.write(f"Before temps {i}")
         # 4. Calculate water properties
         rho_c, k_c, c_pc = calculate_water_properties(T_c)
         Water_density.append(rho_c)
