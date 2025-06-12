@@ -279,6 +279,7 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
     Condensation_rate = []    
     M_frac = steam_flowrate/(steam_flowrate+Air_flowrate)
     m_g = steam_flowrate+Air_flowrate
+    
     for i in range(n):
         # 1. Calculate water mole fraction
         y_h2o = (float(M_frac) / M_h2o) / ((float(M_frac) / M_h2o) + ((1 - float(M_frac)) / M_g))
@@ -484,12 +485,8 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
             # T_w = Wall_temperature1[i]
             Wall_temperature2.append(T_w)
         
-        # Update for next segment
-        T_g_current = T_g_out
-        T_c_current = T_c_in
-        
         # Debug print
-        # st.write(f"Segment {i+1}: Gas {T_g_in:.1f}→{T_g_out:.1f}°C, Water {T_c_out:.1f}→{T_c_in:.1f}°C, Wall {T_w:.1f}°C")
+        st.write(f"Segment {i+1}: Gas {T_g_in:.1f}→{T_g_out:.1f}°C, Water {T_c_out:.1f}→{T_c_in:.1f}°C, Wall {T_w:.1f}°C")
 
     
     # Return all the calculated lists
