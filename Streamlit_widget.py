@@ -367,12 +367,12 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
         Density_air.append(rho_g)
         
         m_g = (steam_flowrate + Air_flowrate)/60**2- np.sum(Condensation_rate)
-        FlowRate_air.append(m_g)
+        # FlowRate_air.append(m_g)
         st.write(f"m_g : {m_g}")
         A_gap = (0.011 * 8) / n
         v_g = m_g / (rho_g * A_gap)
         Velocity_air.append(v_g)
-        st.write(f"v_g : {v_g}")
+        # st.write(f"v_g : {v_g}")
                  
         Specific_heat_air.append(c_pg)
         
@@ -385,7 +385,7 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
         
         Re_g = (rho_g * v_g * D_o) / u_g
         Reynolds_air.append(Re_g)
-        st.write(f"Re_g : {Re_g}")
+        # st.write(f"Re_g : {Re_g}")
         
         # Thermal conductivity of vapor
         k_g_vapour = np.interp(T_g_float, k_g_vapour_temp, k_g_vapour_values)
@@ -464,7 +464,7 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
                     (m_g * c_pg * 1000 + (h_g/2) * delta_Ai)
         
         Outlet_temp_air.append(T_gout)
-        st.write(f"Outlet_temp_air {Outlet_temp_air}")
+        st.write(f"Outlet_temp_air : {Outlet_temp_air}")
         
         # Inlet temperature calculations
         if T_w < T_sat:
@@ -490,6 +490,7 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
         
         # Wall temperature for subsequent iterations
         if i != 0:
+            st.write(f"The wall part >>> Inlet_temp_water : {Inlet_temp_water}")
             numerator = m_c * c_pc * (Inlet_temp_water[i-1] - Inlet_temp_water[i]) * 3
             denominator = h_c * delta_Ai * 3
             T_w = T_c + (numerator / denominator)
