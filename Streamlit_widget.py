@@ -487,7 +487,7 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
         
         # Debug print
         # st.write(f"Segment {i+1}: Gas {T_gin:.1f}→{T_gout:.1f}°C, Water {T_cout:.1f}→{T_c_in:.1f}°C, Wall {T_w:.1f}°C")
-        st.write(f"h_g {h_g}: T_i_solution {T_i_solution:.1f}→h_fg{h_fg:.1f}°C, MF.Water {m_c:.1f}→Cpc{c_pc:.1f}°C, Water y_i {y_i:.1f}°C")
+        st.write(f"h_g: {h_g} | h_fg: {h_fg} | T_gin: {T_gin} | T_i_solution: {T_i_solution} | delta_Ai: {delta_Ai} | k_m: {k_m} | y_h2o: {y_h2o} | y_i: {y_i} | m_c: {m_c} | c_pc: {c_pc} | T_cout: {T_cout} | T_c_in: {T_c_in}")
 
     
     # Return all the calculated lists
