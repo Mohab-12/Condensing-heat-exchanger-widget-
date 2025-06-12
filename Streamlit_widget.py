@@ -361,6 +361,7 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
         rho_water = ((p * M_h2o / 1000) / (R_water * T)) * y_h2o
         rho_g = rho_water + rho_air
         Density_air.append(rho_g)
+        st.write(f"Air density : {rho_g}")
         
         m_g = (steam_flowrate + Air_flowrate)/60**2- np.sum(Condensation_rate)
         FlowRate_air.append(m_g)
@@ -368,6 +369,7 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
         A_gap = (0.011 * 8) / n
         v_g = m_g / (rho_g * A_gap)
         Velocity_air.append(v_g)
+        st.write(f"Air velocity: {v_g}")
         Specific_heat_air.append(c_pg)
         
         # Calculate viscosity using Wilke's method
