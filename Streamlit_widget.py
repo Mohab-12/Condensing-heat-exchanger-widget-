@@ -467,7 +467,7 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
             st.write(f"Segment : {i} no condensation||||||||||Outlet>>> Outlet_temp_air : {Outlet_temp_air}")
 
         Outlet_temp_air.append(T_gout)
-        st.write(f"Before the temp >>> Segment {i}")
+        st.write(f"After the temp >>> Segment {i}")
         # Inlet temperature calculations
         if T_w < T_sat:
             T_cin = T_cout - ((h_g * (T_gin - T_i_solution) * delta_Ai + 
