@@ -584,7 +584,7 @@ Mass fraction of water vapour = {df1.loc[e,'Mass Fraction']} %
 """
 
 st.write(f"len x: {len(np.linspace(1, n, n))}, len Outlet_temp_air: {len(results['Outlet_temp_air'])}")
-st.write(f"len Outlet_temp_air: {len(Outlet_temp_air)}, len Inlet_temp_water: {len(Inlet_temp_water)}")
+st.write(f"len Outlet_temp_air: {len(results['Outlet_temp_air'])}, len Inlet_temp_water: {len(results['Outlet_temp_air'])}")
 
 # Create a bar plot for condensation data
 fig, ax = plt.subplots(figsize=(10, 6))
