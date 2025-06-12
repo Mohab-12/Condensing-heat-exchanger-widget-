@@ -131,7 +131,6 @@ D_o = 0.018
 p = 101325  # Pa
 R_air = 8.314
 R_water = 8.314
-hwe = 2501  # kJ/kg
 a_antoine = 16.262
 b_antoine = 3799.89
 c_antoine = 226.35
@@ -295,6 +294,7 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
             T_c = T_cout
             T_g = T_gin
         else:
+            st.write(f"Inlet_temp_water{Inlet_temp_water}")
             T_c = Inlet_temp_water[-1]
             T_g = Outlet_temp_air[-1]
         
@@ -465,6 +465,7 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
                              (m_c * c_pc))
         else:
             T_cin = T_cout - ((h_g * (T_gin - T_w) * delta_Ai) / (m_c * c_pc))
+            
         Inlet_temp_water.append(T_cin)
         
         # Condensation rate
