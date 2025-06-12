@@ -291,15 +291,15 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
         
         # 3. Handle temperatures
         if i == 0:
-            st.write(f"i:{i}")
-            st.write(f"T_cout {T_cout}")
+            # st.write(f"i:{i}")
+            # st.write(f"T_cout {T_cout}")
             T_c = T_cout
             T_g = T_gin
             Inlet_temp_water.append(T_cout)
             Outlet_temp_air.append(T_gin)
         else:
-            st.write(f"i:{i}")
-            st.write(f"T_cout {T_cin}")
+            # st.write(f"i:{i}")
+            # st.write(f"T_cout {T_cin}")
             T_c = Inlet_temp_water[-1]
             T_g = Outlet_temp_air[-1]
         
@@ -368,11 +368,12 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
         
         m_g = (steam_flowrate + Air_flowrate)- np.sum(Condensation_rate)
         FlowRate_air.append(m_g)
-        
+        st.write(f"m_g : {m_g}")
         A_gap = (0.011 * 8) / n
         v_g = m_g / (rho_g * A_gap)
         Velocity_air.append(v_g)
-        
+        st.write(f"v_g : {v_g}"
+                 
         Specific_heat_air.append(c_pg)
         
         # Calculate viscosity using Wilke's method
