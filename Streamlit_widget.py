@@ -589,24 +589,22 @@ st.write(f"len Outlet_temp_air: {len(results['Outlet_temp_air'])}, len Inlet_tem
 # Create a bar plot for condensation data
 fig, ax = plt.subplots(figsize=(10, 6))
 
+x_points = np.linspace(1, n+1, n+1)
+
 # Plot Experimental vs Calculated
-ax.scatter(np.linspace(1,n+1,9), Flue_gas, marker='o', label='Humid air Exp')
-ax.plot(np.linspace(1,n,n), results['Outlet_temp_air'], ls='--', label='Humid air Calc', color='orange')
+ax.scatter(x_points, Flue_gas, marker='o', label='Humid air Exp')
+ax.plot(x_points, results['Outlet_temp_air'], ls='--', label='Humid air Calc', color='orange')
 
-ax.scatter(np.linspace(1,n+1,9), Cooling_water, marker='o', label='Cooling water Exp')
-ax.plot(np.linspace(1,n,n), results['Inlet_temp_water'], ls='--', label='Cooling water Calc', color='g')
-
-# ax.scatter(np.linspace(1,n,9), Wall_temperature1, marker='o', label='Wall temp Exp', color='r')
-# ax.plot(np.linspace(1,n,n), results['Wall_temperature2'], 
-#         ls='--', label='Wall temp Calc', color='black')
+ax.scatter(x_points, Cooling_water, marker='o', label='Cooling water Exp')
+ax.plot(x_points, results['Inlet_temp_water'], ls='--', label='Cooling water Calc', color='g')
 
 ax.set_xlabel("Local point (row no.)")
 ax.set_ylabel("Temperature (°C)")
 ax.legend(bbox_to_anchor=(1.05, 0.65), loc='center left')
 ax.grid(True)
 plt.tight_layout()
-#Display the figure in Streamlit
 st.pyplot(fig)
+
 
 # Display experiment parameters below the plots
 st.text(experiment_parameters)
