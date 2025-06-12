@@ -291,15 +291,11 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
         
         # 3. Handle temperatures
         if i == 0:
-            # st.write(f"i:{i}")
-            # st.write(f"T_cout {T_cout}")
             T_c = T_cout
             T_g = T_gin
             Inlet_temp_water.append(T_cout)
             Outlet_temp_air.append(T_gin)
         else:
-            # st.write(f"i:{i}")
-            # st.write(f"T_cout {T_cin}")
             T_c = Inlet_temp_water[-1]
             T_g = Outlet_temp_air[-1]
 
@@ -367,13 +363,10 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
         Density_air.append(rho_g)
         
         m_g = (steam_flowrate + Air_flowrate)/60**2- np.sum(Condensation_rate)
-        # FlowRate_air.append(m_g)
-        # st.write(f"m_g : {m_g}")
+        FlowRate_air.append(m_g)
         A_gap = (0.011 * 8) / n
         v_g = m_g / (rho_g * A_gap)
         Velocity_air.append(v_g)
-        # st.write(f"v_g : {v_g}")
-                 
         Specific_heat_air.append(c_pg)
         
         # Calculate viscosity using Wilke's method
@@ -385,7 +378,6 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
         
         Re_g = (rho_g * v_g * D_o) / u_g
         Reynolds_air.append(Re_g)
-        # st.write(f"Re_g : {Re_g}")
         
         # Thermal conductivity of vapor
         k_g_vapour = np.interp(T_g_float, k_g_vapour_temp, k_g_vapour_values)
@@ -424,7 +416,6 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
             Le_h20air = alpha_g / D_h2oair
             Lewis_air.append(Le_h20air)
             
-            st.write(f"Segments temps {i}")
         # Interface temperature calculation
         if T_w < T_sat:
             try:
@@ -457,27 +448,21 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
         # Outlet temperature calculations
         delta_Ai = (0.0206 * 8) / n
     
-        st.write(f"Before temps {i}")
         if T_w < T_sat :
             T_gout = ((m_g * c_pg * 1000 - (h_g/2) * delta_Ai) * T_gin + h_g * delta_Ai * T_i_solution) / \
                     (m_g * c_pg * 1000 + (h_g/2) * delta_Ai)
-            st.write(f"Segment : {i} condensation||||||||||Outlet>>> Outlet_temp_air : {Outlet_temp_air}")
         else:
             T_gout = ((m_g * c_pg * 1000 - (h_g/2) * delta_Ai) * T_gin + h_g * delta_Ai * T_w) / \
                     (m_g * c_pg * 1000 + (h_g/2) * delta_Ai)
-            st.write(f"Segment : {i} no condensation||||||||||Outlet>>> Outlet_temp_air : {Outlet_temp_air}")
     
         Outlet_temp_air.append(T_gout)
-        st.write(f"After the temp >>> Segment {i}")
         # Inlet temperature calculations
         if T_w < T_sat:
             T_cin = T_cout - ((h_g * (T_gin - T_i_solution) * delta_Ai + 
                               h_fg * k_m * (y_h2o - y_i) * delta_Ai) / 
                              (m_c * c_pc))
-            st.write(f"Segment : {i} condensation|||||Inlet>>> Inlet_temp_water: {Inlet_temp_water}")
         else:
             T_cin = T_cout - ((h_g * (T_gin - T_w) * delta_Ai) / (m_c * c_pc))
-            st.write(f"Segment : {i} no condensation|||||Inlet>>> Inlet_temp_water: {Inlet_temp_water}")
     
         Inlet_temp_water.append(T_cin)
     
@@ -490,13 +475,13 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
             Condensation_rate.append(0)
         
         # Wall temperature for subsequent iterations
-        # if i != 0:
-            # st.write(f"The wall part >>> Inlet_temp_water : {Inlet_temp_water}")
-            # numerator = m_c * c_pc * (Inlet_temp_water[i-1] - Inlet_temp_water[i]) * 3
-            # denominator = h_c * delta_Ai * 3
-            # T_w = T_c + (numerator / denominator)
-            # # T_w = Wall_temperature1[i]
-            # Wall_temperature2.append(T_w)
+        if i != 0:
+            st.write(f"The wall part >>> Inlet_temp_water : {Inlet_temp_water}")
+            numerator = m_c * c_pc * (Inlet_temp_water[i-1] - Inlet_temp_water[i]) * 3
+            denominator = h_c * delta_Ai * 3
+            T_w = T_c + (numerator / denominator)
+            # T_w = Wall_temperature1[i]
+            Wall_temperature2.append(T_w)
     
     # Debug print
     # st.write(f"Segment {i+1}: Gas {T_gin:.1f}→{T_gout:.1f}°C, Water {T_cout:.1f}→{T_c_in:.1f}°C, Wall {T_w:.1f}°C")
@@ -598,34 +583,31 @@ Reynolds number = {df1.loc[e,'Re']} and
 
 Mass fraction of water vapour = {df1.loc[e,'Mass Fraction']} %
 """
-# st.write(results['Inlet_temp_water'])
-# st.write(results['Outlet_temp_air'])
-# st.write(results['Water_velocity'])
 
 
 # Create a bar plot for condensation data
-# fig, ax = plt.subplots(figsize=(10, 6))
+fig, ax = plt.subplots(figsize=(10, 6))
 
-# # Plot Experimental vs Calculated
-# ax.scatter(np.linspace(1,n,8), Flue_gas[:-1], marker='o', label='Humid air Exp')
-# ax.plot(np.linspace(1,n,n), results['Outlet_temp_air'], 
-#         ls='--', label='Humid air Calc', color='orange')
+# Plot Experimental vs Calculated
+ax.scatter(np.linspace(1,n,8), Flue_gas[:-1], marker='o', label='Humid air Exp')
+ax.plot(np.linspace(1,n,n), results['Outlet_temp_air'], 
+        ls='--', label='Humid air Calc', color='orange')
 
-# ax.scatter(np.linspace(1,n,8), Cooling_water[:-1], marker='o', label='Cooling water Exp')
-# ax.plot(np.linspace(1,n,n), results['Inlet_temp_water'], 
-#         ls='--', label='Cooling water Calc', color='g')
+ax.scatter(np.linspace(1,n,8), Cooling_water[:-1], marker='o', label='Cooling water Exp')
+ax.plot(np.linspace(1,n,n), results['Inlet_temp_water'], 
+        ls='--', label='Cooling water Calc', color='g')
 
-# # ax.scatter(np.linspace(1,n,8), Wall_temperature1, marker='o', label='Wall temp Exp', color='r')
-# # ax.plot(np.linspace(1,n,n), results['Wall_temperature2'], 
-# #         ls='--', label='Wall temp Calc', color='black')
+# ax.scatter(np.linspace(1,n,8), Wall_temperature1, marker='o', label='Wall temp Exp', color='r')
+# ax.plot(np.linspace(1,n,n), results['Wall_temperature2'], 
+#         ls='--', label='Wall temp Calc', color='black')
 
-# ax.set_xlabel("Local point (row no.)")
-# ax.set_ylabel("Temperature (°C)")
-# ax.legend(bbox_to_anchor=(1.05, 0.65), loc='center left')
-# ax.grid(True)
-# plt.tight_layout()
-# #Display the figure in Streamlit
-# st.pyplot(fig)
+ax.set_xlabel("Local point (row no.)")
+ax.set_ylabel("Temperature (°C)")
+ax.legend(bbox_to_anchor=(1.05, 0.65), loc='center left')
+ax.grid(True)
+plt.tight_layout()
+#Display the figure in Streamlit
+st.pyplot(fig)
 
 # Display experiment parameters below the plots
 st.text(experiment_parameters)
