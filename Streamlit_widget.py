@@ -592,9 +592,9 @@ Reynolds number = {df1.loc[e,'Re']} and
 
 Mass fraction of water vapour = {df1.loc[e,'Mass Fraction']} %
 """
-st.write(results['Inlet_temp_water'])
-st.write(results['Outlet_temp_air'])
-st.write(results['Water_velocity'])
+# st.write(results['Inlet_temp_water'])
+# st.write(results['Outlet_temp_air'])
+# st.write(results['Water_velocity'])
 
 
 # Create a bar plot for condensation data
