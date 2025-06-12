@@ -589,51 +589,69 @@ st.write(f"results['Inlet_temp_water'] : {results['Inlet_temp_water']}")
 # Create a bar plot for condensation data
 
 def plot_results(results):
-    n = len(results['numbering'])  # or any other key with full length
-    x = np.linspace(1, n, n)
     fig, axs = plt.subplots(4, 1, figsize=(10, 20), constrained_layout=True)
 
-    # Temperatures
-    axs[0].plot(x, results['Wall_temperature2'], label='Wall Temperature')
-    axs[0].plot(x, results['Op_temp_air'], label='Operational Air Temp')
-    axs[0].plot(x, results['Inlet_temp_air'], label='Inlet Air Temp')
-    axs[0].plot(x, results['Outlet_temp_air'], label='Outlet Air Temp')
-    axs[0].plot(x, results['Inlet_temp_water'], label='Inlet Water Temp')
-    axs[0].plot(x, results['Temperature_interface'], label='Interface Temperature')
+    # 1. Temperatures
+    for key, label in [
+        ('Wall_temperature2', 'Wall Temperature'),
+        ('Op_temp_air', 'Operational Air Temp'),
+        ('Inlet_temp_air', 'Inlet Air Temp'),
+        ('Outlet_temp_air', 'Outlet Air Temp'),
+        ('Inlet_temp_water', 'Inlet Water Temp'),
+        ('Temperature_interface', 'Interface Temperature')
+    ]:
+        y = results[key]
+        x = np.arange(1, len(y)+1)
+        axs[0].plot(x, y, label=label)
     axs[0].set_title('Temperature Profiles (°C)')
     axs[0].set_xlabel('Measurement Point')
     axs[0].set_ylabel('Temperature (°C)')
     axs[0].legend()
     axs[0].grid(True)
 
-    # Flow & velocity properties
-    axs[1].plot(x, results['Mass_flowrate'], label='Mass Flowrate')
-    axs[1].plot(x, results['Water_velocity'], label='Water Velocity')
-    axs[1].plot(x, results['Velocity_air'], label='Air Velocity')
-    axs[1].plot(x, results['FlowRate_air'], label='Air Flow Rate')
+    # 2. Flow & velocity
+    for key, label in [
+        ('Mass_flowrate', 'Mass Flowrate'),
+        ('Water_velocity', 'Water Velocity'),
+        ('Velocity_air', 'Air Velocity'),
+        ('FlowRate_air', 'Air Flow Rate')
+    ]:
+        y = results[key]
+        x = np.arange(1, len(y)+1)
+        axs[1].plot(x, y, label=label)
     axs[1].set_title('Flow and Velocity')
     axs[1].set_xlabel('Measurement Point')
     axs[1].set_ylabel('Flow/Velocity')
     axs[1].legend()
     axs[1].grid(True)
 
-    # Heat transfer and physical properties
-    axs[2].plot(x, results['Water_heat_Transfer_coefficient'], label='Water Heat Transfer Coeff.')
-    axs[2].plot(x, results['Heat_transfer_air'], label='Air Heat Transfer')
-    axs[2].plot(x, results['Latent_heat_air'], label='Latent Heat Air')
-    axs[2].plot(x, results['Water_Nusselt_number'], label='Water Nusselt Number')
-    axs[2].plot(x, results['Nusselt_air'], label='Air Nusselt Number')
+    # 3. Heat transfer and physical properties
+    for key, label in [
+        ('Water_heat_Transfer_coefficient', 'Water Heat Transfer Coeff.'),
+        ('Heat_transfer_air', 'Air Heat Transfer'),
+        ('Latent_heat_air', 'Latent Heat Air'),
+        ('Water_Nusselt_number', 'Water Nusselt Number'),
+        ('Nusselt_air', 'Air Nusselt Number')
+    ]:
+        y = results[key]
+        x = np.arange(1, len(y)+1)
+        axs[2].plot(x, y, label=label)
     axs[2].set_title('Heat Transfer Properties')
     axs[2].set_xlabel('Measurement Point')
     axs[2].set_ylabel('Heat Transfer / Coefficients')
     axs[2].legend()
     axs[2].grid(True)
 
-    # Miscellaneous
-    axs[3].plot(x, results['Water_Reynolds'], label='Water Reynolds')
-    axs[3].plot(x, results['Reynolds_air'], label='Air Reynolds')
-    axs[3].plot(x, results['Mass_of_diffusivity'], label='Mass of Diffusivity')
-    axs[3].plot(x, results['Condensation_rate'], label='Condensation Rate')
+    # 4. Miscellaneous
+    for key, label in [
+        ('Water_Reynolds', 'Water Reynolds'),
+        ('Reynolds_air', 'Air Reynolds'),
+        ('Mass_of_diffusivity', 'Mass of Diffusivity'),
+        ('Condensation_rate', 'Condensation Rate')
+    ]:
+        y = results[key]
+        x = np.arange(1, len(y)+1)
+        axs[3].plot(x, y, label=label)
     axs[3].set_title('Miscellaneous Parameters')
     axs[3].set_xlabel('Measurement Point')
     axs[3].set_ylabel('Values')
@@ -641,12 +659,7 @@ def plot_results(results):
     axs[3].grid(True)
 
     st.pyplot(fig)
-
-# Streamlit app code
-st.title("Condensing Heat Exchanger Results")
 plot_results(results)
-
-
 
 # Display experiment parameters below the plots
 st.text(experiment_parameters)
