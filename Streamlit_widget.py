@@ -451,27 +451,27 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
         delta_Ai = (0.0206 * 8) / n
         
         if T_w < T_sat and i < len(Temperature_interface):
-            T_g_out = ((m_g * c_pg * 1000 - (h_g/2) * delta_Ai) * T_gin + h_g * delta_Ai * Temperature_interface[i]) / \
+            T_gout = ((m_g * c_pg * 1000 - (h_g/2) * delta_Ai) * T_gin + h_g * delta_Ai * T_i_solution) / \
                     (m_g * c_pg * 1000 + (h_g/2) * delta_Ai)
         else:
-            T_g_out = ((m_g * c_pg * 1000 - (h_g/2) * delta_Ai) * T_gin + h_g * delta_Ai * T_w) / \
+            T_gout = ((m_g * c_pg * 1000 - (h_g/2) * delta_Ai) * T_gin + h_g * delta_Ai * T_w) / \
                     (m_g * c_pg * 1000 + (h_g/2) * delta_Ai)
         
-        Outlet_temp_air.append(T_g_out)
+        Outlet_temp_air.append(T_gout)
         
         # Inlet temperature calculations
         if T_w < T_sat:
-            T_c_in = T_cout - ((h_g * (T_gin - Temperature_interface[i]) * delta_Ai + 
-                              h_fg * Mass_transfer_coefficient_air[i] * (y_h2o - Vapour_mole_interface[i]) * delta_Ai) / 
+            T_c_in = T_cout - ((h_g * (T_gin - T_i_solution) * delta_Ai + 
+                              h_fg * K_m * (y_h2o - y_i) * delta_Ai) / 
                              (m_c * c_pc))
         else:
-            T_c_in = T_cout - ((h_g * (T_gin - T_w) * delta_Ai) / (m_c * c_pc))
+            T_cin = T_cout - ((h_g * (T_gin - T_w) * delta_Ai) / (m_c * c_pc))
         
         Inlet_temp_water.append(T_c_in)
         
         # Condensation rate
         if T_w < T_sat:
-            m_cd = Mass_transfer_coefficient_air[i] * (y_h2o - Vapour_mole_interface[i]) * delta_Ai
+            m_cd = k_m * (y_h2o - y_i) * delta_Ai
             Condensation_rate.append(m_cd)
             M_frac = (steam_flowrate - np.sum(Condensation_rate)) / (m_g - np.sum(Condensation_rate))
         else:
