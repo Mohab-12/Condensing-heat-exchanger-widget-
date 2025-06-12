@@ -479,6 +479,8 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
             m_cd = k_m * (y_h2o - y_i) * delta_Ai
             Condensation_rate.append(m_cd)
             M_frac = (steam_flowrate - np.sum(Condensation_rate)) / (m_g - np.sum(Condensation_rate))
+            st.write(f"m_cd {m_cd}")
+            st.write(f"M_frac {M_frac}")
         else:
             Condensation_rate.append(0)
         
