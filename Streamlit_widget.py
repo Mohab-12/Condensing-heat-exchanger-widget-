@@ -278,7 +278,7 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
     Inlet_temp_water = []
     Condensation_rate = []    
     M_frac = steam_flowrate/(steam_flowrate+Air_flowrate)
-
+    m_g = steam_flowrate+Air_flowrate
     for i in range(n):
         # 1. Calculate water mole fraction
         y_h2o = (float(M_frac) / M_h2o) / ((float(M_frac) / M_h2o) + ((1 - float(M_frac)) / M_g))
