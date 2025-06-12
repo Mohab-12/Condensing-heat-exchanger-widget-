@@ -361,6 +361,7 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
         rho_water = ((p * M_h2o / 1000) / (R_water * T)) * y_h2o
         rho_g = rho_water + rho_air
         Density_air.append(rho_g)
+        st.write(f"Temperature at which density calculated {Outlet_temp_air[i]}")
         st.write(f"Air density : {rho_g}")
         
         m_g = (steam_flowrate + Air_flowrate)/60**2- np.sum(Condensation_rate)
