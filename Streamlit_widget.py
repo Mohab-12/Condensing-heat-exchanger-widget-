@@ -488,7 +488,7 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
             Condensation_rate.append(0)
         
         # Wall temperature for subsequent iterations
-        if i != 0:
+        # if i != 0:
             # st.write(f"The wall part >>> Inlet_temp_water : {Inlet_temp_water}")
             # numerator = m_c * c_pc * (Inlet_temp_water[i-1] - Inlet_temp_water[i]) * 3
             # denominator = h_c * delta_Ai * 3
