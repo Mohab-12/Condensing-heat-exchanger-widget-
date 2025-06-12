@@ -368,7 +368,7 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
         
         m_g = (steam_flowrate + Air_flowrate)/60**2- np.sum(Condensation_rate)
         # FlowRate_air.append(m_g)
-        st.write(f"m_g : {m_g}")
+        # st.write(f"m_g : {m_g}")
         A_gap = (0.011 * 8) / n
         v_g = m_g / (rho_g * A_gap)
         Velocity_air.append(v_g)
