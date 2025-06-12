@@ -476,7 +476,6 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
         
         # Wall temperature for subsequent iterations
         if i != 0:
-            st.write(f"The wall part >>> Inlet_temp_water : {Inlet_temp_water}")
             numerator = m_c * c_pc * (Inlet_temp_water[i-1] - Inlet_temp_water[i]) * 3
             denominator = h_c * delta_Ai * 3
             T_w = T_c + (numerator / denominator)
@@ -485,7 +484,7 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
     
     # Debug print
     # st.write(f"Segment {i+1}: Gas {T_gin:.1f}→{T_gout:.1f}°C, Water {T_cout:.1f}→{T_c_in:.1f}°C, Wall {T_w:.1f}°C")
-    # st.write(f"h_g: {h_g} | h_fg: {h_fg} | T_gin: {T_gin} | T_i_solution: {T_i_solution} | delta_Ai: {delta_Ai} | k_m: {k_m} | y_h2o: {y_h2o} | y_i: {y_i} | m_c: {m_c} | c_pc: {c_pc} | T_cout: {T_cout} | T_c_in: {T_c_in}")
+    st.write(f"len Outlet_temp_air : {len(Outlet_temp_air)}, len Inlet_temp_water : {len(Inlet_temp_water)")
 
     
     # Return all the calculated lists
