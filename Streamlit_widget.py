@@ -400,103 +400,103 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
         Prandtl.append(pr_g)
 
         # Calculate Nusselt number for air
-    if (Re_g <= 2*10**6) and (Re_g >= 1000) and (0.7 <= np.round(pr_g,1)) and (np.round(pr_g,1) <= 500):
-        c = 0.27 # 
-        m = 0.63 # 
-        Nu_g = c*(Re_g**m)*(pr_g**0.36)
-        Nusselt_air.append(Nu_g)
-        print("Nusselt number for the air side:", np.round(Nu_g,4))
-
-        h_g = (Nu_g * k_g)/D_o
-        Heat_transfer_air.append(h_g)
-        
-        # Latent heat
-        h_fg = -0.0021 * T_g_float**2 - 2.2115 * T_g_float + 2499
-        Latent_heat_air.append(h_fg)
-        
-        # Mass diffusivity
-        D_h2oair = (6.057e-6 + 4.055e-8 * T + 1.25e-10 * T**2 - 3.367e-14 * T**3)
-        Mass_of_diffusivity.append(D_h2oair)
-        
-        D_h2og = D_h2oair * (alpha_g / (k_g_air / (rho_air * cp_Air * 1000)))
-        
-        # Lewis number
-        Le_h20air = alpha_g / D_h2oair
-        Lewis_air.append(Le_h20air)
-        
-        st.write(f"Segments temps {i}")
-    # Interface temperature calculation
-    if T_w < T_sat:
-        try:
-            T_i_solution = newton(
-                calculate_interface_equation, 
-                60,  # Initial guess
-                args=(T_g, h_g, h_fg, y_h2o, h_c, T_c, alpha_g, D_h2oair, c_pg)
-            )
-            Temperature_interface.append(T_i_solution)
-            
-            y_i = np.exp(a_antoine - (b_antoine / (T_i_solution + c_antoine))) / p_tot
-            Vapour_mole_interface.append(y_i)
-            
-            y_ni = 1 - y_i
-            y_nb = 1 - y_h2o
-            y_lm = (y_ni - y_nb) / math.log(y_ni / y_nb)
-            Logarithmic_mole_average.append(y_lm)
-            
-            k_m = (h_g * M_h2o) / (c_pg * 1000 * M_g * y_lm * Le_h20air ** (2/3))
-            Mass_transfer_coefficient_air.append(k_m)
-            numbering.append(i + 1)
-        except:
-            # Handle convergence error
-            Temperature_interface.append(np.nan)
-            Vapour_mole_interface.append(np.nan)
-            Logarithmic_mole_average.append(np.nan)
-            Mass_transfer_coefficient_air.append(np.nan)
-            numbering.append(i + 1)
-        
-    # Outlet temperature calculations
-    delta_Ai = (0.0206 * 8) / n
-
-    st.write(f"Before temps {i}")
-    if T_w < T_sat :
-        T_gout = ((m_g * c_pg * 1000 - (h_g/2) * delta_Ai) * T_gin + h_g * delta_Ai * T_i_solution) / \
-                (m_g * c_pg * 1000 + (h_g/2) * delta_Ai)
-        st.write(f"Segment : {i} condensation||||||||||Outlet>>> Outlet_temp_air : {Outlet_temp_air}")
-    else:
-        T_gout = ((m_g * c_pg * 1000 - (h_g/2) * delta_Ai) * T_gin + h_g * delta_Ai * T_w) / \
-                (m_g * c_pg * 1000 + (h_g/2) * delta_Ai)
-        st.write(f"Segment : {i} no condensation||||||||||Outlet>>> Outlet_temp_air : {Outlet_temp_air}")
-
-    Outlet_temp_air.append(T_gout)
-    st.write(f"After the temp >>> Segment {i}")
-    # Inlet temperature calculations
-    if T_w < T_sat:
-        T_cin = T_cout - ((h_g * (T_gin - T_i_solution) * delta_Ai + 
-                          h_fg * k_m * (y_h2o - y_i) * delta_Ai) / 
-                         (m_c * c_pc))
-        st.write(f"Segment : {i} condensation|||||Inlet>>> Inlet_temp_water: {Inlet_temp_water}")
-    else:
-        T_cin = T_cout - ((h_g * (T_gin - T_w) * delta_Ai) / (m_c * c_pc))
-        st.write(f"Segment : {i} no condensation|||||Inlet>>> Inlet_temp_water: {Inlet_temp_water}")
-
-    Inlet_temp_water.append(T_cin)
-
-    # Condensation rate
-    if T_w < T_sat:
-        m_cd = k_m * (y_h2o - y_i) * delta_Ai
-        Condensation_rate.append(m_cd)
-        M_frac = (steam_flowrate - np.sum(Condensation_rate)) / (m_g - np.sum(Condensation_rate))
-    else:
-        Condensation_rate.append(0)
+        if (Re_g <= 2*10**6) and (Re_g >= 1000) and (0.7 <= np.round(pr_g,1)) and (np.round(pr_g,1) <= 500):
+            c = 0.27 # 
+            m = 0.63 # 
+            Nu_g = c*(Re_g**m)*(pr_g**0.36)
+            Nusselt_air.append(Nu_g)
+            print("Nusselt number for the air side:", np.round(Nu_g,4))
     
-    # Wall temperature for subsequent iterations
-    # if i != 0:
-        # st.write(f"The wall part >>> Inlet_temp_water : {Inlet_temp_water}")
-        # numerator = m_c * c_pc * (Inlet_temp_water[i-1] - Inlet_temp_water[i]) * 3
-        # denominator = h_c * delta_Ai * 3
-        # T_w = T_c + (numerator / denominator)
-        # # T_w = Wall_temperature1[i]
-        # Wall_temperature2.append(T_w)
+            h_g = (Nu_g * k_g)/D_o
+            Heat_transfer_air.append(h_g)
+            
+            # Latent heat
+            h_fg = -0.0021 * T_g_float**2 - 2.2115 * T_g_float + 2499
+            Latent_heat_air.append(h_fg)
+            
+            # Mass diffusivity
+            D_h2oair = (6.057e-6 + 4.055e-8 * T + 1.25e-10 * T**2 - 3.367e-14 * T**3)
+            Mass_of_diffusivity.append(D_h2oair)
+            
+            D_h2og = D_h2oair * (alpha_g / (k_g_air / (rho_air * cp_Air * 1000)))
+            
+            # Lewis number
+            Le_h20air = alpha_g / D_h2oair
+            Lewis_air.append(Le_h20air)
+            
+            st.write(f"Segments temps {i}")
+        # Interface temperature calculation
+        if T_w < T_sat:
+            try:
+                T_i_solution = newton(
+                    calculate_interface_equation, 
+                    60,  # Initial guess
+                    args=(T_g, h_g, h_fg, y_h2o, h_c, T_c, alpha_g, D_h2oair, c_pg)
+                )
+                Temperature_interface.append(T_i_solution)
+                
+                y_i = np.exp(a_antoine - (b_antoine / (T_i_solution + c_antoine))) / p_tot
+                Vapour_mole_interface.append(y_i)
+                
+                y_ni = 1 - y_i
+                y_nb = 1 - y_h2o
+                y_lm = (y_ni - y_nb) / math.log(y_ni / y_nb)
+                Logarithmic_mole_average.append(y_lm)
+                
+                k_m = (h_g * M_h2o) / (c_pg * 1000 * M_g * y_lm * Le_h20air ** (2/3))
+                Mass_transfer_coefficient_air.append(k_m)
+                numbering.append(i + 1)
+            except:
+                # Handle convergence error
+                Temperature_interface.append(np.nan)
+                Vapour_mole_interface.append(np.nan)
+                Logarithmic_mole_average.append(np.nan)
+                Mass_transfer_coefficient_air.append(np.nan)
+                numbering.append(i + 1)
+        
+        # Outlet temperature calculations
+        delta_Ai = (0.0206 * 8) / n
+    
+        st.write(f"Before temps {i}")
+        if T_w < T_sat :
+            T_gout = ((m_g * c_pg * 1000 - (h_g/2) * delta_Ai) * T_gin + h_g * delta_Ai * T_i_solution) / \
+                    (m_g * c_pg * 1000 + (h_g/2) * delta_Ai)
+            st.write(f"Segment : {i} condensation||||||||||Outlet>>> Outlet_temp_air : {Outlet_temp_air}")
+        else:
+            T_gout = ((m_g * c_pg * 1000 - (h_g/2) * delta_Ai) * T_gin + h_g * delta_Ai * T_w) / \
+                    (m_g * c_pg * 1000 + (h_g/2) * delta_Ai)
+            st.write(f"Segment : {i} no condensation||||||||||Outlet>>> Outlet_temp_air : {Outlet_temp_air}")
+    
+        Outlet_temp_air.append(T_gout)
+        st.write(f"After the temp >>> Segment {i}")
+        # Inlet temperature calculations
+        if T_w < T_sat:
+            T_cin = T_cout - ((h_g * (T_gin - T_i_solution) * delta_Ai + 
+                              h_fg * k_m * (y_h2o - y_i) * delta_Ai) / 
+                             (m_c * c_pc))
+            st.write(f"Segment : {i} condensation|||||Inlet>>> Inlet_temp_water: {Inlet_temp_water}")
+        else:
+            T_cin = T_cout - ((h_g * (T_gin - T_w) * delta_Ai) / (m_c * c_pc))
+            st.write(f"Segment : {i} no condensation|||||Inlet>>> Inlet_temp_water: {Inlet_temp_water}")
+    
+        Inlet_temp_water.append(T_cin)
+    
+        # Condensation rate
+        if T_w < T_sat:
+            m_cd = k_m * (y_h2o - y_i) * delta_Ai
+            Condensation_rate.append(m_cd)
+            M_frac = (steam_flowrate - np.sum(Condensation_rate)) / (m_g - np.sum(Condensation_rate))
+        else:
+            Condensation_rate.append(0)
+        
+        # Wall temperature for subsequent iterations
+        # if i != 0:
+            # st.write(f"The wall part >>> Inlet_temp_water : {Inlet_temp_water}")
+            # numerator = m_c * c_pc * (Inlet_temp_water[i-1] - Inlet_temp_water[i]) * 3
+            # denominator = h_c * delta_Ai * 3
+            # T_w = T_c + (numerator / denominator)
+            # # T_w = Wall_temperature1[i]
+            # Wall_temperature2.append(T_w)
     
     # Debug print
     # st.write(f"Segment {i+1}: Gas {T_gin:.1f}→{T_gout:.1f}°C, Water {T_cout:.1f}→{T_c_in:.1f}°C, Wall {T_w:.1f}°C")
