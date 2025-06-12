@@ -474,7 +474,10 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
             T_cin = T_cout - ((h_g * (T_gin - T_w) * delta_Ai) / (m_c * c_pc))
             
         Inlet_temp_water.append(T_cin)
-        st.write(f"Inlet_temp_water {Inlet_temp_water}")
+        st.write(f"i: {i}")
+        st.write(f"T_cin: {T_cin}")
+        st.write(f"Inlet_temp_water: {Inlet_temp_water}")
+
         
         # Condensation rate
         if T_w < T_sat:
