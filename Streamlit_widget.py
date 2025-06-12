@@ -393,15 +393,14 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
         Prandtl.append(pr_g)
         
         # Calculate Nusselt number for air
-        if (1000 <= Re_g <= 2e6) and (0.7 <= round(pr_g, 1) <= 500):
-            c = 0.27
-            m = 0.63
-            Nu_g = c * (Re_g ** m) * (pr_g ** 0.36)
-        else:
-            Nu_g = 0  # Should handle this case properly
-        
+    if (Re_g <= 2*10**6) and (Re_g >= 1000) and (0.7 <= np.round(pr_g,1)) and (np.round(pr_g,1) <= 500):
+        c = 0.27 # 
+        m = 0.63 # 
+        Nu_g = c*(Re_g**m)*(pr_g**0.36)
         Nusselt_air.append(Nu_g)
-        h_g = (Nu_g * k_g) / D_o
+        print("Nusselt number for the air side:", np.round(Nu_g,4))
+
+    h_g = (Nu_g * k_g)/D_o
         Heat_transfer_air.append(h_g)
         
         # Latent heat
