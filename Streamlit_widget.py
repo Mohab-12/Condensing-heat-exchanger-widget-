@@ -466,7 +466,7 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
             T_g_out = ((m_g * c_pg * 1000 - (h_g/2) * delta_Ai) * T_gin + h_g * delta_Ai * T_w) / \
                     (m_g * c_pg * 1000 + (h_g/2) * delta_Ai)
         
-        Outlet_temp_air.append(T_gout)
+        Outlet_temp_air.append(T_g_out)
         
         # Inlet temperature calculations
         if T_w < T_sat:
@@ -476,7 +476,7 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
         else:
             T_c_in = T_cout - ((h_g * (T_gin - T_w) * delta_Ai) / (m_c * c_pc))
         
-        Inlet_temp_water.append(T_cin)
+        Inlet_temp_water.append(T_c_in)
         
         # Condensation rate
         if T_w < T_sat:
