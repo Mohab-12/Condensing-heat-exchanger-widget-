@@ -295,6 +295,8 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
             st.write(f"T_cout {T_cout}")
             T_c = T_cout
             T_g = T_gin
+            Inlet_temp_water.append(T_cout)
+            Outlet_temp_air.append(T_gin)
         else:
             st.write(f"i:{i}")
             st.write(f"T_cin {T_cin}")
