@@ -364,6 +364,7 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
         
         m_g = (steam_flowrate + Air_flowrate)/60**2- np.sum(Condensation_rate)
         FlowRate_air.append(m_g)
+        st.write(f"Mass flow rate: {m_g}")
         A_gap = (0.011 * 8) / n
         v_g = m_g / (rho_g * A_gap)
         Velocity_air.append(v_g)
@@ -379,6 +380,7 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
         Re_g = (rho_g * v_g * D_o) / u_g
         Reynolds_air.append(Re_g)
         st.write(f"Reynolds number : {Re_g}")
+        
         # Thermal conductivity of vapor
         k_g_vapour = np.interp(T_g_float, k_g_vapour_temp, k_g_vapour_values)
         
