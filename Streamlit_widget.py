@@ -589,8 +589,8 @@ st.write(f"results['Inlet_temp_water'] : {results['Inlet_temp_water']}")
 # Create a bar plot for condensation data
 
 def plot_results(results):
-    x = np.linspace(1,n,n)
-
+    n = len(results['numbering'])  # or any other key with full length
+    x = np.linspace(1, n, n)
     fig, axs = plt.subplots(4, 1, figsize=(10, 20), constrained_layout=True)
 
     # Temperatures
