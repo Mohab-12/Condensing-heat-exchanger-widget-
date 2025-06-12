@@ -298,9 +298,6 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
             Inlet_temp_water.append(T_cout)
             Outlet_temp_air.append(T_gin)
         else:
-            st.write(f"i:{i}")
-            st.write(f"T_cin {T_cin}")
-            st.write(f"Inlet_temp_water {Inlet_temp_water}")
             T_c = Inlet_temp_water[-1]
             T_g = Outlet_temp_air[-1]
         
