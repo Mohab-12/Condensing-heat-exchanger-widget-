@@ -286,7 +286,7 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
             Inlet_temp_water.append(T_cout)
             Outlet_temp_air.append(T_gin)
         else:
-            T_c = Inlet_temp_water[i]
+            T_c = T_cin
             T_g = Outlet_temp_air[i]
 
         # 4. Calculate water properties
@@ -434,12 +434,10 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
                 
                 y_i = np.exp(a_antoine - (b_antoine / (T_i_solution + c_antoine))) / p_tot
                 Vapour_mole_interface.append(y_i)
-                
                 y_ni = 1 - y_i
                 y_nb = 1 - y_h2o
                 y_lm = (y_ni - y_nb) / math.log(y_ni / y_nb)
                 Logarithmic_mole_average.append(y_lm)
-                
                 k_m = (h_g * M_h2o) / (c_pg * 1000 * M_g * y_lm * Le_h20air ** (2/3))
                 Mass_transfer_coefficient_air.append(k_m)
                 numbering.append(i + 1)
@@ -464,6 +462,7 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
         Outlet_temp_air.append(T_gout)
         # st.write(f"Outlet_temp_air {Outlet_temp_air}")
         # Inlet temperature calculations
+        
         if T_w < T_sat:
             T_cin = T_cout - ((h_g * (T_gin - Temperature_interface[i]) * delta_Ai + 
                               h_fg * Mass_transfer_coefficient_air[i] * (y_h2o - Vapour_mole_interface[i]) * delta_Ai) / 
