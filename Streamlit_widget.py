@@ -60,15 +60,8 @@ The input conditions are:
 In the first iteration, experimental data is used for the average values of both the hot and cold fluids. Subsequently, the average values are the mean values calculated over all iterations.
 Additionally, the wall temperature in the first iteration is assumed using a multiplier, which can be adjusted via a slider. In subsequent iterations, the wall temperature is calculated.""")
 
-
-# In[2]:
-
-
 img = Image.open('Picture1.png')
 st.image(img, caption = 'Illustration of the finite difference analysis', width = 800, channels = 'RGB')
-
-
-# In[3]:
 
 Cooling_water = df1.loc[e ,['Temperature increase of the cooling water_1',
  'Temperature increase of the cooling water_2',
