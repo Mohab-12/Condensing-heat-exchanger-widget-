@@ -310,9 +310,11 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
         # Calculate Reynolds number
         Re_c = (rho_c * v_c * D_i) / u_c
         Water_Reynolds.append(Re_c)
-        
+        st.write(f"Re_c : {Re_c}")
+
         Water_thermal_conductivity.append(k_c)
         Water_specific_heat.append(c_pc)
+        st.write(f"c_pc : {c_pc}")
         
         alpha_c = k_c / (rho_c * c_pc)
         pr_c = (u_c / rho_c) / alpha_c
@@ -333,7 +335,8 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
         
         Water_Nusselt_number.append(Nu_c if Re_c >= 3000 else Mean_Nu)
         Water_heat_Transfer_coefficient.append(h_c)
-        
+        st.write(f"h_c : {h_c}")
+
         # Wall temperature
         if i == 0:
             T_w = a * (T_gin - T_cout)
@@ -413,7 +416,8 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
         # Lewis number
         Le_h20air = alpha_g / D_h2oair
         Lewis_air.append(Le_h20air)
-            
+        st.write(f"Le_h20air : {Le_h20air}")
+        
         # Interface temperature calculation
         if T_w < T_sat:
             try:
