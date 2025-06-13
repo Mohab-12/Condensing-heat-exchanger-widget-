@@ -219,7 +219,6 @@ def calculate_air_properties(T_g, y_h2o):
     u_air = np.interp(T_g, visc_air_temp, visc_air_values)
     k_g_air = np.interp(T_g, k_air_temp, k_air_values) / 1000
     cp_vapour = np.interp(T_g,cp_vapour_temp,cp_vapour_values)
-    
     y_air = 1 - y_h2o
     M_m = y_air * M_g + y_h2o * M_h2o
     c_pg = ((M_g/M_m) * y_air * cp_Air + (M_h2o/M_m) * y_h2o * cp_vapour)
@@ -426,7 +425,7 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
             try:
                 T_i_solution = newton(
                     calculate_interface_equation, 
-                    60,  # Initial guess
+                    70,  # Initial guess
                     args=(T_g, h_g, h_fg, y_h2o, h_c, T_c, alpha_g, D_h2oair, c_pg)
                 )
                 Temperature_interface.append(T_i_solution)
