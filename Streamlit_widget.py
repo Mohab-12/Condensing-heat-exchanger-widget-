@@ -1,8 +1,5 @@
 #!/usr/bin/env python
 # coding: utf-8
-
-# In[1]:
-
 import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
@@ -408,6 +405,7 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
     
             h_g = (Nu_g * k_g)/D_o
             Heat_transfer_air.append(h_g)
+            st.write("h_g : {h_g}")
             
             # Latent heat
             h_fg = -0.0021 * T_g_float**2 - 2.2115 * T_g_float + 2499
@@ -537,40 +535,10 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
         'Condensation_rate': Condensation_rate
     }
     return results        
-def average_list(values, num_averages):
-# Determine the number of values per average
-    values_per_avg = len(values) // num_averages
-    
-     #Calculate the averages
-    averaged_values = [
-        sum(values[i * values_per_avg: (i + 1) * values_per_avg]) / values_per_avg
-        for i in range(num_averages)
-    ]
-    
-    # Handle the remainder if the number of values is not perfectly divisible
-    remainder = len(values) % num_averages
-    if remainder:
-        averaged_values[-1] = (
-            sum(values[-remainder:]) / remainder
-        )
-    
-    return averaged_values
 
 results = main_loop(n, steam_flowrate/(steam_flowrate + Air_flowrate), T_cout, T_gin, CW_flowrate,steam_flowrate, (steam_flowrate + Air_flowrate),a)
-
-# # Example lists to process
-#Wall_temperature2 = average_list(Wall_temperature2, 8)
-#Outlet_temp_air = average_list(Outlet_temp_air, 8)
-#Inlet_temp_water = average_list(Inlet_temp_water, 8)
-#Temperature_interface = average_list(Temperature_interface, 8)
-#Sat_temp = average_list(Sat_temp, 8)
-########################T_cout - ((h_g*(T_g-T_i_solution)*delta_Ai + h_fg*k_m*(y_h2o - y_i)*delta_Ai) / (m_c*c_pc))
-#print("Temperature_interface",Temperature_interface)
-# print("Inlet_temp_water",Inlet_temp_water)
-
 cc = np.sum(results['Condensation_rate'])*1000
 condd = df1.loc[e ,['First_Cond','Second_Cond','Third_Cond','Fourth_Cond','Fifth_Cond','Sixth_Cond','Seventh_Cond','Eighth_Cond']]/(df1.loc[e,'Time']*1000)
-# condd.sum()*1000
 condensation = pd.DataFrame({"Type":["Calculated",'Experimental'],
                          "Values":[cc,condd.sum()*1000]})
 # Parameters for the experiment
@@ -601,7 +569,6 @@ st.write(f"results['Inlet_temp_water'] : {results['Inlet_temp_water']}")
 
 def plot_results(results):
     fig, axs = plt.subplots(4, 1, figsize=(10, 20), constrained_layout=True)
-
     # 1. Temperatures
     for key, label in [
         ('Wall_temperature2', 'Wall Temperature'),
@@ -675,18 +642,3 @@ plot_results(results)
 # Display experiment parameters below the plots
 st.text(experiment_parameters)
 # st.text(Wall_temperature2)
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
