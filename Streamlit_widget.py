@@ -582,7 +582,7 @@ for label, data in results.items():
     plt.title(label)
     plt.xlabel('Index')
     plt.ylabel('Value')
-    plt.legend(fontsize='small')
+    # plt.legend(fontsize='small')
     xx += 1
 
 plt.tight_layout()
