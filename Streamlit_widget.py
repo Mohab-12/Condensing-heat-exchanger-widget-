@@ -569,6 +569,24 @@ for key, value in results.items():
     st.write(f"{key}: {len(value)}")
 
 # Create a bar plot for condensation data
+fig = plt.figure(figsize=(20, 20))
+xx = 1  # subplot index
+
+for label, data in results.items():
+    if len(data) == 0:
+        continue
+    if len(data) == 9:
+        data = data[:-1]  # remove last element to make it 8
+    plt.subplot(5, 7, xx)
+    plt.scatter(np.linspace(1,len(data),len(data)), data, label=label)
+    plt.title(label)
+    plt.xlabel('Index')
+    plt.ylabel('Value')
+    plt.legend(fontsize='small')
+    xx += 1
+
+plt.tight_layout()
+st.pyplot(fig)
 
 # def plot_results(results):
 #     fig, axs = plt.subplots(4, 1, figsize=(10, 20), constrained_layout=True)
