@@ -571,8 +571,8 @@ Mass fraction of water vapour = {df1.loc[e,'Mass Fraction']} %
 #     st.write(f"{key}: {len(value)}")
 
 # Create a bar plot for condensation data
-# fig = plt.figure(figsize=(20, 20))
-# xx = 1  # subplot index
+fig = plt.figure(figsize=(20, 20))
+xx = 1  # subplot index
 
 for label, data in results.items():
     if len(data) == 0:
