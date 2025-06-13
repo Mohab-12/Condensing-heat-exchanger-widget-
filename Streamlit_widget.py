@@ -249,6 +249,7 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
     Velocity_air = []
     Specific_heat_air = []
     Reynolds_air = []
+    Viscosity_air = []
     Thermal_conductivity_air = []
     Thermal_diffusivity_air = []
     Prandtl = []
@@ -375,6 +376,7 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
         Q_av = (math.sqrt(2) / 4) * (1 + (M_g / M_h2o)) ** -0.5 * ((1 + math.sqrt(u_air / u_water)) * (M_h2o / M_g) ** 0.25) ** 2
         Q_va = (math.sqrt(2) / 4) * (1 + (M_h2o / M_g)) ** -0.5 * ((1 + math.sqrt(u_water / u_air)) * (M_g / M_h2o) ** 0.25) ** 2
         u_g = ((y_air * u_air) / (y_air + y_h2o * Q_av)) + ((y_h2o * u_water) / (y_h2o + y_air * Q_va))
+        Viscosity_air.append(u_g)
         st.write(f"u_g : {u_g}")
         
         Re_g = (rho_g * v_g * D_o) / u_g
