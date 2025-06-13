@@ -295,6 +295,7 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
         # Calculate water flow properties
         m_c = (CW_flowrate * rho_c) / (3600 * 1000 * 3)  # Kg/s
         Mass_flowrate.append(m_c)
+        st.write(f"m_c : {m_c}")
         
         A_c = (((D_i**2 * math.pi) / 4) * 8) / n
         v_c = m_c / (rho_c * A_c)
