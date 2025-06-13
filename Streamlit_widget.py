@@ -562,12 +562,6 @@ Reynolds number = {df1.loc[e,'Re']} and
 
 Mass fraction of water vapour = {df1.loc[e,'Mass Fraction']} %
 """
-
-# st.write(f"results['Outlet_temp_air'] : {results['Outlet_temp_air']}\n")
-# st.write(f"results['Inlet_temp_water'] : {results['Inlet_temp_water']}")
-# for key, value in results.items():
-#     st.write(f"{key}: {len(value)}")
-
 # Create a bar plot for condensation data
 fig = plt.figure(figsize=(20, 20))
 xx = 1  # subplot index
@@ -603,6 +597,9 @@ plt.plot(np.linspace(1,n,n), results['Inlet_temp_water'][:-1], ls='--', label='C
 plt.legend(loc=(1.01,0.65))
 st.pyplot(fig1)
 
+fig2 = plt.figure(figsize=(6, 4))
+sns.barplot(x='Type', y='Values', data=condensation)
+st.pyplot(fig2)
+
 # Display experiment parameters below the plots
 st.text(experiment_parameters)
-# st.text(Wall_temperature2)
