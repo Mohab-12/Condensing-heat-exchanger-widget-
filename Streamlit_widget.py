@@ -405,7 +405,7 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
     
             h_g = (Nu_g * k_g)/D_o
             Heat_transfer_air.append(h_g)
-            st.write("h_g : {h_g}")
+            st.write(f"h_g : {h_g}")
             
             # Latent heat
             h_fg = -0.0021 * T_g_float**2 - 2.2115 * T_g_float + 2499
