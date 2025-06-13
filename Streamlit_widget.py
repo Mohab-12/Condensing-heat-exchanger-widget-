@@ -590,14 +590,14 @@ st.pyplot(fig)
 
 fig1 = plt.figure(figsize=(6, 4))
 
-plt.scatter(np.linspace(1,nn,9), Flue_gas, marker='o', label='Humid air Exp')  # Make sure Flue_gas is defined
-plt.plot(np.linspace(1,nn,nn), results['Outlet_temp_air'][:-1], ls='--', label='Humid air Calc', color='orange')
+plt.scatter(np.linspace(1,n,9), Flue_gas, marker='o', label='Humid air Exp')  # Make sure Flue_gas is defined
+plt.plot(np.linspace(1,n,n), results['Outlet_temp_air'][:-1], ls='--', label='Humid air Calc', color='orange')
 
-plt.scatter(np.linspace(1,nn,9), Cooling_water, marker='o', label='Cooling water Exp')  # Make sure Flue_gas is defined
-plt.plot(np.linspace(1,nn,nn), results['Inlet_temp_water'][:-1], ls='--', label='Cooling water Calc', color='g')
+plt.scatter(np.linspace(1,n,9), Cooling_water, marker='o', label='Cooling water Exp')  # Make sure Flue_gas is defined
+plt.plot(np.linspace(1,n,n), results['Inlet_temp_water'][:-1], ls='--', label='Cooling water Calc', color='g')
 
-plt.scatter(np.linspace(1,nn,8), Wall_temperature1, marker='o', label='Wall temp Exp', color='r')  # Make sure Flue_gas is defined
-plt.plot(np.linspace(1,nn,nn), results['Wall_temperature2'], ls='--', label='Wall temp Calc', color='black')
+plt.scatter(np.linspace(1,n,8), Wall_temperature1, marker='o', label='Wall temp Exp', color='r')  # Make sure Flue_gas is defined
+plt.plot(np.linspace(1,n,n), results['Wall_temperature2'], ls='--', label='Wall temp Calc', color='black')
 
 plt.legend(loc=(1.01,0.65))
 st.pyplot(fig1)
