@@ -337,7 +337,7 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
         Water_Nusselt_number.append(Nu_c if Re_c >= 3000 else Mean_Nu)
         Water_heat_Transfer_coefficient.append(h_c)
         st.write(f"h_c : {h_c}")
-        st.write(f"Mean_Nu : {Mean_Nu}")
+        # st.write(f"Mean_Nu : {Mean_Nu}")
 
         # Wall temperature
         if i == 0:
