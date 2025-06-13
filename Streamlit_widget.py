@@ -403,23 +403,23 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
             Nusselt_air.append(Nu_g)
             print("Nusselt number for the air side:", np.round(Nu_g,4))
     
-            h_g = (Nu_g * k_g)/D_o
-            Heat_transfer_air.append(h_g)
-            st.write(f"h_g : {h_g}")
-            
-            # Latent heat
-            h_fg = -0.0021 * T_g_float**2 - 2.2115 * T_g_float + 2499
-            Latent_heat_air.append(h_fg)
-            
-            # Mass diffusivity
-            D_h2oair = (6.057e-6 + 4.055e-8 * T + 1.25e-10 * T**2 - 3.367e-14 * T**3)
-            Mass_of_diffusivity.append(D_h2oair)
-            
-            D_h2og = D_h2oair * (alpha_g / (k_g_air / (rho_air * cp_Air * 1000)))
-            
-            # Lewis number
-            Le_h20air = alpha_g / D_h2oair
-            Lewis_air.append(Le_h20air)
+        h_g = (Nu_g * k_g)/D_o
+        Heat_transfer_air.append(h_g)
+        st.write(f"h_g : {h_g}")
+        
+        # Latent heat
+        h_fg = -0.0021 * T_g_float**2 - 2.2115 * T_g_float + 2499
+        Latent_heat_air.append(h_fg)
+        
+        # Mass diffusivity
+        D_h2oair = (6.057e-6 + 4.055e-8 * T + 1.25e-10 * T**2 - 3.367e-14 * T**3)
+        Mass_of_diffusivity.append(D_h2oair)
+        
+        D_h2og = D_h2oair * (alpha_g / (k_g_air / (rho_air * cp_Air * 1000)))
+        
+        # Lewis number
+        Le_h20air = alpha_g / D_h2oair
+        Lewis_air.append(Le_h20air)
             
         # Interface temperature calculation
         if T_w < T_sat:
