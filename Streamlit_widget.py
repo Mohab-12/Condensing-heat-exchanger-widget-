@@ -427,7 +427,7 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
             try:
                 T_i_solution = newton(
                     calculate_interface_equation, 
-                    30,  # Initial guess
+                    60,  # Initial guess
                     args=(T_g, h_g, h_fg, y_h2o, h_c, T_c, alpha_g, D_h2oair, c_pg)
                 )
                 Temperature_interface.append(T_i_solution)
@@ -454,22 +454,22 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
         # Outlet temperature calculations
         delta_Ai = (0.0206 * 8) / n
     
-        if T_w < T_sat :
-            T_gout = ((m_g * c_pg * 1000 - (h_g/2) * delta_Ai) * T_gin + h_g * delta_Ai * T_i_solution) / \
+        if T_w < T_sat and i < len(Temperature_interface):
+            T_gout = ((m_g * c_pg * 1000 - (h_g/2) * delta_Ai) * T_g + h_g * delta_Ai * T_i_solution) / \
                     (m_g * c_pg * 1000 + (h_g/2) * delta_Ai)
         else:
-            T_gout = ((m_g * c_pg * 1000 - (h_g/2) * delta_Ai) * T_gin + h_g * delta_Ai * T_w) / \
+            T_gout = ((m_g * c_pg * 1000 - (h_g/2) * delta_Ai) * T_g + h_g * delta_Ai * T_w) / \
                     (m_g * c_pg * 1000 + (h_g/2) * delta_Ai)
     
         Outlet_temp_air.append(T_gout)
         st.write(f"Outlet_temp_air {Outlet_temp_air}")
         # Inlet temperature calculations
         if T_w < T_sat:
-            T_cin = T_cout - ((h_g * (T_gin - T_i_solution) * delta_Ai + 
+            T_cin = T_cout - ((h_g * (T_g - T_i_solution) * delta_Ai + 
                               h_fg * k_m * (y_h2o - y_i) * delta_Ai) / 
                              (m_c * c_pc))
         else:
-            T_cin = T_cout - ((h_g * (T_gin - T_w) * delta_Ai) / (m_c * c_pc))
+            T_cin = T_cout - ((h_g * (T_g - T_w) * delta_Ai) / (m_c * c_pc))
     
         Inlet_temp_water.append(T_cin)
     
