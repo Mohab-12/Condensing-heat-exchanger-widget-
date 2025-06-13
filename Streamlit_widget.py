@@ -601,7 +601,7 @@ fig2 = plt.figure(figsize=(6, 4))
 sns.barplot(x='Type', y='Values', data=condensation)
 ii = 0
 for i in condensation['Values']:
-    plt.text(ii,i,i, ha='center', va='bottom')
+    plt.text(ii,i,np.round(i,2), ha='center', va='bottom')
     ii= ii+1
 st.pyplot(fig2)
 
