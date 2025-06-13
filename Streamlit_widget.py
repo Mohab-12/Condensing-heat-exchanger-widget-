@@ -588,77 +588,19 @@ for label, data in results.items():
 plt.tight_layout()
 st.pyplot(fig)
 
-# def plot_results(results):
-#     fig, axs = plt.subplots(4, 1, figsize=(10, 20), constrained_layout=True)
-#     # 1. Temperatures
-#     for key, label in [
-#         ('Wall_temperature2', 'Wall Temperature'),
-#         ('Op_temp_air', 'Operational Air Temp'),
-#         ('Inlet_temp_air', 'Inlet Air Temp'),
-#         ('Outlet_temp_air', 'Outlet Air Temp'),
-#         ('Inlet_temp_water', 'Inlet Water Temp'),
-#         ('Temperature_interface', 'Interface Temperature')
-#     ]:
-#         y = results[key]
-#         x = np.arange(1, len(y)+1)
-#         axs[0].plot(x, y, label=label)
-#     axs[0].set_title('Temperature Profiles (°C)')
-#     axs[0].set_xlabel('Measurement Point')
-#     axs[0].set_ylabel('Temperature (°C)')
-#     axs[0].legend()
-#     axs[0].grid(True)
+fig1 = plt.figure(figsize=(6, 4))
 
-#     # 2. Flow & velocity
-#     for key, label in [
-#         ('Mass_flowrate', 'Mass Flowrate'),
-#         ('Water_velocity', 'Water Velocity'),
-#         ('Velocity_air', 'Air Velocity'),
-#         ('FlowRate_air', 'Air Flow Rate')
-#     ]:
-#         y = results[key]
-#         x = np.arange(1, len(y)+1)
-#         axs[1].plot(x, y, label=label)
-#     axs[1].set_title('Flow and Velocity')
-#     axs[1].set_xlabel('Measurement Point')
-#     axs[1].set_ylabel('Flow/Velocity')
-#     axs[1].legend()
-#     axs[1].grid(True)
+plt.scatter(np.linspace(1,nn,9), Flue_gas, marker='o', label='Humid air Exp')  # Make sure Flue_gas is defined
+plt.plot(np.linspace(1,nn,nn), results['Outlet_temp_air'][:-1], ls='--', label='Humid air Calc', color='orange')
 
-#     # 3. Heat transfer and physical properties
-#     for key, label in [
-#         ('Water_heat_Transfer_coefficient', 'Water Heat Transfer Coeff.'),
-#         ('Heat_transfer_air', 'Air Heat Transfer'),
-#         ('Latent_heat_air', 'Latent Heat Air'),
-#         ('Water_Nusselt_number', 'Water Nusselt Number'),
-#         ('Nusselt_air', 'Air Nusselt Number')
-#     ]:
-#         y = results[key]
-#         x = np.arange(1, len(y)+1)
-#         axs[2].plot(x, y, label=label)
-#     axs[2].set_title('Heat Transfer Properties')
-#     axs[2].set_xlabel('Measurement Point')
-#     axs[2].set_ylabel('Heat Transfer / Coefficients')
-#     axs[2].legend()
-#     axs[2].grid(True)
+plt.scatter(np.linspace(1,nn,9), Cooling_water, marker='o', label='Cooling water Exp')  # Make sure Flue_gas is defined
+plt.plot(np.linspace(1,nn,nn), results['Inlet_temp_water'][:-1], ls='--', label='Cooling water Calc', color='g')
 
-#     # 4. Miscellaneous
-#     for key, label in [
-#         ('Water_Reynolds', 'Water Reynolds'),
-#         ('Reynolds_air', 'Air Reynolds'),
-#         ('Mass_of_diffusivity', 'Mass of Diffusivity'),
-#         ('Condensation_rate', 'Condensation Rate')
-#     ]:
-#         y = results[key]
-#         x = np.arange(1, len(y)+1)
-#         axs[3].plot(x, y, label=label)
-#     axs[3].set_title('Miscellaneous Parameters')
-#     axs[3].set_xlabel('Measurement Point')
-#     axs[3].set_ylabel('Values')
-#     axs[3].legend()
-#     axs[3].grid(True)
+plt.scatter(np.linspace(1,nn,8), Wall_temperature1, marker='o', label='Wall temp Exp', color='r')  # Make sure Flue_gas is defined
+plt.plot(np.linspace(1,nn,nn), results['Wall_temperature2'], ls='--', label='Wall temp Calc', color='black')
 
-#     st.pyplot(fig)
-# plot_results(results)
+plt.legend(loc=(1.01,0.65))
+st.pyplot(fig1)
 
 # Display experiment parameters below the plots
 st.text(experiment_parameters)
