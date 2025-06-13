@@ -579,8 +579,8 @@ for label, data in results.items():
     if len(data) == 9:
         data = data[:-1]  # remove last element to make it 8
     plt.subplot(5, 7, xx)
-    # plt.scatter(np.linspace(1,len(data),len(data)), data, label=label)
-    plt.plot(range(len(data)), data, label=label)
+    plt.scatter(np.linspace(1,len(data),len(data)), data, label=label)
+    # plt.plot(range(len(data)), data, label=label)
     plt.title(label)
     plt.xlabel('Index')
     plt.ylabel('Value')
