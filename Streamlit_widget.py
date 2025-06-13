@@ -296,7 +296,7 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
         # Calculate water flow properties
         m_c = (CW_flowrate * rho_c) / (3600 * 1000 * 3)  # Kg/s
         Mass_flowrate.append(m_c)
-        st.write(f"m_c : {m_c}")
+        # st.write(f"m_c : {m_c}")
         
         A_c = (((D_i**2 * math.pi) / 4) * 8) / n
         v_c = m_c / (rho_c * A_c)
@@ -336,7 +336,7 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
         
         Water_Nusselt_number.append(Nu_c if Re_c >= 3000 else Mean_Nu)
         Water_heat_Transfer_coefficient.append(h_c)
-        st.write(f"h_c : {h_c}")
+        # st.write(f"h_c : {h_c}")
         # st.write(f"Mean_Nu : {Mean_Nu}")
 
         # Wall temperature
@@ -471,7 +471,7 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
         else:
             T_cin = T_cout - ((h_g * (T_g - T_w) * delta_Ai) / (m_c * c_pc))
     
-        # Inlet_temp_water.append(T_cin)
+        Inlet_temp_water.append(T_cin)
     
         # Condensation rate
         if T_w < T_sat:
@@ -486,7 +486,9 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
         
         # Wall temperature for subsequent iterations
         if i != 0:
+            # st.write(f"Inlet_temp_water : {Inlet_temp_water}")
             numerator = m_c * c_pc * (Inlet_temp_water[i-1] - Inlet_temp_water[i]) * 3
+            # numerator = 1
             denominator = h_c * delta_Ai * 3
             T_w = T_c + (numerator / denominator)
             # T_w = Wall_temperature1[i]
