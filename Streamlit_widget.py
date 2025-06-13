@@ -599,6 +599,10 @@ st.pyplot(fig1)
 
 fig2 = plt.figure(figsize=(6, 4))
 sns.barplot(x='Type', y='Values', data=condensation)
+ii = 0
+for i in condensation['Values']:
+    plt.text(ii,i,i, ha='center', va='bottom')
+    ii= ii+1
 st.pyplot(fig2)
 
 # Display experiment parameters below the plots
