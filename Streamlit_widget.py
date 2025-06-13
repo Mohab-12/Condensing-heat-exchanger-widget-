@@ -287,7 +287,7 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
             Outlet_temp_air.append(T_gin)
         else:
             st.write(f"Inlet_temp_water >>> : {Inlet_temp_water}")
-            T_c = Inlet_temp_water[i]
+            T_c = T_cout = Inlet_temp_water[i]
             T_g = Outlet_temp_air[i]
 
         # 4. Calculate water properties
