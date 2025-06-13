@@ -425,7 +425,7 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
             try:
                 T_i_solution = newton(
                     calculate_interface_equation, 
-                    70,  # Initial guess
+                    30,  # Initial guess
                     args=(T_g, h_g, h_fg, y_h2o, h_c, T_c, alpha_g, D_h2oair, c_pg)
                 )
                 Temperature_interface.append(T_i_solution)
