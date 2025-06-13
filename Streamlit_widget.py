@@ -311,11 +311,11 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
         # Calculate Reynolds number
         Re_c = (rho_c * v_c * D_i) / u_c
         Water_Reynolds.append(Re_c)
-        st.write(f"Re_c : {Re_c}")
+        # st.write(f"Re_c : {Re_c}")
 
         Water_thermal_conductivity.append(k_c)
         Water_specific_heat.append(c_pc)
-        st.write(f"c_pc : {c_pc}")
+        # st.write(f"c_pc : {c_pc}")
         
         alpha_c = k_c / (rho_c * c_pc)
         pr_c = (u_c / rho_c) / alpha_c
@@ -356,18 +356,18 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
         rho_water = ((p * M_h2o / 1000) / (R_water * T)) * y_h2o
         rho_g = rho_water + rho_air
         Density_air.append(rho_g)
-        st.write(f"y_h2o : {y_h2o}")
-        st.write(f"Temperature at which density calculated {Outlet_temp_air[i]}")
-        st.write(f"Temperature  {T_g_float}")
-        st.write(f"Air density : {rho_g}")
+        # st.write(f"y_h2o : {y_h2o}")
+        # st.write(f"Temperature at which density calculated {Outlet_temp_air[i]}")
+        # st.write(f"Temperature  {T_g_float}")
+        # st.write(f"Air density : {rho_g}")
         
         m_g = (steam_flowrate + Air_flowrate)/60**2 - np.sum(Condensation_rate)
         FlowRate_air.append(m_g)
-        st.write(f"Mass flow rate: {m_g}")
+        # st.write(f"Mass flow rate: {m_g}")
         A_gap = (0.011 * 8) / n
         v_g = m_g / (rho_g * A_gap)
         Velocity_air.append(v_g)
-        st.write(f"Air velocity: {v_g}")
+        # st.write(f"Air velocity: {v_g}")
         Specific_heat_air.append(c_pg)
         
         # Calculate viscosity using Wilke's method
@@ -377,11 +377,11 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
         Q_va = (math.sqrt(2) / 4) * (1 + (M_h2o / M_g)) ** -0.5 * ((1 + math.sqrt(u_water / u_air)) * (M_g / M_h2o) ** 0.25) ** 2
         u_g = ((y_air * u_air) / (y_air + y_h2o * Q_av)) + ((y_h2o * u_water) / (y_h2o + y_air * Q_va))
         Viscosity_air.append(u_g)
-        st.write(f"u_g : {u_g}")
+        # st.write(f"u_g : {u_g}")
         
         Re_g = (rho_g * v_g * D_o) / u_g
         Reynolds_air.append(Re_g)
-        st.write(f"Reynolds number : {Re_g}")
+        # st.write(f"Reynolds number : {Re_g}")
         
         # Thermal conductivity of vapor
         k_g_vapour = np.interp(T_g_float, k_g_vapour_temp, k_g_vapour_values)
@@ -405,7 +405,7 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
     
         h_g = (Nu_g * k_g)/D_o
         Heat_transfer_air.append(h_g)
-        st.write(f"h_g : {h_g}")
+        # st.write(f"h_g : {h_g}")
         
         # Latent heat
         h_fg = -0.0021 * T_g_float**2 - 2.2115 * T_g_float + 2499
@@ -420,7 +420,7 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
         # Lewis number
         Le_h20air = alpha_g / D_h2oair
         Lewis_air.append(Le_h20air)
-        st.write(f"Le_h20air : {Le_h20air}")
+        # st.write(f"Le_h20air : {Le_h20air}")
         
         # Interface temperature calculation
         if T_w < T_sat:
@@ -450,7 +450,7 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
                 Logarithmic_mole_average.append(np.nan)
                 Mass_transfer_coefficient_air.append(np.nan)
                 numbering.append(i + 1)
-        st.write(f"T_i_solution : {T_i_solution}")
+        # st.write(f"T_i_solution : {T_i_solution}")
         # Outlet temperature calculations
         delta_Ai = (0.0206 * 8) / n
     
@@ -462,7 +462,7 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
                     (m_g * c_pg * 1000 + (h_g/2) * delta_Ai)
     
         Outlet_temp_air.append(T_gout)
-        st.write(f"Outlet_temp_air {Outlet_temp_air}")
+        # st.write(f"Outlet_temp_air {Outlet_temp_air}")
         # Inlet temperature calculations
         if T_w < T_sat:
             T_cin = T_cout - ((h_g * (T_g - T_i_solution) * delta_Ai + 
@@ -471,16 +471,16 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
         else:
             T_cin = T_cout - ((h_g * (T_g - T_w) * delta_Ai) / (m_c * c_pc))
     
-        Inlet_temp_water.append(T_cin)
+        # Inlet_temp_water.append(T_cin)
     
         # Condensation rate
         if T_w < T_sat:
             m_cd = k_m * (y_h2o - y_i) * delta_Ai
             Condensation_rate.append(m_cd)
             M_frac = (steam_flowrate/3600 - np.sum(Condensation_rate)) / (m_g - np.sum(Condensation_rate))
-            st.write(f"m_cd {m_cd}")
-            st.write(f"M_frac {M_frac}")
-            st.write("*****************************************************************************************************")
+            # st.write(f"m_cd {m_cd}")
+            # st.write(f"M_frac {M_frac}")
+            # st.write("*****************************************************************************************************")
         else:
             Condensation_rate.append(0)
         
