@@ -449,7 +449,7 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
                 Logarithmic_mole_average.append(np.nan)
                 Mass_transfer_coefficient_air.append(np.nan)
                 numbering.append(i + 1)
-        
+        st.write(f"T_i_solution : {T_i_solution}")
         # Outlet temperature calculations
         delta_Ai = (0.0206 * 8) / n
     
