@@ -470,14 +470,14 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a, alp
         
         # Inlet temperature calculations
         if T_w < T_sat:
-            T_cin_calc = T_cout - ((h_g * (T_gin - Temperature_interface[i]) * delta_Ai + 
+            T_cin_calc = T_cout - ((h_g * (T_g - Temperature_interface[i]) * delta_Ai + 
                               h_fg * Mass_transfer_coefficient_air[i] * (y_h2o - Vapour_mole_interface[i]) * delta_Ai) / 
                              (m_c * c_pc))
             
             T_cin = alpha_cin * T_cin_calc + (1 - alpha_cin) * Inlet_temp_water[i]
 
         else:
-            T_cin_calc = T_cout - ((h_g * (T_gin - T_w) * delta_Ai) / (m_c * c_pc))
+            T_cin_calc = T_cout - ((h_g * (T_g - T_w) * delta_Ai) / (m_c * c_pc))
             
             T_cin = alpha_cin * T_cin_calc + (1 - alpha_cin) * Inlet_temp_water[i]
         
