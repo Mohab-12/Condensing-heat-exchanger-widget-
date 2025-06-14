@@ -54,7 +54,7 @@ alpha_cin = st.sidebar.slider('alpha_cin : ', value=0.2, min_value=0.0, max_valu
 alpha_w = st.sidebar.slider('alpha_w : ', value=0.005, min_value=0.0, max_value=1.0, step=0.001)
 alpha_cond= st.sidebar.slider('alpha_cond : ', value=0.0025, min_value=0.0, max_value=1.0, step=0.0001)
 CW_flowrate =  st.sidebar.slider('Coling water flow rate : ', value=125, min_value=0, max_value=2000, step=1)
-n =  st.sidebar.slider('Number of segments of the experiments : ', value=8, min_value=8, max_value=5000, step=1)
+n =  st.sidebar.slider('Number of segments of the experiments : ', value=8, min_value=8, max_value=1000, step=1)
 st.title("Condensing heat exchanger (Experiment VS Calculation)")
 
 img = Image.open('Picture1.png')
