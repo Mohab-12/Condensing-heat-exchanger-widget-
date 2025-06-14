@@ -598,7 +598,7 @@ fig.update_layout(
     height=1800, width=1800,
     title_text="Scatter Plots of Results",
     showlegend=False,
-    font=dict(size=4)
+    font=dict(size=1)
 )
 
 fig.show()
