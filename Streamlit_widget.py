@@ -567,7 +567,6 @@ import plotly.graph_objs as go
 from plotly.subplots import make_subplots
 import numpy as np
 
-st.write(f"Condensation rate : {results['Condensation_rate']}")
 # Create subplot grid: 5 rows × 7 columns (same as original)
 num_plots = sum(1 for data in results.values() if len(data) > 0)
 # Your original code had a 5x7 grid
@@ -671,7 +670,7 @@ fig1.update_layout(
 )
 
 fig1.show()
-st.pyplot(fig1)
+st.plotly_chart(fig1)
 
 fig2 = go.Figure()
 
@@ -692,7 +691,7 @@ fig2.update_layout(
 
 fig2.show()
 
-st.pyplot(fig2)
+st.plotly_chart(fig2)
 
 # Display experiment parameters below the plots
 st.text(experiment_parameters)
