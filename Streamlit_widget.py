@@ -49,7 +49,7 @@ T_cout = st.sidebar.slider('Cooling water outlet temperature : ', value=50, min_
 steam_flowrate = st.sidebar.slider('Vapour flow rate : ', value=29, min_value=0, max_value=200, step=1)
 Air_flowrate =  st.sidebar.slider('Air flow rate : ', value=106, min_value=0, max_value=500, step=1)
 a = st.sidebar.slider('Wall temperature coefficient : ', value=0.62, min_value=0.0, max_value=2.02, step=0.01)
-Alpha2 = st.sidebar.slider('alpha2 : ', value=0.5, min_value=0.0, max_value=1.1, step=0.01)
+alpha2 = st.sidebar.slider('alpha2 : ', value=0.5, min_value=0.0, max_value=1.1, step=0.01)
 CW_flowrate =  st.sidebar.slider('Coling water flow rate : ', value=125, min_value=0, max_value=2000, step=1)
 n =  st.sidebar.slider('Number of segments of the experiments : ', value=8, min_value=8, max_value=100, step=1)
 st.title("Condensing heat exchanger (Experiment VS Calculation)")
@@ -222,7 +222,7 @@ def calculate_interface_equation(T_i, T_g, h_g, h_fg, y_h2o, h_c, T_c, alpha_g, 
     k_m = (h_g * M_h2o) / (c_pg * 1000 * M_g * y_lm * Le_h20air ** (2/3))
     return ((h_g * T_g + h_fg * 1000 * k_m * (y_h2o - y_i) + h_c * T_c) / (h_g + h_c)) - T_i
 
-def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a): 
+def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a, alpha2): 
     # Initialize lists to store results
     y_H2o = []
     Sat_temp = []
@@ -538,7 +538,7 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
     }
     return results        
 
-results = main_loop(n, steam_flowrate/(steam_flowrate + Air_flowrate), T_cout, T_gin, CW_flowrate,steam_flowrate, (steam_flowrate + Air_flowrate),a)
+results = main_loop(n, steam_flowrate/(steam_flowrate + Air_flowrate), T_cout, T_gin, CW_flowrate,steam_flowrate, (steam_flowrate + Air_flowrate),a,alpha2)
 cc = np.sum(results['Condensation_rate'])*1000
 condd = df1.loc[e ,['First_Cond','Second_Cond','Third_Cond','Fourth_Cond','Fifth_Cond','Sixth_Cond','Seventh_Cond','Eighth_Cond']]/(df1.loc[e,'Time']*1000)
 condensation = pd.DataFrame({"Type":["Calculated",'Experimental'],
