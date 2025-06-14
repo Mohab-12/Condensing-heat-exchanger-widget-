@@ -455,7 +455,7 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a, alp
         delta_Ai = (0.0206 * 8) / n
     
         if T_w < T_sat:
-            T_gout_calc = ((m_g * c_pg * 1000 - (h_g/2) * delta_Ai) * T_gin + h_g * delta_Ai * Temperature_interface[i]) / \
+            T_gout_calc = ((m_g * c_pg * 1000 - (h_g/2) * delta_Ai) * T_gin + h_g * delta_Ai * T_i_solution) / \
                     (m_g * c_pg * 1000 + (h_g/2) * delta_Ai)
             
             T_gout = alpha_gout * T_gout_calc + (1 - alpha_gout) * Outlet_temp_air[i]
@@ -595,8 +595,8 @@ for label, data in results.items():
     
     x_vals = np.linspace(1, len(data), len(data))
     
-    scatter = go.Scatter(x=x_vals, y=data, mode='markers', name=label)
-    fig.add_trace(scatter, row=row, col=col)
+    line = go.Scatter(x=x_vals, y=data, mode='lines', name=label)  # Pure line plot
+    fig.add_trace(line, row=row, col=col)
     
     # Set x and y axis titles for each subplot
     fig.update_xaxes(title_text='Index', row=row, col=col)
