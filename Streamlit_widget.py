@@ -595,7 +595,7 @@ for label, data in results.items():
 
 # Update layout
 fig.update_layout(
-    height=2500, width=2500,
+    height=1500, width=3500,
     title_text="Scatter Plots of Results",
     showlegend=False,
     font=dict(size=1)
