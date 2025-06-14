@@ -459,6 +459,7 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a, alp
                     (m_g * c_pg * 1000 + (h_g/2) * delta_Ai)
             
             T_gout = alpha_gout * T_gout_calc + (1 - alpha_gout) * Outlet_temp_air[-1]
+            Outlet_temp_air.append(T_gout)
 
         else:
             T_gout_calc = ((m_g * c_pg * 1000 - (h_g/2) * delta_Ai) * T_gin + h_g * delta_Ai * T_w) / \
@@ -466,7 +467,7 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a, alp
             
             T_gout = alpha_gout * T_gout_calc + (1 - alpha_gout) * Outlet_temp_air[-1]
 
-        Outlet_temp_air.append(T_gout)
+            Outlet_temp_air.append(T_gout)
         
         # Inlet temperature calculations
         if T_w < T_sat:
