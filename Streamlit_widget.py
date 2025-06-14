@@ -563,25 +563,45 @@ Reynolds number = {df1.loc[e,'Re']} and
 Mass fraction of water vapour = {df1.loc[e,'Mass Fraction']} %
 """
 # Create a bar plot for condensation data
-fig = plt.figure(figsize=(20, 20))
-xx = 1  # subplot index
+import plotly.graph_objs as go
+from plotly.subplots import make_subplots
+import numpy as np
 
+# Create subplot grid: 5 rows × 7 columns (same as original)
+fig = make_subplots(rows=5, cols=7, subplot_titles=list(results.keys()))
+
+row = 1
+col = 1
 for label, data in results.items():
     if len(data) == 0:
         continue
     if len(data) == 9:
         data = data[:-1]  # remove last element to make it 8
-    plt.subplot(5, 7, xx)
-    plt.scatter(np.linspace(1,len(data),len(data)), data, label=label)
-    # plt.plot(range(len(data)), data, label=label)
-    plt.title(label)
-    plt.xlabel('Index')
-    plt.ylabel('Value')
-    # plt.legend(fontsize='small')
-    xx += 1
 
-plt.tight_layout()
-st.pyplot(fig)
+    x = np.linspace(1, len(data), len(data))
+
+    fig.add_trace(
+        go.Scatter(x=x, y=data, mode='markers', name=label, showlegend=False),
+        row=row, col=col
+    )
+
+    # Update row/col position
+    col += 1
+    if col > 7:
+        col = 1
+        row += 1
+    if row > 5:
+        break  # Limit to 35 plots like your original layout
+
+# Update layout
+fig.update_layout(
+    height=1500, width=1500,
+    title_text="Scatter Plots of Results",
+    showlegend=False
+)
+
+fig.show()
+
 
 fig1 = plt.figure(figsize=(6, 4))
 
