@@ -648,20 +648,20 @@ fig1.add_trace(go.Scatter(
 ))
 
 # Uncomment and adapt if you want to include wall temperature data:
-# fig1.add_trace(go.Scatter(
-#     x=np.linspace(1, n, 8),
-#     y=Wall_temperature1,
-#     mode='markers',
-#     name='Wall temp Exp',
-#     marker=dict(color='red', symbol='circle')
-# ))
-# fig1.add_trace(go.Scatter(
-#     x=np.linspace(1, n, n),
-#     y=results['Wall_temperature2'],
-#     mode='lines',
-#     name='Wall temp Calc',
-#     line=dict(dash='dash', color='black')
-# ))
+fig1.add_trace(go.Scatter(
+    x=np.linspace(1, n, 8),
+    y=Wall_temperature1,
+    mode='markers',
+    name='Wall temp Exp',
+    marker=dict(color='red', symbol='circle')
+))
+fig1.add_trace(go.Scatter(
+    x=np.linspace(1, n, n),
+    y=results['Wall_temperature2'],
+    mode='lines',
+    name='Wall temp Calc',
+    line=dict(dash='dash', color='black')
+))
 
 fig1.update_layout(
     width=600,
