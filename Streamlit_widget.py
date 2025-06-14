@@ -569,40 +569,39 @@ import numpy as np
 
 st.write(f"Condensation rate : {results['Condensation_rate']}")
 # Create subplot grid: 5 rows × 7 columns (same as original)
-fig = make_subplots(rows=5, cols=7, subplot_titles=list(results.keys()))
+num_plots = sum(1 for data in results.values() if len(data) > 0)
+# Your original code had a 5x7 grid
+rows, cols = 5, 7
 
-row = 1
-col = 1
+fig = make_subplots(rows=rows, cols=cols,
+                    subplot_titles=[label for label, data in results.items() if len(data) > 0],
+                    horizontal_spacing=0.05, vertical_spacing=0.07)
+
+plot_idx = 1
 for label, data in results.items():
     if len(data) == 0:
         continue
     if len(data) == 9:
         data = data[:-1]  # remove last element to make it 8
+    
+    # Calculate row and column for subplot
+    row = (plot_idx - 1) // cols + 1
+    col = (plot_idx - 1) % cols + 1
+    
+    x_vals = np.linspace(1, len(data), len(data))
+    
+    scatter = go.Scatter(x=x_vals, y=data, mode='markers', name=label)
+    fig.add_trace(scatter, row=row, col=col)
+    
+    # Set x and y axis titles for each subplot
+    fig.update_xaxes(title_text='Index', row=row, col=col)
+    fig.update_yaxes(title_text='Value', row=row, col=col)
+    
+    plot_idx += 1
 
-    x = np.linspace(1, len(data), len(data))
-
-    fig.add_trace(
-        go.Scatter(x=x, y=data, mode='markers', name=label, showlegend=False),
-        row=row, col=col
-    )
-
-    # Update row/col position
-    col += 1
-    if col > 7:
-        col = 1
-        row += 1
-    if row > 5:
-        break  # Limit to 35 plots like your original layout
-
-# Update layout
-fig.update_layout(
-    height=2000, width=5500,
-    title_text="Scatter Plots of Results",
-    showlegend=False,
-    font=dict(size=1)
-)
-
+fig.update_layout(height=1200, width=1200, showlegend=False, title_text="Scatter plots per label")
 fig.show()
+
 st.plotly_chart(fig)
 
 
