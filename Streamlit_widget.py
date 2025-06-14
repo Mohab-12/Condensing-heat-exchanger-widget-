@@ -59,7 +59,7 @@ alpha_cond_int = st.sidebar.slider('alpha_cond (x10,000) : ', value=25, min_valu
 alpha_cond = alpha_cond_int * 0.0001
 
 CW_flowrate =  st.sidebar.slider('Coling water flow rate : ', value=125.0, min_value=0.0, max_value=2000.0, step=1.0)
-n = st.sidebar.slider('Number of segments of the experiments : ', value=8, min_value=8, max_value=1000, step=1)
+n = st.sidebar.slider('Number of segments of the experiments : ', value=8, min_value=8, max_value=600, step=1)
 st.title("Condensing heat exchanger (Experiment VS Calculation)")
 
 img = Image.open('Picture1.png')
@@ -454,7 +454,7 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a, alp
         # Outlet temperature calculations
         delta_Ai = (0.0206 * 8) / n
     
-        if T_w < T_sat and i < len(Temperature_interface):
+        if T_w < T_sat:
             T_gout_calc = ((m_g * c_pg * 1000 - (h_g/2) * delta_Ai) * T_gin + h_g * delta_Ai * Temperature_interface[i]) / \
                     (m_g * c_pg * 1000 + (h_g/2) * delta_Ai)
             
