@@ -635,7 +635,7 @@ fig1.add_trace(go.Scatter(
     y=Cooling_water,
     mode='markers',
     name='Cooling water Exp',
-    marker=dict(symbol='circle')
+    marker=dict(symbol='circle', color='orange')
 ))
 
 # Line plot: Cooling water Calc
