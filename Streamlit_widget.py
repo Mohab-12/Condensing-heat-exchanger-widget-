@@ -604,29 +604,94 @@ fig.show()
 
 st.plotly_chart(fig)
 
+fig1 = go.Figure()
 
+# Scatter plot: Humid air Exp
+fig1.add_trace(go.Scatter(
+    x=np.linspace(1, n, 9),
+    y=Flue_gas,
+    mode='markers',
+    name='Humid air Exp',
+    marker=dict(symbol='circle')
+))
 
+# Line plot: Humid air Calc
+fig1.add_trace(go.Scatter(
+    x=np.linspace(1, n, n),
+    y=results['Outlet_temp_air'][:-1],
+    mode='lines',
+    name='Humid air Calc',
+    line=dict(dash='dash', color='orange')
+))
 
-fig1 = plt.figure(figsize=(6, 4))
+# Scatter plot: Cooling water Exp
+fig1.add_trace(go.Scatter(
+    x=np.linspace(1, n, 9),
+    y=Cooling_water,
+    mode='markers',
+    name='Cooling water Exp',
+    marker=dict(symbol='circle')
+))
 
-plt.scatter(np.linspace(1,n,9), Flue_gas, marker='o', label='Humid air Exp')  # Make sure Flue_gas is defined
-plt.plot(np.linspace(1,n,n), results['Outlet_temp_air'][:-1], ls='--', label='Humid air Calc', color='orange')
+# Line plot: Cooling water Calc
+fig1.add_trace(go.Scatter(
+    x=np.linspace(1, n, n),
+    y=results['Inlet_temp_water'][:-1],
+    mode='lines',
+    name='Cooling water Calc',
+    line=dict(dash='dash', color='green')
+))
 
-plt.scatter(np.linspace(1,n,9), Cooling_water, marker='o', label='Cooling water Exp')  # Make sure Flue_gas is defined
-plt.plot(np.linspace(1,n,n), results['Inlet_temp_water'][:-1], ls='--', label='Cooling water Calc', color='g')
+# Uncomment and adapt if you want to include wall temperature data:
+# fig1.add_trace(go.Scatter(
+#     x=np.linspace(1, n, 8),
+#     y=Wall_temperature1,
+#     mode='markers',
+#     name='Wall temp Exp',
+#     marker=dict(color='red', symbol='circle')
+# ))
+# fig1.add_trace(go.Scatter(
+#     x=np.linspace(1, n, n),
+#     y=results['Wall_temperature2'],
+#     mode='lines',
+#     name='Wall temp Calc',
+#     line=dict(dash='dash', color='black')
+# ))
 
-# plt.scatter(np.linspace(1,n,8), Wall_temperature1, marker='o', label='Wall temp Exp', color='r')  # Make sure Flue_gas is defined
-# plt.plot(np.linspace(1,n,n), results['Wall_temperature2'], ls='--', label='Wall temp Calc', color='black')
+fig1.update_layout(
+    width=600,
+    height=400,
+    legend=dict(
+        x=1.01,
+        y=0.65,
+        bgcolor='rgba(0,0,0,0)',
+        bordercolor='rgba(0,0,0,0)'
+    ),
+    margin=dict(r=150)  # Extra right margin to fit legend
+)
 
-plt.legend(loc=(1.01,0.65))
+fig1.show()
 st.pyplot(fig1)
 
-fig2 = plt.figure(figsize=(6, 4))
-sns.barplot(x='Type', y='Values', data=condensation)
-ii = 0
-for i in condensation['Values']:
-    plt.text(ii,i,np.round(i,2), ha='center', va='bottom')
-    ii= ii+1
+fig2 = go.Figure()
+
+fig2.add_trace(go.Bar(
+    x=condensation['Type'],
+    y=condensation['Values'],
+    text=np.round(condensation['Values'], 2),  # Rounded values as text labels
+    textposition='outside'  # Show values above bars
+))
+
+fig2.update_layout(
+    width=600,
+    height=400,
+    yaxis_title='Values',
+    xaxis_title='Type',
+    margin=dict(t=50, b=50)
+)
+
+fig2.show()
+
 st.pyplot(fig2)
 
 # Display experiment parameters below the plots
