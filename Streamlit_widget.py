@@ -478,7 +478,7 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a, alp
                 m_cd = alpha2 * m_cd_calc
                 Condensation_rate.append(m_cd)
             else:
-                m_cd = alpha2 * m_cd_calc + (1 - alpha2) * Condensation_rate[i]
+                m_cd = alpha2 * m_cd_calc + (1 - alpha2) * Condensation_rate[i-1]
                 Condensation_rate.append(m_cd)
             M_frac = (steam_flowrate/3600 - np.sum(Condensation_rate)) / (m_g - np.sum(Condensation_rate))
             # st.write(f"m_cd {m_cd}")
@@ -494,7 +494,7 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a, alp
             # numerator = 1
             denominator = h_c * delta_Ai * 3
             T_w_calc = T_c + (numerator / denominator)
-            T_w = alpha2 * T_w_calc + (1 - alpha2) * Wall_temperature2[i]
+            T_w = alpha2 * T_w_calc + (1 - alpha2) * Wall_temperature2[i-1]
             # T_w = Wall_temperature1[i]
             Wall_temperature2.append(T_w)
     
