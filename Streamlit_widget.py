@@ -474,7 +474,10 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a, alp
         # Condensation rate
         if T_w < T_sat:
             m_cd_calc = k_m * (y_h2o - y_i) * delta_Ai
-            m_cd = alpha2 * m_cd_calc + (1 - alpha2) * Condensation_rate[i]
+            if i==0:
+                m_cd = alpha2 * m_cd_calc
+            else:
+                m_cd = alpha2 * m_cd_calc + (1 - alpha2) * Condensation_rate[i]
             Condensation_rate.append(m_cd)
             M_frac = (steam_flowrate/3600 - np.sum(Condensation_rate)) / (m_g - np.sum(Condensation_rate))
             # st.write(f"m_cd {m_cd}")
