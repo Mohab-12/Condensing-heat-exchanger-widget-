@@ -49,9 +49,12 @@ T_cout = st.sidebar.slider('Cooling water outlet temperature : ', value=50, min_
 steam_flowrate = st.sidebar.slider('Vapour flow rate : ', value=29, min_value=0, max_value=200, step=1)
 Air_flowrate =  st.sidebar.slider('Air flow rate : ', value=106, min_value=0, max_value=500, step=1)
 a = st.sidebar.slider('Wall temperature coefficient : ', value=0.62, min_value=0.0, max_value=2.02, step=0.01)
-alpha2 = st.sidebar.slider('alpha2 : ', value=0.5, min_value=0.0, max_value=1.0, step=0.001)
+alpha_gout = st.sidebar.slider('alpha_gout : ', value=0.06, min_value=0.0, max_value=1.0, step=0.001)
+alpha_cin = st.sidebar.slider('alpha_cin : ', value=0.065, min_value=0.0, max_value=1.0, step=0.001)
+alpha_w = st.sidebar.slider('alpha_w : ', value=0.01, min_value=0.0, max_value=1.0, step=0.001)
+alpha_cond= st.sidebar.slider('alpha_cond : ', value=0.000055, min_value=0.0, max_value=1.0, step=0.001)
 CW_flowrate =  st.sidebar.slider('Coling water flow rate : ', value=125, min_value=0, max_value=2000, step=1)
-n =  st.sidebar.slider('Number of segments of the experiments : ', value=8, min_value=8, max_value=100000, step=1)
+n =  st.sidebar.slider('Number of segments of the experiments : ', value=8, min_value=8, max_value=5000, step=1)
 st.title("Condensing heat exchanger (Experiment VS Calculation)")
 
 img = Image.open('Picture1.png')
@@ -447,54 +450,51 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a, alp
         delta_Ai = (0.0206 * 8) / n
     
         if T_w < T_sat and i < len(Temperature_interface):
-            T_gout_calc = ((m_g * c_pg * 1000 - (h_g/2) * delta_Ai) * T_g + h_g * delta_Ai * T_i_solution) / \
+            T_gout_calc = ((m_g * c_pg * 1000 - (h_g/2) * delta_Ai) * T_gin + h_g * delta_Ai * Temperature_interface[i]) / \
                     (m_g * c_pg * 1000 + (h_g/2) * delta_Ai)
-            T_gout = alpha2 * T_gout_calc + (1 - alpha2) * Outlet_temp_air[i]
+            
+            T_gout = alpha_gout * T_gout_calc + (1 - alpha_gout) * Outlet_temp_air[i]
 
         else:
-            T_gout_calc = ((m_g * c_pg * 1000 - (h_g/2) * delta_Ai) * T_g + h_g * delta_Ai * T_w) / \
+            T_gout = ((m_g * c_pg * 1000 - (h_g/2) * delta_Ai) * T_gin + h_g * delta_Ai * T_w) / \
                     (m_g * c_pg * 1000 + (h_g/2) * delta_Ai)
-            T_gout = alpha2 * T_gout_calc + (1 - alpha2) * Outlet_temp_air[i]
+            
+            T_gout = alpha_gout * T_gout_calc + (1 - alpha_gout) * Outlet_temp_air[i]
 
         Outlet_temp_air.append(T_gout)
-        # st.write(f"Outlet_temp_air {Outlet_temp_air}")
-        # Inlet temperature calculations
         
+        # Inlet temperature calculations
         if T_w < T_sat:
             T_cin_calc = T_cout - ((h_g * (T_gin - Temperature_interface[i]) * delta_Ai + 
                               h_fg * Mass_transfer_coefficient_air[i] * (y_h2o - Vapour_mole_interface[i]) * delta_Ai) / 
                              (m_c * c_pc))
-            T_cin = alpha2 * T_cin_calc + (1 - alpha2) * Inlet_temp_water[i]
+            
+            T_cin = alpha_cin * T_cin_calc + (1 - alpha_cin) * Inlet_temp_water[i]
 
         else:
             T_cin_calc = T_cout - ((h_g * (T_gin - T_w) * delta_Ai) / (m_c * c_pc))
-            T_cin = alpha2 * T_cin_calc + (1 - alpha2) * Inlet_temp_water[i]
+            
+            T_cin = alpha_cin * T_cin_calc + (1 - alpha_cin) * Inlet_temp_water[i]
         
         Inlet_temp_water.append(T_cin)
+        
         # Condensation rate
         if T_w < T_sat:
-            m_cd_calc = k_m * (y_h2o - y_i) * delta_Ai
-            if i==0:
-                m_cd = alpha2 * m_cd_calc
-                Condensation_rate.append(m_cd)
-            else:
-                m_cd = alpha2 * m_cd_calc + (1 - alpha2) * Condensation_rate[i-1]
-                Condensation_rate.append(m_cd)
-            M_frac = (steam_flowrate/3600 - np.sum(Condensation_rate)) / (m_g - np.sum(Condensation_rate))
-            # st.write(f"m_cd {m_cd}")
-            # st.write(f"M_frac {M_frac}")
-            # st.write("*****************************************************************************************************")
-        else:
-            Condensation_rate.append(0)
+             m_cd_calc = k_m * (y_h2o - y_i) * delta_Ai
+             if i==0:
+                 m_cd = alpha_cond * m_cd_calc
+                 Condensation_rate.append(m_cd)
+             else:
+                 m_cd = alpha_cond * m_cd_calc + (1 - alpha_cond) * Condensation_rate[i-1]
+             Condensation_rate.append(m_cd)
         
         # Wall temperature for subsequent iterations
         if i != 0:
-            # st.write(f"Inlet_temp_water : {Inlet_temp_water}")
             numerator = m_c * c_pc * (Inlet_temp_water[i-1] - Inlet_temp_water[i]) * 3
-            # numerator = 1
             denominator = h_c * delta_Ai * 3
             T_w_calc = T_c + (numerator / denominator)
-            T_w = alpha2 * T_w_calc + (1 - alpha2) * Wall_temperature2[i-1]
+            
+            T_w = alpha_wall * T_w_calc + (1 - alpha_wall) * Wall_temperature2[i-1]
             # T_w = Wall_temperature1[i]
             Wall_temperature2.append(T_w)
     
