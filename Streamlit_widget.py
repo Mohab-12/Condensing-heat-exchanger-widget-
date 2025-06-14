@@ -3,6 +3,8 @@
 import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
+import plotly.graph_objs as go
+from plotly.subplots import make_subplots
 import streamlit as st
 import math
 from PIL import Image
@@ -50,15 +52,6 @@ a = st.sidebar.slider('Wall temperature coefficient : ', value=0.62, min_value=0
 CW_flowrate =  st.sidebar.slider('Coling water flow rate : ', value=125, min_value=0, max_value=2000, step=1)
 n =  st.sidebar.slider('Number of segments of the experiments : ', value=8, min_value=8, max_value=100, step=1)
 st.title("Condensing heat exchanger (Experiment VS Calculation)")
-st.write(f"""This program applies forward differencing to a counter-flow serpentine condensing heat exchanger.
-The input conditions are:
-- The inlet temperature of the humid air
-- The inlet temperature of the cooling water
-- The mass flow rates of both fluids
-- The mass fraction of vapor in the humid air
-
-In the first iteration, experimental data is used for the average values of both the hot and cold fluids. Subsequently, the average values are the mean values calculated over all iterations.
-Additionally, the wall temperature in the first iteration is assumed using a multiplier, which can be adjusted via a slider. In subsequent iterations, the wall temperature is calculated.""")
 
 img = Image.open('Picture1.png')
 st.image(img, caption = 'Illustration of the finite difference analysis', width = 800, channels = 'RGB')
@@ -496,7 +489,6 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
     # st.write(f"Segment {i+1}: Gas {T_gin:.1f}→{T_gout:.1f}°C, Water {T_cout:.1f}→{T_c_in:.1f}°C, Wall {T_w:.1f}°C")
     # st.write(f"len Outlet_temp_air: {len(Outlet_temp_air)}, len Inlet_temp_water: {len(Inlet_temp_water)}")
 
-    
     # Return all the calculated lists
     results =  {
         'y_H2o': y_H2o,
@@ -563,10 +555,6 @@ Reynolds number = {df1.loc[e,'Re']} and
 Mass fraction of water vapour = {df1.loc[e,'Mass Fraction']} %
 """
 # Create a bar plot for condensation data
-import plotly.graph_objs as go
-from plotly.subplots import make_subplots
-import numpy as np
-
 # Create subplot grid: 5 rows × 7 columns (same as original)
 num_plots = sum(1 for data in results.values() if len(data) > 0)
 # Your original code had a 5x7 grid
