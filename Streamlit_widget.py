@@ -599,7 +599,7 @@ for label, data in results.items():
     
     plot_idx += 1
 
-fig.update_layout(height=2000, width=3000, showlegend=False, title_text="Scatter plots per label")
+fig.update_layout(height=3000, width=5000, showlegend=False, title_text="Scatter plots per label")
 fig.show()
 
 st.plotly_chart(fig)
