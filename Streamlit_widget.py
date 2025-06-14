@@ -49,11 +49,15 @@ T_cout = st.sidebar.slider('Cooling water outlet temperature : ', value=50, min_
 steam_flowrate = st.sidebar.slider('Vapour flow rate : ', value=29, min_value=0, max_value=200, step=1)
 Air_flowrate =  st.sidebar.slider('Air flow rate : ', value=106, min_value=0, max_value=500, step=1)
 a = st.sidebar.slider('Wall temperature coefficient : ', value=0.62, min_value=0.00, max_value=1.0, step=0.01)
-alpha_gout = st.sidebar.slider('alpha_gout : ', value=0.25, min_value=0.000, max_value=1.00, step=0.001)
-alpha_cin = st.sidebar.slider('alpha_cin : ', value=0.2, min_value=0.000, max_value=1.0, step=0.001)
-alpha_w = st.sidebar.slider('alpha_w : ', value=0.005, min_value=0.000, max_value=1.0, step=0.0001)
-alpha_w = float(alpha_w)
-alpha_cond = st.sidebar.slider('alpha_cond : ', value=0.0025, min_value=0.0, max_value=1.0, step=0.0001)
+
+alpha_gout = st.sidebar.slider('alpha_gout : ', value=0.25, min_value=0.0, max_value=1.0, step=0.001)
+alpha_cin = st.sidebar.slider('alpha_cin : ', value=0.2, min_value=0.0, max_value=1.0, step=0.001)
+# For higher precision sliders, use integers and scale:
+alpha_w_int = st.sidebar.slider('alpha_w (x10,000) : ', value=50, min_value=0, max_value=10000, step=1)
+alpha_w = alpha_w_int * 0.0001  # converts to float with 4 decimals
+alpha_cond_int = st.sidebar.slider('alpha_cond (x10,000) : ', value=25, min_value=0, max_value=10000, step=1)
+alpha_cond = alpha_cond_int * 0.0001
+
 CW_flowrate =  st.sidebar.slider('Coling water flow rate : ', value=125.0, min_value=0.0, max_value=2000.0, step=1.0)
 n = st.sidebar.slider('Number of segments of the experiments : ', value=8, min_value=8, max_value=1000, step=1)
 st.title("Condensing heat exchanger (Experiment VS Calculation)")
