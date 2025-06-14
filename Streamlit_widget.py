@@ -601,6 +601,8 @@ fig.update_layout(
 )
 
 fig.show()
+st.pyplot(fig)
+
 
 
 fig1 = plt.figure(figsize=(6, 4))
