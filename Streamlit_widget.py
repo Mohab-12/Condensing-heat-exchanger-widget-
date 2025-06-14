@@ -465,7 +465,9 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a, alp
                     (m_g * c_pg * 1000 + (h_g/2) * delta_Ai)
             
             T_gout = alpha_gout * T_gout_calc + (1 - alpha_gout) * Outlet_temp_air[i]
-        st.write(f"Outlet_temp_air:{Outlet_temp_air}")
+            
+        st.write(f"T_gout_calc : {T_gout_calc}")
+        st.write(f"T_gout : {T_gout}")
         Outlet_temp_air.append(T_gout)
         
         # Inlet temperature calculations
