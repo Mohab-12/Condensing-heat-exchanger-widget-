@@ -601,7 +601,8 @@ fig.update_layout(
 )
 
 fig.show()
-st.pyplot(fig)
+st.plotly_chart(fig)
+
 
 
 
