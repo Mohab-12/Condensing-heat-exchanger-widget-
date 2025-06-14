@@ -567,6 +567,7 @@ import plotly.graph_objs as go
 from plotly.subplots import make_subplots
 import numpy as np
 
+st.write(f"Condensation rate : {results['Condensation_rate']}")
 # Create subplot grid: 5 rows × 7 columns (same as original)
 fig = make_subplots(rows=5, cols=7, subplot_titles=list(results.keys()))
 
