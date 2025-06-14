@@ -461,7 +461,7 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a, alp
             T_gout = alpha_gout * T_gout_calc + (1 - alpha_gout) * Outlet_temp_air[i]
 
         else:
-            T_gout = ((m_g * c_pg * 1000 - (h_g/2) * delta_Ai) * T_gin + h_g * delta_Ai * T_w) / \
+            T_gout_calc = ((m_g * c_pg * 1000 - (h_g/2) * delta_Ai) * T_gin + h_g * delta_Ai * T_w) / \
                     (m_g * c_pg * 1000 + (h_g/2) * delta_Ai)
             
             T_gout = alpha_gout * T_gout_calc + (1 - alpha_gout) * Outlet_temp_air[i]
