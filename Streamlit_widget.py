@@ -572,7 +572,7 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
             numerator = m_c * c_pc * (Inlet_temp_water[i-1] - Inlet_temp_water[i]) * 3
             denominator = h_c * delta_Ai * 3
             T_w_calc = T_c + (numerator / denominator)
-            alpha_wall= 0.005
+            alpha_w= 0.005
             T_w = alpha_w * T_w_calc + (1 - alpha_w) * Wall_temperature2[i-1]
             # T_w = Wall_temperature1[i]
             Wall_temperature2.append(T_w)
