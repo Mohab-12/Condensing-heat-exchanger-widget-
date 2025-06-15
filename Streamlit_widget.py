@@ -50,13 +50,13 @@ steam_flowrate = st.sidebar.slider('Vapour flow rate : ', value=29, min_value=0,
 Air_flowrate =  st.sidebar.slider('Air flow rate : ', value=106, min_value=0, max_value=500, step=1)
 a = st.sidebar.slider('Wall temperature coefficient : ', value=0.62, min_value=0.00, max_value=1.0, step=0.01)
 
-alpha_gout = st.sidebar.slider('alpha_gout : ', value=0.25, min_value=0.0, max_value=1.0, step=0.001)
-alpha_cin = st.sidebar.slider('alpha_cin : ', value=0.2, min_value=0.0, max_value=1.0, step=0.001)
-# For higher precision sliders, use integers and scale:
-alpha_w_int = st.sidebar.slider('alpha_w (x10,000) : ', value=50, min_value=0, max_value=10000, step=1)
-alpha_w = alpha_w_int * 0.0001  # converts to float with 4 decimals
-alpha_cond_int = st.sidebar.slider('alpha_cond (x10,000) : ', value=25, min_value=0, max_value=10000, step=1)
-alpha_cond = alpha_cond_int * 0.0001
+# alpha_gout = st.sidebar.slider('alpha_gout : ', value=0.25, min_value=0.0, max_value=1.0, step=0.001)
+# alpha_cin = st.sidebar.slider('alpha_cin : ', value=0.2, min_value=0.0, max_value=1.0, step=0.001)
+# # For higher precision sliders, use integers and scale:
+# alpha_w_int = st.sidebar.slider('alpha_w (x10,000) : ', value=50, min_value=0, max_value=10000, step=1)
+# alpha_w = alpha_w_int * 0.0001  # converts to float with 4 decimals
+# alpha_cond_int = st.sidebar.slider('alpha_cond (x10,000) : ', value=25, min_value=0, max_value=10000, step=1)
+# alpha_cond = alpha_cond_int * 0.0001
 
 CW_flowrate =  st.sidebar.slider('Coling water flow rate : ', value=125.0, min_value=0.0, max_value=2000.0, step=1.0)
 n = st.sidebar.slider('Number of segments of the experiments : ', value=8, min_value=8, max_value=600, step=1)
@@ -230,7 +230,7 @@ def calculate_interface_equation(T_i, T_g, h_g, h_fg, y_h2o, h_c, T_c, alpha_g, 
     k_m = (h_g * M_h2o) / (c_pg * 1000 * M_g * y_lm * Le_h20air ** (2/3))
     return ((h_g * T_g + h_fg * 1000 * k_m * (y_h2o - y_i) + h_c * T_c) / (h_g + h_c)) - T_i
 
-def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a, alpha_gout, alpha_cin,alpha_w,alpha_cond): 
+def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a): 
     # Initialize lists to store results
     y_H2o = []
     Sat_temp = []
@@ -457,13 +457,15 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a, alp
         if T_w < T_sat:
             T_gout_calc = ((m_g * c_pg * 1000 - (h_g/2) * delta_Ai) * T_g + h_g * delta_Ai * T_i_solution) / \
                     (m_g * c_pg * 1000 + (h_g/2) * delta_Ai)
-            
+                   
+            alpha_gout= 0.25
             T_gout = alpha_gout * T_gout_calc + (1 - alpha_gout) * Outlet_temp_air[i]
 
         else:
             T_gout_calc = ((m_g * c_pg * 1000 - (h_g/2) * delta_Ai) * T_g + h_g * delta_Ai * T_w) / \
                     (m_g * c_pg * 1000 + (h_g/2) * delta_Ai)
             
+            alpha_gout= 0.25
             T_gout = alpha_gout * T_gout_calc + (1 - alpha_gout) * Outlet_temp_air[i]
 
         Outlet_temp_air.append(T_gout)
@@ -473,12 +475,59 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a, alp
             T_cin_calc = T_cout - ((h_g * (T_gin - Temperature_interface[i]) * delta_Ai + 
                               h_fg * Mass_transfer_coefficient_air[i] * (y_h2o - Vapour_mole_interface[i]) * delta_Ai) / 
                              (m_c * c_pc))
-            
+            if max_slope>6.3:
+                alpha_cin = 0.2
+            elif 6.3 >=max_slope > 5.4:
+                alpha_cin = 0.3
+            elif 5.4 >=max_slope > 5.2:
+                alpha_cin = 0.6
+            elif 5.2 >= max_slope > 5:
+                alpha_cin = 0.45
+            elif 5 >= max_slope > 4.35:
+                alpha_cin = 0.2
+            elif 4.35 >= max_slope > 4.33:
+                alpha_cin = 0.7  # more conservative
+            elif 4.33 >= max_slope > 4.29:
+                alpha_cin = 0.2  # more conservative
+            elif 4.29 >= max_slope > 3.5:
+                alpha_cin = 0.30  # more conservative
+            elif 3.5 >= max_slope > 2.9:
+                alpha_cin = 0.48
+            elif 2.9 >= max_slope > 2.7:
+                alpha_cin = 0.28
+            elif 2.7 >= max_slope > 2.6:
+                alpha_cin = 0.3
+            else:
+                alpha_cin = 0.25            
             T_cin = alpha_cin * T_cin_calc + (1 - alpha_cin) * Inlet_temp_water[i]
 
         else:
             T_cin_calc = T_cout - ((h_g * (T_gin - T_w) * delta_Ai) / (m_c * c_pc))
-            
+
+            if max_slope>6.3:
+                alpha_cin = 0.2
+            elif 6.3 >=max_slope > 5.4:
+                alpha_cin = 0.3
+            elif 5.4 >=max_slope > 5.2:
+                alpha_cin = 0.6
+            elif 5.2 >= max_slope > 5:
+                alpha_cin = 0.45
+            elif 5 >= max_slope > 4.35:
+                alpha_cin = 0.2
+            elif 4.35 >= max_slope > 4.33:
+                alpha_cin = 0.7  # more conservative
+            elif 4.33 >= max_slope > 4.29:
+                alpha_cin = 0.2  # more conservative
+            elif 4.29 >= max_slope > 3.5:
+                alpha_cin = 0.30  # more conservative
+            elif 3.5 >= max_slope > 2.9:
+                alpha_cin = 0.48
+            elif 2.9 >= max_slope > 2.7:
+                alpha_cin = 0.28
+            elif 2.7 >= max_slope > 2.6:
+                alpha_cin = 0.3
+            else:
+                alpha_cin = 0.25            
             T_cin = alpha_cin * T_cin_calc + (1 - alpha_cin) * Inlet_temp_water[i]
         
         Inlet_temp_water.append(T_cin)
@@ -486,6 +535,7 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a, alp
         # Condensation rate
         if T_w < T_sat:
              m_cd_calc = k_m * (y_h2o - y_i) * delta_Ai
+             alpha_cond= 0.0018
              if i==0:
                  m_cd = alpha_cond * m_cd_calc
                  Condensation_rate.append(m_cd)
@@ -498,7 +548,7 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a, alp
             numerator = m_c * c_pc * (Inlet_temp_water[i-1] - Inlet_temp_water[i]) * 3
             denominator = h_c * delta_Ai * 3
             T_w_calc = T_c + (numerator / denominator)
-            
+            alpha_wall= 0.005
             T_w = alpha_w * T_w_calc + (1 - alpha_w) * Wall_temperature2[i-1]
             # T_w = Wall_temperature1[i]
             Wall_temperature2.append(T_w)
@@ -547,7 +597,7 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a, alp
     }
     return results        
 
-results = main_loop(n, steam_flowrate/(steam_flowrate + Air_flowrate), T_cout, T_gin, CW_flowrate,steam_flowrate, (steam_flowrate + Air_flowrate),a, alpha_gout, alpha_cin,alpha_w,alpha_cond)
+results = main_loop(n, steam_flowrate/(steam_flowrate + Air_flowrate), T_cout, T_gin, CW_flowrate,steam_flowrate, (steam_flowrate + Air_flowrate),a)
 cc = np.sum(results['Condensation_rate'])*1000
 condd = df1.loc[e ,['First_Cond','Second_Cond','Third_Cond','Fourth_Cond','Fifth_Cond','Sixth_Cond','Seventh_Cond','Eighth_Cond']]/(df1.loc[e,'Time']*1000)
 condensation = pd.DataFrame({"Type":["Calculated",'Experimental'],
