@@ -56,7 +56,7 @@ a = st.sidebar.slider('Wall temperature coefficient : ', value=0.62, min_value=0
 # alpha_w_int = st.sidebar.slider('alpha_w (x10,000) : ', value=50, min_value=0, max_value=10000, step=1)
 # alpha_w = alpha_w_int * 0.0001  # converts to float with 4 decimals
 # alpha_cond_int = st.sidebar.slider('alpha_cond (x10,000) : ', value=25, min_value=0, max_value=10000, step=1)
-# alpha_cond = alpha_cond_int * 0.0001
+# alpha_cond = alpha_cond_int * 0.0001 
 
 CW_flowrate =  st.sidebar.slider('Coling water flow rate : ', value=125.0, min_value=0.0, max_value=2000.0, step=1.0)
 n = st.sidebar.slider('Number of segments of the experiments : ', value=8, min_value=8, max_value=600, step=1)
@@ -553,10 +553,6 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
             # T_w = Wall_temperature1[i]
             Wall_temperature2.append(T_w)
     
-    # Debug print
-    # st.write(f"Segment {i+1}: Gas {T_gin:.1f}→{T_gout:.1f}°C, Water {T_cout:.1f}→{T_c_in:.1f}°C, Wall {T_w:.1f}°C")
-    # st.write(f"len Outlet_temp_air: {len(Outlet_temp_air)}, len Inlet_temp_water: {len(Inlet_temp_water)}")
-
     # Return all the calculated lists
     results =  {
         'y_H2o': y_H2o,
@@ -605,21 +601,13 @@ condensation = pd.DataFrame({"Type":["Calculated",'Experimental'],
 # Parameters for the experiment
 experiment_parameters = f"""
 Experiment's parameters are :
-
 T_gin = {df1.loc[e,'Mixture tin, oC']}°C,
-
 Vapour flow rate = {df1.loc[e,'Vapour flow rate, kg/h']} kg/h,
-
 Inlet temperature of humid air = {df1.loc[e,'Mixture tin, oC']}°C,
-
 Mixture flow rate = {df1.loc[e,'Mixture  (air+vapour) flow rate, kg/h']} kg/h,
-
 Air flow rate = {df1.loc[e,'Mixture  (air+vapour) flow rate, kg/h'] - df1.loc[e,'Vapour flow rate, kg/h']} kg/h
-
 Cooling water flow rate = {df1.loc[e,'Cooling water flow rate, l/h']} l/h,
-
 Reynolds number = {df1.loc[e,'Re']} and
-
 Mass fraction of water vapour = {df1.loc[e,'Mass Fraction']} %
 """
 # Create a bar plot for condensation data
@@ -627,11 +615,9 @@ Mass fraction of water vapour = {df1.loc[e,'Mass Fraction']} %
 num_plots = sum(1 for data in results.values() if len(data) > 0)
 # Your original code had a 5x7 grid
 rows, cols = 5, 7
-
 fig = make_subplots(rows=rows, cols=cols,
                     subplot_titles=[label for label, data in results.items() if len(data) > 0],
                     horizontal_spacing=0.05, vertical_spacing=0.07)
-
 plot_idx = 1
 for label, data in results.items():
     if len(data) == 0:
