@@ -475,6 +475,19 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
             T_cin_calc = T_cout - ((h_g * (T_gin - Temperature_interface[i]) * delta_Ai + 
                               h_fg * Mass_transfer_coefficient_air[i] * (y_h2o - Vapour_mole_interface[i]) * delta_Ai) / 
                              (m_c * c_pc))
+            Cooling_water = df1.loc[e ,['Temperature increase of the cooling water_1',
+            'Temperature increase of the cooling water_2',
+            'Temperature increase of the cooling water_3',
+            'Temperature increase of the cooling water_4',
+            'Temperature increase of the cooling water_5',
+            'Temperature increase of the cooling water_6',
+            'Temperature increase of the cooling water_7',
+            'Temperature increase of the cooling water_8',
+            'Temperature increase of the cooling water_9']].values
+            segment_positions = np.arange(1, len(Cooling_water) + 1)  # e.g., 1 to 8
+            slope = np.diff(Cooling_water) / np.diff(segment_positions)
+            max_slope = np.max(np.abs(slope))
+            
             if max_slope>6.3:
                 alpha_cin = 0.2
             elif 6.3 >=max_slope > 5.4:
@@ -503,7 +516,18 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
 
         else:
             T_cin_calc = T_cout - ((h_g * (T_gin - T_w) * delta_Ai) / (m_c * c_pc))
-
+            Cooling_water = df1.loc[e ,['Temperature increase of the cooling water_1',
+            'Temperature increase of the cooling water_2',
+            'Temperature increase of the cooling water_3',
+            'Temperature increase of the cooling water_4',
+            'Temperature increase of the cooling water_5',
+            'Temperature increase of the cooling water_6',
+            'Temperature increase of the cooling water_7',
+            'Temperature increase of the cooling water_8',
+            'Temperature increase of the cooling water_9']].values
+            segment_positions = np.arange(1, len(Cooling_water) + 1)  # e.g., 1 to 8
+            slope = np.diff(Cooling_water) / np.diff(segment_positions)
+            max_slope = np.max(np.abs(slope))            
             if max_slope>6.3:
                 alpha_cin = 0.2
             elif 6.3 >=max_slope > 5.4:
