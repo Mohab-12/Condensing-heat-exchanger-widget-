@@ -636,38 +636,38 @@ Mass fraction of water vapour = {df1.loc[e,'Mass Fraction']} %
 """
 # Create a bar plot for condensation data
 # Create subplot grid: 5 rows × 7 columns (same as original)
-num_plots = sum(1 for data in results.values() if len(data) > 0)
-# Your original code had a 5x7 grid
-rows, cols = 5, 7
-fig = make_subplots(rows=rows, cols=cols,
-                    subplot_titles=[label for label, data in results.items() if len(data) > 0],
-                    horizontal_spacing=0.05, vertical_spacing=0.07)
-plot_idx = 1
-for label, data in results.items():
-    if len(data) == 0:
-        continue
-    if len(data) == 9:
-        data = data[:-1]  # remove last element to make it 8
+# num_plots = sum(1 for data in results.values() if len(data) > 0)
+# # Your original code had a 5x7 grid
+# rows, cols = 5, 7
+# fig = make_subplots(rows=rows, cols=cols,
+#                     subplot_titles=[label for label, data in results.items() if len(data) > 0],
+#                     horizontal_spacing=0.05, vertical_spacing=0.07)
+# plot_idx = 1
+# for label, data in results.items():
+#     if len(data) == 0:
+#         continue
+#     if len(data) == 9:
+#         data = data[:-1]  # remove last element to make it 8
     
-    # Calculate row and column for subplot
-    row = (plot_idx - 1) // cols + 1
-    col = (plot_idx - 1) % cols + 1
+#     # Calculate row and column for subplot
+#     row = (plot_idx - 1) // cols + 1
+#     col = (plot_idx - 1) % cols + 1
     
-    x_vals = np.linspace(1, len(data), len(data))
+#     x_vals = np.linspace(1, len(data), len(data))
     
-    line = go.Scatter(x=x_vals, y=data, mode='lines', name=label)  # Pure line plot
-    fig.add_trace(line, row=row, col=col)
+#     line = go.Scatter(x=x_vals, y=data, mode='lines', name=label)  # Pure line plot
+#     fig.add_trace(line, row=row, col=col)
     
-    # Set x and y axis titles for each subplot
-    fig.update_xaxes(title_text='Index', row=row, col=col)
-    fig.update_yaxes(title_text='Value', row=row, col=col)
+#     # Set x and y axis titles for each subplot
+#     fig.update_xaxes(title_text='Index', row=row, col=col)
+#     fig.update_yaxes(title_text='Value', row=row, col=col)
     
-    plot_idx += 1
+#     plot_idx += 1
 
-fig.update_layout(height=6000, width=10000, showlegend=False, title_text="Scatter plots per label")
-fig.show()
+# fig.update_layout(height=6000, width=10000, showlegend=False, title_text="Scatter plots per label")
+# fig.show()
 
-st.plotly_chart(fig)
+# st.plotly_chart(fig)
 
 fig1 = go.Figure()
 
