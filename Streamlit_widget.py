@@ -511,7 +511,7 @@ def main_loop(n, m_frac, T_cout, T_gin, CW_flowrate, steam_flowrate, m_g, a):
             elif 2.7 >= max_slope > 2.6:
                 alpha_cin = 0.3
             else:
-                alpha_cin = 0.25            
+                alpha_cin = 0.25         
             T_cin = alpha_cin * T_cin_calc + (1 - alpha_cin) * Inlet_temp_water[i]
 
         else:
