@@ -32,7 +32,7 @@ M_Nu = [19.29, 12.09, 8.92, 5.81, 4.86, 4.64, 4.15]
 L_Nu = [12.8, 8.03, 6, 4.17, 3.77, 3.71, 3.66]
 
 def load_data():
-    file_path = r"E:\PhD\New Setup\Horizontalus ruozas-Eksperimetu suvestine (version 2).xlsx"
+    file_path = r"Horizontalus ruozas-Eksperimetu suvestine (version 2).xlsx"
     df1 = pd.read_excel(file_path, sheet_name='Sheet3')
     df1['Date'] = df1['Date'].astype(str)
     return df1
