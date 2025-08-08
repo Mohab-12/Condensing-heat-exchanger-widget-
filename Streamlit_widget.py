@@ -205,7 +205,6 @@ def run_simulation(e, T_gin, T_cout, steam_flowrate, Air_flowrate, a, n):
                     
                     T_cin_calc = T_cout - ((h_g*(T_gin-T_i_solution)*delta_Ai + h_fg*k_m*(y_h2o-y_i)*delta_Ai)/(m_c*c_pc))
                     T_cin_new = alpha_C * results['Inlet_temp_water'][-1] + (1 - alpha_C) * T_cin_calc
-                    
                     m_cd_calc = k_m * (y_h2o - y_i) * delta_Ai
                     current_error_cond = abs(m_cd_calc - results['Condensation_rate'][-1])
                     cond_error_history.append(current_error_cond)
