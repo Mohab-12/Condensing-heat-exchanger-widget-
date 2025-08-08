@@ -105,7 +105,7 @@ def run_simulation(e, T_gin, T_cout, steam_flowrate, Air_flowrate, a, n):
     # Hardcoded relaxation factors
     alpha_G = 0.1      # Air temperature relaxation
     alpha_W = 0.99     # Wall temperature relaxation
-    alpha_C = 0.75     # Cooling water relaxation
+    alpha_C = 1     # Cooling water relaxation
     alpha_cond = 0.1   # Condensation rate relaxation
     
     # Initialize result containers
@@ -126,7 +126,9 @@ def run_simulation(e, T_gin, T_cout, steam_flowrate, Air_flowrate, a, n):
     # Initialize temperatures for the first iteration
     T_cin = data['Cooling_water'][0]
     T_gin = data['Humid_air'][0]
-    
+    cond_error_history = []  # To track convergence behavior
+    prev_cond_rate = None  # To store previous condensation rate
+
     for i in range(n):
         # Current segment calculations
         T_cout = T_cin  # Outlet becomes inlet for next segment
@@ -205,6 +207,16 @@ def run_simulation(e, T_gin, T_cout, steam_flowrate, Air_flowrate, a, n):
                     T_cin_new = alpha_C * results['Inlet_temp_water'][-1] + (1 - alpha_C) * T_cin_calc
                     
                     m_cd_calc = k_m * (y_h2o - y_i) * delta_Ai
+                    current_error_cond = abs(m_cd_calc - results['Condensation_rate'][-1])
+                    cond_error_history.append(current_error_cond)
+                    # Adaptive adjustment (only after we have some history)
+                    if len(cond_error_history) > 1:
+                        if current_error_cond < cond_error_history[-2]:  # Converging
+                            alpha_cond = min(alpha_cond +0.02, 0.5)  # Increase relaxation
+                            print("Converging")
+                        else:  # Diverging
+                            alpha_cond = max(alpha_cond +0.05, 0.01)  # Decrease relaxation
+                            print("Diverging")
                     m_cd = results['Condensation_rate'][-1] + (alpha_cond * (m_cd_calc - results['Condensation_rate'][-1]))
                 
                 Condensation_rate_total += m_cd
