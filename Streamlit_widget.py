@@ -106,7 +106,7 @@ def run_simulation(e, T_gin, T_cout, steam_flowrate, Air_flowrate, a, n):
     alpha_G = 0.1      # Air temperature relaxation
     alpha_W = 0.99     # Wall temperature relaxation
     alpha_C = 1     # Cooling water relaxation
-    alpha_cond = 0.05   # Condensation rate relaxation
+    alpha_cond = 0.1   # Condensation rate relaxation
     
     # Initialize result containers
     results = {
@@ -212,7 +212,7 @@ def run_simulation(e, T_gin, T_cout, steam_flowrate, Air_flowrate, a, n):
                     # Adaptive adjustment (only after we have some history)
                     if len(cond_error_history) > 1:
                         if current_error_cond < cond_error_history[-2]:  # Converging
-                            alpha_cond = min(alpha_cond +0.05, 0.9)  # Increase relaxation
+                            alpha_cond = min(alpha_cond +0.02, 0.5)  # Increase relaxation
                             print("Converging")
                         else:  # Diverging
                             alpha_cond = max(alpha_cond +0.05, 0.01)  # Decrease relaxation
