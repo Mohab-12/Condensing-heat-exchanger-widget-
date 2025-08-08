@@ -106,7 +106,7 @@ def run_simulation(e, T_gin, T_cout, steam_flowrate, Air_flowrate, a, n):
     alpha_G = 0.1      # Air temperature relaxation
     alpha_W = 0.99     # Wall temperature relaxation
     alpha_C = 1     # Cooling water relaxation
-    alpha_cond = 0.1   # Condensation rate relaxation
+    alpha_cond = 0.3   # Condensation rate relaxation
     
     # Initialize result containers
     results = {
