@@ -215,7 +215,7 @@ def run_simulation(e, T_gin, T_cout, steam_flowrate, Air_flowrate, a, n):
                             alpha_cond = min(alpha_cond +0.02, 0.5)  # Increase relaxation
                             print("Converging")
                         else:  # Diverging
-                            alpha_cond = max(alpha_cond +0.05, 0.01)  # Decrease relaxation
+                            alpha_cond = max(alpha_cond +0.08, 0.01)  # Decrease relaxation
                             print("Diverging")
                     m_cd = results['Condensation_rate'][-1] + (alpha_cond * (m_cd_calc - results['Condensation_rate'][-1]))
                 
