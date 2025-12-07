@@ -11,7 +11,7 @@ import streamlit as st
 # %matplotlib inline
 
 # --- Configuration / constants -------------------------------------------------
-file_path = r"E:\PhD\New Setup\Horizontalus ruozas-Eksperimetu suvestine (version 2).xlsx"
+file_path = r"Horizontalus ruozas-Eksperimetu suvestine (version 2).xlsx"
 M_h2o = 18.015  # g/mol (unused for dimensionless ratios but kept)
 M_g = 28.96
 D_i = 0.014 # Inner diameter
