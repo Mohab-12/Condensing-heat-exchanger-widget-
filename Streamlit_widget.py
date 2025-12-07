@@ -293,7 +293,7 @@ with st.sidebar:
         df = load_data(uploaded)
     else:
         st.info("Using default file.")
-        df = load_data(file_path_default)
+        df = load_data(file_path)
 
     exp_id = st.number_input("Experiment ID", min_value=0, max_value=len(df)-1, value=60)
     n_segments = st.slider("Number of segments", 20, 200, 80)
