@@ -350,22 +350,22 @@ if run_button:
     # 1. TEMPERATURE PROFILES
     # -------------------------------------------------------------------
     with tabs[0]:
-    st.subheader("📈 Temperature Comparison Along the Heat Exchanger")
-
-    fig, ax = plt.subplots(figsize=(8,4))
-    # Model predictions
-    ax.plot(seg_df['Outlet_temp_air'], label="Model Air Temperature", color='blue')
-    ax.plot(seg_df['Inlet_temp_water'], label="Model Water Temperature", color='red')
-    # Experimental data
-    ax.scatter(np.linspace(0, len(seg_df)-1, len(exp_air_temp)), exp_air_temp, 
-               label="Experimental Air Temp", color='cyan', marker='x')
-    ax.scatter(np.linspace(0, len(seg_df)-1, len(exp_cw_temp)), exp_cw_temp, 
-               label="Experimental Water Temp", color='orange', marker='x')
+        st.subheader("📈 Temperature Comparison Along the Heat Exchanger")
     
-    ax.set_xlabel("Segment")
-    ax.set_ylabel("Temperature (°C)")
-    ax.legend()
-    st.pyplot(fig)
+        fig, ax = plt.subplots(figsize=(8,4))
+        # Model predictions
+        ax.plot(seg_df['Outlet_temp_air'], label="Model Air Temperature", color='blue')
+        ax.plot(seg_df['Inlet_temp_water'], label="Model Water Temperature", color='red')
+        # Experimental data
+        ax.scatter(np.linspace(0, len(seg_df)-1, len(exp_air_temp)), exp_air_temp, 
+                   label="Experimental Air Temp", color='cyan', marker='x')
+        ax.scatter(np.linspace(0, len(seg_df)-1, len(exp_cw_temp)), exp_cw_temp, 
+                   label="Experimental Water Temp", color='orange', marker='x')
+        
+        ax.set_xlabel("Segment")
+        ax.set_ylabel("Temperature (°C)")
+        ax.legend()
+        st.pyplot(fig)
 
     # -------------------------------------------------------------------
     # 2. HEAT TRANSFER COEFFICIENTS
@@ -385,19 +385,19 @@ if run_button:
     # 3. CONDENSATION
     # -------------------------------------------------------------------
     with tabs[2]:
-    st.subheader("💧 Condensation Comparison")
-
-    fig, ax = plt.subplots(figsize=(8,4))
-    ax.plot(seg_df['Condensation_rate'], label="Model Condensation", color='blue')
-    # If you have experimental per-segment condensation, use that; otherwise show total
-    ax.hlines(exp_data['steam_flowrate'], 0, len(seg_df)-1, 
-              color='red', linestyle='--', label="Experimental Total Condensation")
+        st.subheader("💧 Condensation Comparison")
     
-    ax.set_xlabel("Segment")
-    ax.set_ylabel("Condensation rate (kg/s)")
-    ax.legend()
-    st.pyplot(fig)
-
+        fig, ax = plt.subplots(figsize=(8,4))
+        ax.plot(seg_df['Condensation_rate'], label="Model Condensation", color='blue')
+        # If you have experimental per-segment condensation, use that; otherwise show total
+        ax.hlines(exp_data['steam_flowrate'], 0, len(seg_df)-1, 
+                  color='red', linestyle='--', label="Experimental Total Condensation")
+        
+        ax.set_xlabel("Segment")
+        ax.set_ylabel("Condensation rate (kg/s)")
+        ax.legend()
+        st.pyplot(fig)
+    
 
     # -------------------------------------------------------------------
     # 4. FLOW PARAMETERS
