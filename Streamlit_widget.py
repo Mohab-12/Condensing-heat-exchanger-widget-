@@ -389,7 +389,7 @@ if run_button:
         st.subheader("💧 Condensation Profile")
     
         # Experimental condensation (single measured value)
-        exp_condensation_total = float(exp_data['Condensate_flow_rate'])
+        exp_condensation_total = float(exp_data['Condensate_flow_rate'])/60
     
         # Model: total condensation across all segments
         model_total_condensation = float(seg_df['Condensation_rate'].sum())
