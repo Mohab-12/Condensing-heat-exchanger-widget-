@@ -107,7 +107,7 @@ def run_segmental_model(e, n_segments=40, debug=False):
             'Wall_temperature2','Density_air','FlowRate_air','Velocity_air','Specific_heat_air',
             'Viscosity_air','Reynolds_air','Prandtl','Thermal_conductivity_air','Thermal_diffusivity_air',
             'Nusselt_air','Heat_transfer_air','Latent_heat_air','Lewis_air','Mass_of_diffusivity',
-            'Inlet_temp_air','Outlet_temp_air','Inlet_temp_water','Outlet_temp_water','Condensation_rate','Imbalance',
+            'Outlet_temp_air','Inlet_temp_water','Condensation_rate','Imbalance',
             'Q_Air_Sensible','Cond','Water','HTA','HTW'
         ]}
 
