@@ -388,8 +388,11 @@ if run_button:
     with tabs[2]:
         st.subheader("💧 Condensation Profile")
     
-        # If you have a single measured condensation value per experiment:
-        exp_condensation_total = exp_data['Condensate_flow_rate']  # kg/s or adjust to measured value
+        # Experimental condensation (single measured value)
+        exp_condensation_total = float(exp_data['Condensate_flow_rate'])
+    
+        # Model: total condensation across all segments
+        model_total_condensation = float(seg_df['Condensation_rate'].sum())
     
         fig, ax = plt.subplots(figsize=(8,4))
         ax.bar(['Experimental', 'Model'], [exp_condensation_total, model_total_condensation], color=['green','blue'])
