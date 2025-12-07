@@ -270,17 +270,17 @@ def run_segmental_model(e, n_segments=40, debug=False):
             T_c_guess = T_c_guess - 1
 
     # Assuming `df` is already loaded and exp_id is selected
-    # exp_data = get_experiment_data(df, exp_id)
+    exp_data = get_experiment_data(df, exp_id)
     
-    # # Segmental model outputs
-    # seg_df = pd.DataFrame(results)
+    # Segmental model outputs
+    seg_df = pd.DataFrame(results)
     
-    # # Experimental temperatures (assume 9 points for Humid_air and Cooling_water)
-    # exp_air_temp = exp_data['Humid_air']
-    # exp_cw_temp = exp_data['Cooling_water']
+    # Experimental temperatures (assume 9 points for Humid_air and Cooling_water)
+    exp_air_temp = exp_data['Humid_air']
+    exp_cw_temp = exp_data['Cooling_water']
     
-    # # Condensation: sum of outlet/inlet flow if measured, or per segment if available
-    # exp_condensation = np.full_like(seg_df['Condensation_rate'], exp_data['steam_flowrate'])  # example placeholder
+    # Condensation: sum of outlet/inlet flow if measured, or per segment if available
+    exp_condensation = np.full_like(seg_df['Condensation_rate'], exp_data['steam_flowrate'])  # example placeholder
 
                     
     return results, iteration, data
