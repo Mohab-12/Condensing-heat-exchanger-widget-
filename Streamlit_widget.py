@@ -161,7 +161,7 @@ def run_segmental_model(e, n_segments=40, debug=False):
     
             # # latent heat at approximate wall temperature guess
             # approximate wall temperature from previous energy balance (user's approach)
-            h_fg = PropsSI('H', 'T', T_w + 273.15, 'Q', 1, 'Water') - PropsSI('H', 'T', T_w + 273.15, 'Q', 0, 'Water')
+            h_fg = PropsSI('H', 'T', np.interp(y_h2o, pressure, temperature) + 273.15, 'Q', 1, 'Water') - PropsSI('H', 'T', np.interp(y_h2o, pressure, temperature) + 273.15, 'Q', 0, 'Water')
     
             # vapour diffusivity estimate and Lewis number
             D_h2oair = (6.057e-6 + 4.055e-8 * (T_g_avg + 273.15) + 1.25e-10 * (T_g_avg + 273.15) ** 2 - 3.367e-14 * (T_g_avg + 273.15) ** 3)
