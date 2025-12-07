@@ -270,24 +270,24 @@ def run_segmental_model(e, n_segments=40, debug=False):
             T_c_guess = T_c_guess - 1
 
     # Assuming `df` is already loaded and exp_id is selected
-    exp_data = get_experiment_data(df, exp_id)
+    # exp_data = get_experiment_data(df, exp_id)
     
-    # Segmental model outputs
-    seg_df = pd.DataFrame(results)
+    # # Segmental model outputs
+    # seg_df = pd.DataFrame(results)
     
-    # Experimental temperatures (assume 9 points for Humid_air and Cooling_water)
-    exp_air_temp = exp_data['Humid_air']
-    exp_cw_temp = exp_data['Cooling_water']
+    # # Experimental temperatures (assume 9 points for Humid_air and Cooling_water)
+    # exp_air_temp = exp_data['Humid_air']
+    # exp_cw_temp = exp_data['Cooling_water']
     
-    # Condensation: sum of outlet/inlet flow if measured, or per segment if available
-    exp_condensation = np.full_like(seg_df['Condensation_rate'], exp_data['steam_flowrate'])  # example placeholder
+    # # Condensation: sum of outlet/inlet flow if measured, or per segment if available
+    # exp_condensation = np.full_like(seg_df['Condensation_rate'], exp_data['steam_flowrate'])  # example placeholder
 
                     
-    return results, iteration
+    return results, iteration, data
 
 if __name__ == '__main__':
     # Example: run experiment 60
-    res,iteration = run_segmental_model(60, n_segments=100, debug=True)
+    res, iteration, exp_data = run_segmental_model(60, n_segments=100, debug=True)
     # print short summary
     print('Done. Segments:', len(res['Outlet_temp_air']))
     print('Number of iterations are: ', iteration)
@@ -317,7 +317,7 @@ with st.sidebar:
 
 if run_button:
     with st.spinner("Running segmental model..."):
-        results, iterations = run_segmental_model(exp_id, n_segments=n_segments)
+        results, iterations, exp_data = run_segmental_model(exp_id, n_segments=n_segments)
 
     st.success(f"Model completed in **{iterations} iterations**.")
 
