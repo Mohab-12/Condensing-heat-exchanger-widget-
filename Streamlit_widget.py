@@ -392,7 +392,7 @@ if run_button:
         exp_condensation_total = exp_data['Condensate_flow_rate']  # kg/s or adjust to measured value
     
         fig, ax = plt.subplots(figsize=(8,4))
-        ax.bar(['Experiment', 'Model'], [exp_condensation_total, seg_df.index, seg_df['Condensation_rate']], label="Model Condensation")
+        ax.bar(['Experimental', 'Model'], [exp_condensation_total, model_total_condensation], color=['green','blue'])
         # ax.axhline(exp_condensation_total, color='green', linestyle='--', label="Experimental Condensation")
         ax.set_xlabel("Segment")
         ax.set_ylabel("Condensation rate (kg/s)")
@@ -402,7 +402,7 @@ if run_button:
         st.write("### Cumulative Condensation")
         fig, ax = plt.subplots(figsize=(8,4))
         ax.plot(seg_df['Condensation_rate'].cumsum(), label="Model Cumulative")
-        ax.axhline(exp_condensation_total, color='green', linestyle='--', label="Experimental Total")
+        # ax.axhline(exp_condensation_total, color='green', linestyle='--', label="Experimental Total")
         ax.set_ylabel("Total condensed mass (kg/s)")
         ax.legend()
         st.pyplot(fig)    
