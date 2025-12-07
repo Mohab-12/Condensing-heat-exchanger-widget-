@@ -44,7 +44,7 @@ def get_experiment_data(df, e):
         'dew_point': df.loc[e, [f'Dew point_{i}' for i in range(1,9)]].values,
         'steam_flowrate': df.loc[e, 'Vapour flow rate, kg/h'] / 3600.0,      # kg/s
         'CW_flowrate': df.loc[e, 'Cooling water flow rate, l/h'],            # L/h
-        'Mixture_flowrate': df.loc[e, 'Mixture  (air+vapour) flow rate, kg/h'] / 3600.0  # kg/s
+        'Mixture_flowrate': df.loc[e, 'Mixture  (air+vapour) flow rate, kg/h'] / 3600.0,  # kg/s
         'Condensate_flow_rate': df.loc[e,'Condensation flow rate(Kg/min)']
     }
 
