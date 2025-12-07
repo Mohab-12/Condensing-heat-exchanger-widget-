@@ -7,7 +7,7 @@ warnings.simplefilter("ignore")
 from CoolProp.CoolProp import PropsSI
 from CoolProp.HumidAirProp import HAPropsSI
 import matplotlib.pyplot as plt
-%matplotlib inline
+# %matplotlib inline
 
 # --- Configuration / constants -------------------------------------------------
 file_path = r"E:\PhD\New Setup\Horizontalus ruozas-Eksperimetu suvestine (version 2).xlsx"
