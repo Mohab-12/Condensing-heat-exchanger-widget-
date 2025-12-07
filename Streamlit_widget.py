@@ -350,18 +350,18 @@ if run_button:
     # 1. TEMPERATURE PROFILES
     # -------------------------------------------------------------------
     with tabs[0]:
-        st.subheader("📈 Temperature Comparison Along the Heat Exchanger")
+        st.subheader("📈 Temperature Evolution Along the Heat Exchanger")
+    
+        exp_air_temp = np.array(exp_data['Humid_air'])
+        exp_cw_temp  = np.array(exp_data['Cooling_water'])
+        x_exp = np.linspace(0, len(seg_df)-1, len(exp_air_temp))  # map 9 points along segments
     
         fig, ax = plt.subplots(figsize=(8,4))
-        # Model predictions
-        ax.plot(seg_df['Outlet_temp_air'], label="Model Air Temperature", color='blue')
-        ax.plot(seg_df['Inlet_temp_water'], label="Model Water Temperature", color='red')
-        # Experimental data
-        ax.scatter(np.linspace(0, len(seg_df)-1, len(exp_air_temp)), exp_air_temp, 
-                   label="Experimental Air Temp", color='cyan', marker='x')
-        ax.scatter(np.linspace(0, len(seg_df)-1, len(exp_cw_temp)), exp_cw_temp, 
-                   label="Experimental Water Temp", color='orange', marker='x')
-        
+        ax.plot(seg_df['Outlet_temp_air'], label="Model Air Temperature")
+        ax.plot(seg_df['Inlet_temp_water'], label="Model Water Temperature")
+        ax.plot(seg_df['Wall_temperature2'], label="Model Wall Temperature")
+        ax.scatter(x_exp, exp_air_temp, color='red', label="Experimental Air", zorder=5)
+        ax.scatter(x_exp, exp_cw_temp, color='blue', label="Experimental CW", zorder=5)
         ax.set_xlabel("Segment")
         ax.set_ylabel("Temperature (°C)")
         ax.legend()
@@ -385,19 +385,26 @@ if run_button:
     # 3. CONDENSATION
     # -------------------------------------------------------------------
     with tabs[2]:
-        st.subheader("💧 Condensation Comparison")
+        st.subheader("💧 Condensation Profile")
+    
+        # If you have a single measured condensation value per experiment:
+        exp_condensation_total = exp_data['steam_flowrate']  # kg/s or adjust to measured value
     
         fig, ax = plt.subplots(figsize=(8,4))
-        ax.plot(seg_df['Condensation_rate'], label="Model Condensation", color='blue')
-        # If you have experimental per-segment condensation, use that; otherwise show total
-        ax.hlines(exp_data['steam_flowrate'], 0, len(seg_df)-1, 
-                  color='red', linestyle='--', label="Experimental Total Condensation")
-        
+        ax.bar(seg_df.index, seg_df['Condensation_rate'], label="Model Condensation")
+        ax.axhline(exp_condensation_total, color='green', linestyle='--', label="Experimental Condensation")
         ax.set_xlabel("Segment")
         ax.set_ylabel("Condensation rate (kg/s)")
         ax.legend()
         st.pyplot(fig)
     
+        st.write("### Cumulative Condensation")
+        fig, ax = plt.subplots(figsize=(8,4))
+        ax.plot(seg_df['Condensation_rate'].cumsum(), label="Model Cumulative")
+        ax.axhline(exp_condensation_total, color='green', linestyle='--', label="Experimental Total")
+        ax.set_ylabel("Total condensed mass (kg/s)")
+        ax.legend()
+        st.pyplot(fig)    
 
     # -------------------------------------------------------------------
     # 4. FLOW PARAMETERS
