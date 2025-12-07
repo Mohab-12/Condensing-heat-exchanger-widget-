@@ -45,6 +45,7 @@ def get_experiment_data(df, e):
         'steam_flowrate': df.loc[e, 'Vapour flow rate, kg/h'] / 3600.0,      # kg/s
         'CW_flowrate': df.loc[e, 'Cooling water flow rate, l/h'],            # L/h
         'Mixture_flowrate': df.loc[e, 'Mixture  (air+vapour) flow rate, kg/h'] / 3600.0  # kg/s
+        'Condensate_flow_rate': df.loc[e,'Condensation flow rate(Kg/min)']
     }
 
 def water_props_from_temp_C(T_c):
@@ -357,14 +358,14 @@ if run_button:
         x_exp = np.linspace(0, len(seg_df)-1, len(exp_air_temp))  # map 9 points along segments
     
         fig, ax = plt.subplots(figsize=(8,4))
-        ax.plot(seg_df['Outlet_temp_air'], label="Model Air Temperature")
-        ax.plot(seg_df['Inlet_temp_water'], label="Model Water Temperature")
-        ax.plot(seg_df['Wall_temperature2'], label="Model Wall Temperature")
+        ax.plot(seg_df['Outlet_temp_air'], label="Model Air Temperature", ls='--')
+        ax.plot(seg_df['Inlet_temp_water'], label="Model Water Temperature", ls='--')
+        ax.plot(seg_df['Wall_temperature2'], label="Model Wall Temperature", ls='--')
         ax.scatter(x_exp, exp_air_temp, color='red', label="Experimental Air", zorder=5)
         ax.scatter(x_exp, exp_cw_temp, color='blue', label="Experimental CW", zorder=5)
         ax.set_xlabel("Segment")
         ax.set_ylabel("Temperature (°C)")
-        ax.legend()
+        ax.legend(loc=(1.01,0.68))
         st.pyplot(fig)
 
     # -------------------------------------------------------------------
@@ -388,11 +389,11 @@ if run_button:
         st.subheader("💧 Condensation Profile")
     
         # If you have a single measured condensation value per experiment:
-        exp_condensation_total = exp_data['steam_flowrate']  # kg/s or adjust to measured value
+        exp_condensation_total = exp_data['Condensate_flow_rate']  # kg/s or adjust to measured value
     
         fig, ax = plt.subplots(figsize=(8,4))
-        ax.bar(seg_df.index, seg_df['Condensation_rate'], label="Model Condensation")
-        ax.axhline(exp_condensation_total, color='green', linestyle='--', label="Experimental Condensation")
+        ax.bar(['Experiment', 'Model'], [exp_condensation_total, seg_df.index, seg_df['Condensation_rate']], label="Model Condensation")
+        # ax.axhline(exp_condensation_total, color='green', linestyle='--', label="Experimental Condensation")
         ax.set_xlabel("Segment")
         ax.set_ylabel("Condensation rate (kg/s)")
         ax.legend()
