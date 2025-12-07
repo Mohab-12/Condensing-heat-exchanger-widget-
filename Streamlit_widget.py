@@ -7,6 +7,7 @@ warnings.simplefilter("ignore")
 from CoolProp.CoolProp import PropsSI
 from CoolProp.HumidAirProp import HAPropsSI
 import matplotlib.pyplot as plt
+import streamlit as st
 # %matplotlib inline
 
 # --- Configuration / constants -------------------------------------------------
