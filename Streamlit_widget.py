@@ -389,16 +389,16 @@ if run_button:
         st.subheader("💧 Condensation Profile")
     
         # Experimental condensation (single measured value)
-        exp_condensation_total = float(exp_data['Condensate_flow_rate'])/60
+        exp_condensation_total = float(exp_data['Condensate_flow_rate'])
     
         # Model: total condensation across all segments
-        model_total_condensation = float(seg_df['Condensation_rate'].sum())
+        model_total_condensation = float(seg_df['Condensation_rate'].sum())*60
     
         fig, ax = plt.subplots(figsize=(8,4))
         ax.bar(['Experimental', 'Model'], [exp_condensation_total, model_total_condensation], color=['green','blue'])
         # ax.axhline(exp_condensation_total, color='green', linestyle='--', label="Experimental Condensation")
         ax.set_xlabel("Segment")
-        ax.set_ylabel("Condensation rate (kg/s)")
+        ax.set_ylabel("Condensation rate (kg/min)")
         ax.legend()
         st.pyplot(fig)
     
