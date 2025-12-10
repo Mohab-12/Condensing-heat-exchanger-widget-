@@ -311,7 +311,7 @@ with st.sidebar:
         df = load_data(file_path)
 
     exp_id = st.number_input("Experiment ID", min_value=0, max_value=len(df)-1, value=60)
-    n_segments = st.slider("Number of segments", 20, 200, 80)
+    n_segments = st.slider("Number of segments", 20, 200, 40)
     run_button = st.button("Run Model")
 
 # --- Run model -------------------------------------------------------------
