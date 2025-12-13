@@ -124,7 +124,7 @@ def run_segmental_model(e, n_segments=40, debug=False):
             'Wall_temperature2','Density_air','FlowRate_air','Velocity_air','Specific_heat_air',
             'Viscosity_air','Reynolds_air','Prandtl','Thermal_conductivity_air','Thermal_diffusivity_air',
             'Nusselt_air','Heat_transfer_air','Latent_heat_air','Lewis_air','Mass_of_diffusivity',
-            'Inlet_temp_air','Outlet_temp_air','Inlet_temp_water','Outlet_temp_water','Condensation_rate','Imbalance',
+            'Outlet_temp_air','Inlet_temp_water','Condensation_rate','Imbalance',
             'Q_Air_Sensible','Cond','Water','HTA','HTW'
         ]}
         
@@ -284,10 +284,8 @@ def run_segmental_model(e, n_segments=40, debug=False):
             results['Latent_heat_air'].append(h_fg)
             results['Lewis_air'].append(Le_h2oair)
             results['Mass_of_diffusivity'].append(D_h2oair)
-            # results['Inlet_temp_air'].append(T_g_inlet)
             results['Outlet_temp_air'].append(Tg[seg+1])
             results['Inlet_temp_water'].append(Tc[seg+1])
-            # results['Outlet_temp_water'].append(T_c_outlet)
             results['Condensation_rate'].append(m_cd[seg])
             results['Imbalance'].append(imbalance)
             results['Q_Air_Sensible'].append(Q_gas_per_coil)
