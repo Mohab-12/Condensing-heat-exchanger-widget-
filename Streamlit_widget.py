@@ -14,6 +14,11 @@ import streamlit as st
 file_path = r"Horizontalus ruozas-Eksperimetu suvestine (version 2).xlsx"
 M_h2o = 18.015  # g/mol (unused for dimensionless ratios but kept)
 M_g = 28.96
+L = 0.364
+total_length_per_coil = 2.85  # from geometry table
+tube_n = 8 # number of vertical  tubes in one serepentine coil
+coil_n = 3 # number of serepentune coils in the heat exchanger
+Ao_total_measured = 0.49375872      # ALL serpentines outer area [m²]
 D_i = 0.014 # Inner diameter
 D_o = 0.018 # Outer diameter
 p = 101325
@@ -67,7 +72,9 @@ def air_props_from_T_and_Mfrac(T_g_C, M_frac_mass):
 
 def nusselt_water(Re_c, pr_c, k_c, D_i):
     if Re_c < 3000:
-        x = 0.30
+        total_length_per_coil = 2.85  # from geometry table
+        delta_L = total_length_per_coil / n_segments
+        x = delta_L
         x_ = ((2 * x) / D_i) / (Re_c * pr_c)
         Mean_Nu = np.interp(x_, x_values, M_Nu)
         h = Mean_Nu * k_c / D_i
@@ -82,22 +89,31 @@ def nusselt_water(Re_c, pr_c, k_c, D_i):
         return Nu_c, h
 
 def nusselt_air(Re_g, pr_g, k_g):
-    if 1000 <= Re_g <= 2e6 and 0.7 <= pr_g <= 500:
-        return 0.27 * (Re_g ** 0.63) * (pr_g ** 0.36)
-    return 5.0
+    if Re_g < 1e3 or Re_g > 2e6:
+        # out of nominal range; you can still use it, but be aware
+        pass
+    return 0.27 * (Re_g**0.63) * (pr_g**0.36)
 
 # --- Main: corrected segment loop --------------------------------------------
 def run_segmental_model(e, n_segments=40, debug=False):
     df = load_data()
     data = get_experiment_data(df, e)
 
-    tolerance = 5.0
+    tolerance = 3.0
     max_iterations = 100
     iteration = 0
-    T_c_target = float(data['Cooling_water'][-1])
-    T_c_outlet = T_c_guess = float(data['Cooling_water'][0])
-    # T_c_outlet = T_c_guess = 30
-    delta_Ao = 0.49375872/n_segments
+
+    Ao_total_measured = 0.49375872      # ALL serpentines outer area [m²]
+    Ao_per_serpentines = Ao_total_measured / coil_n  # 0.16458624 m² per serpentine
+    delta_Ao = Ao_per_serpentines / n_segments # total area per segment m²
+    
+    Tg = np.zeros(n_segments + 1)
+    Tc = np.zeros(n_segments + 1)   # Tc[i] is water temperature at junction i between segments
+    Tw = np.zeros(n_segments + 1)      # wall temperature per segment (or film approximation)
+    m_cd = np.zeros(n_segments) # condensation per segment
+    
+    Tc_target = float(data['Cooling_water'][-1])
+    T_c_guess = Tc[0] = float(data['Cooling_water'][0])
     
     while iteration < max_iterations:
         # results container
@@ -108,23 +124,27 @@ def run_segmental_model(e, n_segments=40, debug=False):
             'Wall_temperature2','Density_air','FlowRate_air','Velocity_air','Specific_heat_air',
             'Viscosity_air','Reynolds_air','Prandtl','Thermal_conductivity_air','Thermal_diffusivity_air',
             'Nusselt_air','Heat_transfer_air','Latent_heat_air','Lewis_air','Mass_of_diffusivity',
-            'Outlet_temp_air','Inlet_temp_water','Condensation_rate','Imbalance',
+            'Inlet_temp_air','Outlet_temp_air','Inlet_temp_water','Outlet_temp_water','Condensation_rate','Imbalance',
             'Q_Air_Sensible','Cond','Water','HTA','HTW'
         ]}
-
-        Condensation_rate_total = 0.0
+        
+        Tg = np.zeros(n_segments + 1)
+        Tc = np.zeros(n_segments + 1)   # Tc[i] is water temperature at junction i between segments
+        Tw = np.zeros(n_segments + 1)      # wall temperature per segment (or film approximation)
+        m_cd = np.zeros(n_segments) # condensation per segment
+        # Condensation_rate_total = 0.0
         M_frac = data['steam_flowrate'] / data['Mixture_flowrate']
-        T_g = float(data['Humid_air'][0])
-        T_c = T_c_guess
-        T_w = float(data['Wall_temp'][0])
-
+        Tg_inlet = Tg[0] = float(data['Humid_air'][0])
+        Tc[0] = T_c_guess
+        T_w = Tw[0] = float(data['Wall_temp'][0])
+        
         for seg in range(n_segments):
             # Assignning temperatures
-            T_g_avg = T_g 
-            T_c_avg = T_c
+            T_g_inlet = Tg[seg] 
+            T_c_outlet = Tc[seg]
             # --- water side (using inlet estimate) ---------------------------------
             # use inlet temperature as start; after computing Q we get outlet
-            rho_c, k_c, c_pc, mu_c = water_props_from_temp_C(T_c_avg)
+            rho_c, k_c, c_pc, mu_c = water_props_from_temp_C(Tc[seg])
             # convert cooling water flow: L/h -> m^3/s
             mdot_total_cw_m3s = data['CW_flowrate'] / 3600.0 * 1e-3
             # assumption: parallel 3 branches (user) -> per-branch volumetric flow
@@ -136,23 +156,24 @@ def run_segmental_model(e, n_segments=40, debug=False):
             Re_c = (rho_c * v_c * D_i) / (mu_c + 1e-12)
             alpha_c = k_c / (rho_c * c_pc)
             pr_c = (mu_c / rho_c) / alpha_c
-            Nu_c, h_c = nusselt_water(Re_c, pr_c, k_c, D_i)
+            Nu_c, h_c = nusselt_water(Re_c, pr_c, k_c, D_i, n_segments)
+            # print(f"Seg{seg:2d}: h_c={h_c:5.0f} Re_c={Re_c:5.0f} m_c={m_c*3600:5.1f}kg/h Tw={Tw[seg]:5.1f}")
+
     
             # --- gas side properties (use current M_frac and T_g_inlet) ------------
-            # mass fraction M_frac = m_vapor / (m_vapor + m_dry) - consistent with how user computes
+            # mass fraction M_frac = m_vapor / (m_vapor + m_dry) - 
             # Convert to humidity ratio W = m_vapor/m_dry for CoolProp
-            mu_g, k_g, c_pg = air_props_from_T_and_Mfrac(T_g_avg, M_frac)
+            mu_g, k_g, c_pg = air_props_from_T_and_Mfrac(Tg[seg], M_frac)
     
             # compute partial densities (approx.) and mixture density
-            # keep user's approach but ensure consistent formula
             y_h2o = (M_frac / M_h2o) / ((M_frac / M_h2o) + ((1.0 - M_frac) / M_g))
-            rho_air = ((p * M_g / 1000.0) / (R_air * (T_g_avg + 273.15))) * (1.0 - y_h2o)
-            rho_vap = ((p * M_h2o / 1000.0) / (R_water * (T_g_avg + 273.15))) * y_h2o
+            rho_air = ((p * M_g / 1000.0) / (R_air * (Tg[seg] + 273.15))) * (1.0 - y_h2o)
+            rho_vap = ((p * M_h2o / 1000.0) / (R_water * (Tg[seg] + 273.15))) * y_h2o
             rho_g = rho_air + rho_vap
     
             # current mixture mass flow available downstream (subtract what already condensed)
-            m_g = max(data['Mixture_flowrate'] - Condensation_rate_total, 1e-12)
-            A_gap = 0.03185 # Area where the humid air flows >>> Cross sectional area of Rectangular duct - Cross section area of coils
+            m_g = max(data['Mixture_flowrate'] - (coil_n * np.sum(m_cd)), 1e-12)
+            A_gap = 0.011 # Area where the humid air flows >>> Cross sectional area of Rectangular duct - Cross section area of coils
             v_g = m_g / (rho_g * A_gap + 1e-12)
             Re_g = (rho_g * v_g * D_o) / (mu_g + 1e-12)
             alpha_g = k_g / (rho_g * c_pg + 1e-12)
@@ -160,16 +181,12 @@ def run_segmental_model(e, n_segments=40, debug=False):
             Nu_g = nusselt_air(Re_g, pr_g, k_g)
             h_g = (Nu_g * k_g) / D_o
     
-            # # latent heat at approximate wall temperature guess
-            # approximate wall temperature from previous energy balance (user's approach)
-            h_fg = PropsSI('H', 'T', np.interp(y_h2o, pressure, temperature) + 273.15, 'Q', 1, 'Water') - PropsSI('H', 'T', np.interp(y_h2o, pressure, temperature) + 273.15, 'Q', 0, 'Water')
-    
             # vapour diffusivity estimate and Lewis number
-            D_h2oair = (6.057e-6 + 4.055e-8 * (T_g_avg + 273.15) + 1.25e-10 * (T_g_avg + 273.15) ** 2 - 3.367e-14 * (T_g_avg + 273.15) ** 3)
+            D_h2oair = (6.057e-6 + 4.055e-8 * (Tg[seg] + 273.15) + 1.25e-10 * (Tg[seg] + 273.15) ** 2 - 3.367e-14 * (Tg[seg] + 273.15) ** 3)
             Le_h2oair = alpha_g / (D_h2oair + 1e-20)
     
             # --- interface and condensation calculation ---------------------------
-            if T_w < np.interp(y_h2o, pressure, temperature):
+            if Tw[seg] < HAPropsSI('Tdp','T',Tg[seg]+273.15,'P',p,'W',M_frac / (1.0 - M_frac)):
                 # Solve interface temperature T_i (user's original equation preserved)
                 def equation_Ti(T_i):
                     y_i = np.exp(a_antoine - (b_antoine / (T_i + c_antoine))) / (p / 1000.0)
@@ -177,44 +194,68 @@ def run_segmental_model(e, n_segments=40, debug=False):
                     y_nb = 1.0 - y_h2o
                     y_lm = (y_ni - y_nb) / math.log(y_ni / y_nb) if (y_ni != y_nb) else y_nb
                     k_m = (h_g * M_h2o) / (c_pg * M_g * y_lm * (Le_h2oair ** (2.0 / 3.0)) + 1e-20)
-                    return (h_g * T_g_avg + h_fg * k_m * (y_h2o - y_i) + h_c * T_c_avg) / (h_g + h_c + 1e-20) - T_i
-    
+                    h_fg = PropsSI('H','T',(Tw[seg] if seg == 0 else T_i) + 273.15,'Q',1,'Water') \
+                  - PropsSI('H','T',(Tw[seg] if seg == 0  else T_i) + 273.15,'Q',0,'Water')
+                    return (h_g * Tg[seg] + h_fg * k_m * (y_h2o - y_i) + h_c * Tc[seg]) / (h_g + h_c + 1e-20) - T_i
                 try:
                     T_i = newton(equation_Ti, 60.0, maxiter=100)
                     y_i = np.exp(a_antoine - (b_antoine / (T_i + c_antoine))) / (p / 1000.0)
                     y_lm = (1.0 - y_i - (1.0 - y_h2o)) / math.log((1.0 - y_i) / (1.0 - y_h2o)) if (1.0 - y_i) != (1.0 - y_h2o) else (1.0 - y_h2o)
+                    # # latent heat at approximate wall temperature guess
+                    # approximate wall temperature from previous energy balance (user's approach)
+                    h_fg = PropsSI('H','T',(Tw[seg] if seg == 0 else T_i) + 273.15,'Q',1,'Water') \
+                           - PropsSI('H','T',(Tw[seg] if seg == 0  else T_i) + 273.15,'Q',0,'Water')
                     k_m = (h_g * M_h2o) / (c_pg * M_g * y_lm * (Le_h2oair ** (2.0 / 3.0)) + 1e-20)
     
                     # temperature changes across this segment (energy balance style formulas from original)
-                    T_g_outlet = ((m_g * c_pg - (h_g / 2.0) * delta_Ao) * T_g + h_g * delta_Ao * T_i) / (m_g * c_pg + (h_g / 2.0) * delta_Ao + 1e-20)
-                    T_c_inlet = T_c - ((h_g * (T_g - T_i) * delta_Ao) + h_fg * k_m * (y_h2o - y_i) * delta_Ao) / (m_c * c_pc + 1e-20)
+                    Tg[seg+1] = ((m_g * c_pg - (h_g / 2.0) * delta_Ao* coil_n) * Tg[seg] + h_g * delta_Ao* coil_n * T_i) / (m_g * c_pg + (h_g / 2.0) * delta_Ao* coil_n + 1e-20)
+                    Tc[seg+1] = Tc[seg] - ((h_g * (Tg[seg] - T_i) * delta_Ao) + h_fg * k_m * (y_h2o - y_i) * delta_Ao) / (m_c * c_pc + 1e-20)
     
                     # local condensation mass flux (per this segment / per branch)
-                    m_cd = k_m * (y_h2o - y_i) * delta_Ao
+                    m_cd[seg] = k_m * (y_h2o - y_i) * delta_Ao
+                    m_cd_total = coil_n * np.sum(m_cd)
+
     
                     # update totals and compositions
-                    Condensation_rate_total += m_cd
-                    M_frac = max((data['steam_flowrate'] - Condensation_rate_total) / max((data['Mixture_flowrate'] - Condensation_rate_total), 1e-12), 0.0)
+                    M_frac = max((data['steam_flowrate'] - m_cd_total) / max((data['Mixture_flowrate'] - m_cd_total), 1e-12), 0.0)
     
                 except RuntimeError:
                     # fallback: no condensation
-                    T_g_outlet = ((m_g * c_pg - (h_g / 2.0) * delta_Ao* T_g) + h_g * delta_Ao * T_w) / (m_g * c_pg + (h_g / 2.0) * delta_Ao + 1e-20)
-                    T_c_inlet = T_c - ((h_g * (T_g - T_w) * delta_Ao) / (m_c * c_pc + 1e-20))
-                    m_cd = 0.0
+                    T_i = 0.0
+                    m_cd[seg] = 0.0
+                    h_fg = 0.0
             else:
                 # no condensation: sensible heat only
-                T_g_outlet = ((m_g * c_pg - (h_g / 2.0) * delta_Ao) * T_g + h_g * delta_Ao * T_w) / (m_g * c_pg + (h_g / 2.0) * delta_Ao + 1e-20)
-                T_c_inlet = T_c - ((h_g * (T_g - T_w) * delta_Ao) / (m_c * c_pc + 1e-20))
-                m_cd = 0.0
+                Tg[seg+1] = ((m_g * c_pg - (h_g / 2.0) * delta_Ao* coil_n) * Tg[seg] + h_g * delta_Ao* coil_n * Tw[seg]) / (m_g * c_pg + (h_g / 2.0) * delta_Ao* coil_n + 1e-20)
+                Tc[seg+1] = Tc[seg] - ((h_g * (Tg[seg] - Tw[seg]) * delta_Ao) / (m_c * c_pc + 1e-20))
+                m_cd[seg] = 0.0
+                h_fg = 0.0
     
-            T_w = T_c + ((m_c * c_pc * (T_c - T_c_inlet)) / (h_c * delta_Ao + 1e-12))
-            # T_w = float(data['Wall_temp'][0]) if seg==0 else T_c + ((m_c * c_pc * (T_c - T_c_inlet)) / (h_c * delta_Ao + 1e-12)) 
-
+            # Tw[seg+1] = ((Tc[seg] + Tc[seg+1])/2) + ((m_c * c_pc * (Tc[seg] - Tc[seg+1])) / (h_c * delta_Ao + 1e-12))
+            # Tw[seg+1] = Tc[seg] + ((m_c * c_pc * (Tc[seg] - Tc[seg+1])) / (h_c * delta_Ao + 1e-12))
+            Aii = np.pi * D_i * (total_length_per_coil / n_segments)  # per serpentine
+            # Tube properties (add after constants)
+            k_tube = 400.0  # W/mK copper (or 16 steel)
+            tube_thickness = (D_o - D_i)/2  # 0.002m
+            
+            # Replace Tw calculation:
+            R_cond = np.log(D_o/D_i) / (2 * np.pi * k_tube * (total_length_per_coil / n_segments))
+            Q_water = m_c * c_pc * (Tc[seg] - Tc[seg+1])
+            Tw[seg+1] = Tc[seg] + Q_water * R_cond  # Voltage divider analogy
+            # print("T_wall", Tw[seg+1])
+            # print("Water inlet", Tc[seg+1])
             # energy bookkeeping
-            Q_air_sensible = m_g * c_pg * (T_g - T_g_outlet)
-            Q_cond = m_cd * h_fg
-            Q_water = m_c * c_pc * (T_c - T_c_inlet) 
-            imbalance = abs((Q_air_sensible + Q_cond) - Q_water)
+            # Gas total heat (already in Tg update)
+            Q_gas_total = m_g * c_pg * (Tg[seg] - Tg[seg+1])
+            
+            # Per coil for water comparison
+            Q_gas_per_coil = Q_gas_total / coil_n
+            Q_cond_per_coil = m_cd[seg] * h_fg
+            Q_water_per_coil = m_c * c_pc * (Tc[seg] - Tc[seg+1])
+            imbalance = abs((Q_gas_per_coil + Q_cond_per_coil) - Q_water_per_coil)
+
+            # print(f"Seg{seg:2d}: h_c={h_c:4.0f} h_g={h_g:4.0f} Re_g={Re_g:6.0f} Tg_out={Tg[-1]:4.1f} Tw={Tw[seg+1]:4.1f}")
+            # print(f"Total cond: {coil_n*np.sum(m_cd)*3600:.1f} kg/h vs measured {data['Condensate_flow_rate']*60:.1f}")
             
             # save results for this segment
             results['y_H2o'].append(y_h2o)
@@ -228,7 +269,7 @@ def run_segmental_model(e, n_segments=40, debug=False):
             results['Water_Nusselt_number'].append(Nu_c)
             results['Water_heat_Transfer_coefficient'].append(h_c)
             results['Water_specific_heat'].append(c_pc)
-            results['Wall_temperature2'].append(T_w)
+            results['Wall_temperature2'].append(Tw[seg+1])
             results['Density_air'].append(rho_g)
             results['FlowRate_air'].append(m_g)
             results['Velocity_air'].append(v_g)
@@ -244,45 +285,30 @@ def run_segmental_model(e, n_segments=40, debug=False):
             results['Lewis_air'].append(Le_h2oair)
             results['Mass_of_diffusivity'].append(D_h2oair)
             # results['Inlet_temp_air'].append(T_g_inlet)
-            results['Outlet_temp_air'].append(T_g_outlet)
-            results['Inlet_temp_water'].append(T_c_inlet)
+            results['Outlet_temp_air'].append(Tg[seg+1])
+            results['Inlet_temp_water'].append(Tc[seg+1])
             # results['Outlet_temp_water'].append(T_c_outlet)
-            results['Condensation_rate'].append(m_cd)
+            results['Condensation_rate'].append(m_cd[seg])
             results['Imbalance'].append(imbalance)
-            results['Q_Air_Sensible'].append(Q_air_sensible)
-            results['Cond'].append(Q_cond)
-            results['Water'].append(Q_water)
+            results['Q_Air_Sensible'].append(Q_gas_per_coil)
+            results['Cond'].append(Q_cond_per_coil)
+            results['Water'].append(Q_water_per_coil)
             results['HTA'].append(h_g)
             results['HTW'].append(h_c)
 
-            # prepare next segment
-            T_g = T_g_outlet
-            T_c = T_c_inlet
             
         iteration= iteration+1      
-        error = T_c - T_c_target
+        error = Tc[-1] - Tc_target
         if abs(error) < tolerance:
+            print("Water segment temps:", T_c_guess)
             break
         # If not converged update the guess
-        elif error<0:
-            # T_c_guess = 1.001 * (T_c_guess + T_c_target)
+        elif error<=0:
+            # print("Water segment temps:", T_c_guess)
             T_c_guess = T_c_guess + 1
         elif error>tolerance:
+            # print("Water segment temps:", T_c_guess)
             T_c_guess = T_c_guess - 1
-
-    # Assuming `df` is already loaded and exp_id is selected
-    # exp_data = get_experiment_data(df, exp_id)
-    
-    # # Segmental model outputs
-    # seg_df = pd.DataFrame(results)
-    
-    # # Experimental temperatures (assume 9 points for Humid_air and Cooling_water)
-    # exp_air_temp = exp_data['Humid_air']
-    # exp_cw_temp = exp_data['Cooling_water']
-    
-    # # Condensation: sum of outlet/inlet flow if measured, or per segment if available
-    # exp_condensation = np.full_like(seg_df['Condensation_rate'], exp_data['steam_flowrate'])  # example placeholder
-
                     
     return results, iteration, data
 
