@@ -349,8 +349,24 @@ if run_button:
     st.success(f"Model completed in **{iterations} iterations**.")
 
     # Convert results to DataFrame for convenience
-    seg_df = pd.DataFrame(results)
-
+    # SAFE VISUALIZATION FIX (DO NOT TOUCH MODEL STRUCTURE)
+    # ----------------------------------------------------------
+    lengths = {k: len(v) for k, v in results.items()}
+    min_len = min(lengths.values())
+    
+    # Optional: show warning in Streamlit if truncation happens
+    if len(set(lengths.values())) > 1:
+        st.warning(
+            f"Result arrays had inconsistent lengths. "
+            f"Truncating all to {min_len} segments for visualization."
+        )
+    
+    # Truncate safely
+    results_vis = {k: v[:min_len] for k, v in results.items()}
+    
+    # Create DataFrame ONLY from aligned data
+    seg_df = pd.DataFrame(results_vis)
+    ✅
     # ----------------------------------------------------------
     # MAIN SUMMARY
     # ----------------------------------------------------------
