@@ -366,7 +366,6 @@ if run_button:
     
     # Create DataFrame ONLY from aligned data
     seg_df = pd.DataFrame(results_vis)
-    ✅
     # ----------------------------------------------------------
     # MAIN SUMMARY
     # ----------------------------------------------------------
