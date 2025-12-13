@@ -394,9 +394,11 @@ if run_button:
     with tabs[0]:
         st.subheader("📈 Temperature Evolution Along the Heat Exchanger")
     
-        exp_air_temp = np.array(exp_data['Humid_air'])
-        exp_cw_temp  = np.array(exp_data['Cooling_water'])
+        exp_air_temp = np.linspace(0, len(seg_df)-1, len(exp_data['Humid_air']))
+        exp_cw_temp  = np.linspace(0, len(seg_df)-1, len(exp_data['Cooling_water']))
         x_exp = np.linspace(0, len(seg_df)-1, len(exp_air_temp))  # map 9 points along segments
+        # x_model = np.arange(len(seg_df))
+
     
         fig, ax = plt.subplots(figsize=(8,4))
         ax.plot(seg_df['Outlet_temp_air'], label="Model Air Temperature", ls='--')
