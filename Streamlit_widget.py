@@ -394,18 +394,21 @@ if run_button:
     with tabs[0]:
         st.subheader("📈 Temperature Evolution Along the Heat Exchanger")
     
-        exp_air_temp = np.linspace(0, len(seg_df)-1, len(exp_data['Humid_air']))
-        exp_cw_temp  = np.linspace(0, len(seg_df)-1, len(exp_data['Cooling_water']))
-        x_exp = np.linspace(0, len(seg_df)-1, len(exp_air_temp))  # map 9 points along segments
-        # x_model = np.arange(len(seg_df))
+        # Experimental temperatures (REAL values)
+        exp_air_temp = np.array(exp_data['Humid_air'])
+        exp_cw_temp  = np.array(exp_data['Cooling_water'])
+        
+        # Map experimental points onto model segments
+        x_exp_air = np.linspace(0, len(seg_df) - 1, len(exp_air_temp))
+        x_exp_cw  = np.linspace(0, len(seg_df) - 1, len(exp_cw_temp))
 
     
         fig, ax = plt.subplots(figsize=(8,4))
         ax.plot(seg_df['Outlet_temp_air'], label="Model Air Temperature", ls='--')
         ax.plot(seg_df['Inlet_temp_water'], label="Model Water Temperature", ls='--')
         ax.plot(seg_df['Wall_temperature2'], label="Model Wall Temperature", ls='--')
-        ax.scatter(x_exp, exp_air_temp, color='red', label="Experimental Air", zorder=5)
-        ax.scatter(x_exp, exp_cw_temp, color='blue', label="Experimental CW", zorder=5)
+        ax.scatter(x_exp_air, exp_air_temp, color='red', label="Experimental Air", zorder=5)
+        ax.scatter(x_exp_cw, exp_cw_temp, color='blue', label="Experimental CW", zorder=5)
         ax.set_xlabel("Segment")
         ax.set_ylabel("Temperature (°C)")
         ax.legend(loc=(1.01,0.68))
