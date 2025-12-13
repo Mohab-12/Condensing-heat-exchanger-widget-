@@ -70,7 +70,7 @@ def air_props_from_T_and_Mfrac(T_g_C, M_frac_mass):
     cha = HAPropsSI('Cha', 'T', T_k, 'P', p, 'W', W)      # Specific heat capacity of humid air [J/kg/K]
     return mu, k, cha
 
-def nusselt_water(Re_c, pr_c, k_c, D_i):
+def nusselt_water(Re_c, pr_c, k_c, D_i, n_segments):
     if Re_c < 3000:
         total_length_per_coil = 2.85  # from geometry table
         delta_L = total_length_per_coil / n_segments
