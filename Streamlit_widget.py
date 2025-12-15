@@ -404,7 +404,7 @@ if run_button:
         fig, ax = plt.subplots(figsize=(8,4))
         ax.plot(seg_df['Outlet_temp_air'], label="Model Air Temperature", ls='--')
         ax.plot(seg_df['Inlet_temp_water'], label="Model Water Temperature", ls='--')
-        ax.plot(seg_df['Wall_temperature2'], label="Model Wall Temperature", ls='--')
+        # ax.plot(seg_df['Wall_temperature2'], label="Model Wall Temperature", ls='--')
         ax.scatter(x_exp_air, exp_air_temp, color='red', label="Experimental Air", zorder=5)
         ax.scatter(x_exp_cw, exp_cw_temp, color='blue', label="Experimental CW", zorder=5)
         ax.set_xlabel("Segment")
