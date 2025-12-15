@@ -234,14 +234,8 @@ def run_segmental_model(e, n_segments=40, debug=False):
             # Tw[seg+1] = ((Tc[seg] + Tc[seg+1])/2) + ((m_c * c_pc * (Tc[seg] - Tc[seg+1])) / (h_c * delta_Ao + 1e-12))
             # Tw[seg+1] = Tc[seg] + ((m_c * c_pc * (Tc[seg] - Tc[seg+1])) / (h_c * delta_Ao + 1e-12))
             Aii = np.pi * D_i * (total_length_per_coil / n_segments)  # per serpentine
-            # Tube properties (add after constants)
-            k_tube = 400.0  # W/mK copper (or 16 steel)
-            tube_thickness = (D_o - D_i)/2  # 0.002m
-            
-            # Replace Tw calculation:
-            R_cond = np.log(D_o/D_i) / (2 * np.pi * k_tube * (total_length_per_coil / n_segments))
-            Q_water = m_c * c_pc * (Tc[seg] - Tc[seg+1])
-            Tw[seg+1] = Tc[seg] + Q_water * R_cond  # Voltage divider analogy
+            Aii = np.pi * D_i * (total_length_per_coil / n_segments)  # per serpentine            
+            Tw[seg+1] = (Tc[seg] + Tc[seg+1])/2 + (m_c * c_pc * (Tc[seg] - Tc[seg+1])) / (2 * h_c * Aii)
             # print("T_wall", Tw[seg+1])
             # print("Water inlet", Tc[seg+1])
             # energy bookkeeping
