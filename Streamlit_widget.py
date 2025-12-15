@@ -372,7 +372,7 @@ if run_button:
     col1, col2, col3 = st.columns(3)
 
     col1.metric("Outlet Air Temperature", f"{seg_df['Outlet_temp_air'].iloc[-1]:.2f} °C")
-    col2.metric("Outlet Water Temperature", f"{seg_df['Inlet_temp_water'].iloc[-1]:.2f} °C")
+    col2.metric("Intlet Water Temperature", f"{seg_df['Inlet_temp_water'].iloc[-1]:.2f} °C")
     col3.metric("Total Condensed Mass", f"{seg_df['Condensation_rate'].sum()*coil_n:.5f} kg/s")
 
     # ----------------------------------------------------------
