@@ -335,7 +335,8 @@ with st.sidebar:
         df = load_data(file_path)
 
     exp_id = st.number_input("Experiment ID", min_value=0, max_value=len(df)-1, value=60)
-    n_segments = st.slider("Number of segments", 20, 200, 40)
+    # n_segments = st.slider("Number of segments", 20, 200, 40)
+    n_segments = 40
     run_button = st.button("Run Model")
 
 # --- Run model -------------------------------------------------------------
@@ -372,7 +373,7 @@ if run_button:
 
     col1.metric("Outlet Air Temperature", f"{seg_df['Outlet_temp_air'].iloc[-1]:.2f} °C")
     col2.metric("Outlet Water Temperature", f"{seg_df['Inlet_temp_water'].iloc[-1]:.2f} °C")
-    col3.metric("Total Condensed Mass", f"{seg_df['Condensation_rate'].sum():.5f} kg/s")
+    col3.metric("Total Condensed Mass", f"{seg_df['Condensation_rate'].sum()*coil_n:.5f} kg/s")
 
     # ----------------------------------------------------------
     # TABS FOR ALL PLOTS
@@ -436,7 +437,7 @@ if run_button:
         exp_condensation_total = float(exp_data['Condensate_flow_rate'])
     
         # Model: total condensation across all segments
-        model_total_condensation = float(seg_df['Condensation_rate'].sum())*60
+        model_total_condensation = float(seg_df['Condensation_rate'].sum())*60*coil_n
     
         fig, ax = plt.subplots(figsize=(8,4))
         ax.bar(['Experimental', 'Model'], [exp_condensation_total, model_total_condensation], color=['green','blue'])
