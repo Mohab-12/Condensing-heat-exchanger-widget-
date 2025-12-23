@@ -362,7 +362,7 @@ if run_button:
     # ----------------------------------------------------------
     # MAIN SUMMARY
     # ----------------------------------------------------------
-    st.subheader("📊 Main Results Summary")
+    st.subheader("Main Results Summary")
     col1, col2, col3 = st.columns(3)
 
     col1.metric("Outlet Air Temperature", f"{seg_df['Outlet_temp_air'].iloc[-1]:.2f} °C")
@@ -385,7 +385,7 @@ if run_button:
     # 1. TEMPERATURE PROFILES
     # -------------------------------------------------------------------
     with tabs[0]:
-        st.subheader("📈 Temperature Evolution Along the Heat Exchanger")
+        st.subheader("Temperature Evolution Along the Heat Exchanger")
     
         # Experimental temperatures (REAL values)
         exp_air_temp = np.array(exp_data['Humid_air'])
@@ -411,7 +411,7 @@ if run_button:
     # 2. HEAT TRANSFER COEFFICIENTS
     # -------------------------------------------------------------------
     with tabs[1]:
-        st.subheader("🔥 Heat Transfer Coefficients")
+        st.subheader("Heat Transfer Coefficients")
 
         fig, ax = plt.subplots(figsize=(8,4))
         ax.plot(seg_df['Heat_transfer_air'], label="Air-side h")
@@ -425,7 +425,7 @@ if run_button:
     # 3. CONDENSATION
     # -------------------------------------------------------------------
     with tabs[2]:
-        st.subheader("💧 Condensation Profile")
+        st.subheader("Condensation Profile")
     
         # Experimental condensation (single measured value)
         exp_condensation_total = float(exp_data['Condensate_flow_rate'])
@@ -453,7 +453,7 @@ if run_button:
     # 4. FLOW PARAMETERS
     # -------------------------------------------------------------------
     with tabs[3]:
-        st.subheader("🌬️ Flow & Transport Properties")
+        st.subheader("Flow & Transport Properties")
 
         fig, ax = plt.subplots(figsize=(8,4))
         ax.plot(seg_df['Reynolds_air'], label="Re_air")
@@ -466,7 +466,7 @@ if run_button:
     # 5. ENERGY BALANCE
     # -------------------------------------------------------------------
     with tabs[4]:
-        st.subheader("⚖️ Energy Balance")
+        st.subheader("Energy Balance")
 
         fig, ax = plt.subplots(figsize=(8,4))
         ax.plot(seg_df['Q_Air_Sensible'], label="Q_sensible")
