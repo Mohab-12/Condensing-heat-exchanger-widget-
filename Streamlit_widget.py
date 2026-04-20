@@ -303,11 +303,9 @@ def run_segmental_model(e, n_segments=40, debug=False):
     return results, iteration, data
 
 if __name__ == '__main__':
-    # Example: run experiment 60
     res, iteration, exp_data = run_segmental_model(60, n_segments=100, debug=True)
-    # print short summary
     print('Done. Segments:', len(res['Outlet_temp_air']))
-    print('Number of iterations are: ', iteration)
+    print('Number of iterations:', iteration)
 # --- Streamlit Dashboard ---------------------------------------------------
 
 st.set_page_config(page_title="Heat Exchanger Dashboard", layout="wide")
