@@ -11,7 +11,7 @@ import streamlit as st
 # %matplotlib inline
 
 # --- Configuration / constants -------------------------------------------------
-file_path = r"Horizontalus ruozas-Eksperimetu suvestine (version 2).xlsx"
+file_path = r"Data.xlsx"
 M_h2o = 18.015  # g/mol (unused for dimensionless ratios but kept)
 M_g = 28.96
 L = 0.364
@@ -37,8 +37,7 @@ M_Nu = [19.29, 12.09, 8.92, 5.81, 4.86, 4.64, 4.15]
 
 # --- Helpers ------------------------------------------------------------------
 def load_data(path=file_path):
-    df = pd.read_excel(path, sheet_name='Sheet3')
-    df['Date'] = df['Date'].astype(str)
+    df = pd.read_excel(path, sheet_name='Sheet1')
     return df
 
 def get_experiment_data(df, e):
@@ -46,7 +45,6 @@ def get_experiment_data(df, e):
         'Humid_air': df.loc[e, [f'Temperature decrease of the mixture_{i}' for i in range(1,10)]].values,
         'Cooling_water': df.loc[e, [f'Temperature increase of the cooling water_{i}' for i in range(1,10)]].values,
         'Wall_temp': df.loc[e, [f'Tube_coil_surface_temp{i}' for i in range(1,9)]].values,
-        'dew_point': df.loc[e, [f'Dew point_{i}' for i in range(1,9)]].values,
         'steam_flowrate': df.loc[e, 'Vapour flow rate, kg/h'] / 3600.0,      # kg/s
         'CW_flowrate': df.loc[e, 'Cooling water flow rate, l/h'],            # L/h
         'Mixture_flowrate': df.loc[e, 'Mixture  (air+vapour) flow rate, kg/h'] / 3600.0,  # kg/s
