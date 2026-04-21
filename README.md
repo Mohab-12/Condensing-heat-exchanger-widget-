@@ -50,9 +50,7 @@ Choose the Experiment ID (row index in Excel)
 Each row represents one experimental case
 Step 4: Run Simulation
 
-Click:
-
-Run Model
+Click: Run Model
 
 The model will:
 
@@ -85,6 +83,7 @@ Energy imbalance (model accuracy indicator)
 5.7 Raw Data
 Full segment-wise results table
 Downloadable as CSV
+
 6. Model Description (Simplified)
 
 The heat exchanger is divided into N segments.
@@ -100,6 +99,7 @@ Temperatures and condensation rates are updated
 The model iterates until:
 
 Cooling water outlet ≈ Experimental value
+
 7. Customization
 
 The model is fully customizable:
